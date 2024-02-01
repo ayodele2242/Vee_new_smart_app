@@ -215,14 +215,13 @@ const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                             onChange={() => handleCheckboxChange(item)}
                           /></td>
                       <td className="flex font-semibold">
-                    <img 
-                    src={item.image_url}
-                    alt="Trash"
-                    className="mr-2 w-[80px] h-[80px]"
-                    width={80}
-                    height={80}
-                    
-                  />{item.description}
+					  <Image 
+                            src={item.image_url}
+                            alt="Trash"
+                            className="mr-2 w-[80px] h-[80px]"
+                            width={80}
+                            height={80}
+                          />{item.description}
                   </td>
                       <td className="text-lg font-extrabold">${item.price}</td>
                       <td>

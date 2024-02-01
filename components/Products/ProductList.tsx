@@ -110,17 +110,21 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
               <div className="relative">
                 <div className="h-26 rounded-lg bg-default-300 mt-3">
                   {product.images_url && product.images_url.length > 0 ? (
-                    <img
-                    src={product.images_url[0].url as string}
+                     <Image
+                     src={product.images_url[0].url as string}
+                     alt={product.description}
+                     width={300}
+                     height={300}
+                     className="relative"
+                   />
+                  ) : (
+                    <Image
+                    src="/images/logoheader.png"
                     alt={product.description}
+                    width={300}
+                    height={300}
                     className="relative"
                   />
-                  ) : (
-                    <img
-                      src="/images/logoheader.png"
-                      alt={product.description}
-                      className="relative"
-                    />
                   )}
                 </div>
                 <div className="favourite">

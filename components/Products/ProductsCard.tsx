@@ -15,9 +15,9 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ selectedCategories }) => {
     if (isMounted.current) {
       
         if(selectedCategories){
-            console.log('Selected Categories in ProductsCard:', selectedCategories);
+           // console.log('Selected Categories in ProductsCard:', selectedCategories);
         }else{
-            console.log('Selected Categories not received');
+            //console.log('Selected Categories not received');
         }
 
     }
@@ -26,7 +26,7 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ selectedCategories }) => {
     return () => {
       isMounted.current = false;
     };
-  }, []);
+  }, [selectedCategories]);
 
   return (
     <div>

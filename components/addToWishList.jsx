@@ -16,17 +16,17 @@ const AddToWishList = ({ product, id }) => {
 	const init = () => getWishList().then(({ data }) => setWishList(data || []))
 	useEffect(() => {
 		init()
-	}, [])
+	}, [init])
 
 	useEffect(() => {
-		if (!wishList) return
+		if (!product || !wishList) return;
 		const item = wishList.find(
 			(item) =>
 				item.product_name ===
 				(product?.description || product?.product_name)
 		)
 		setIsWishListed(item)
-	}, [wishList])
+	}, [product, wishList])
 
 	const _handleToggleWishList = () => {
 		if (isWishListed) {

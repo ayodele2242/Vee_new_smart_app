@@ -7,6 +7,7 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import bgHeroLeft from "@/public/images/bgHeroLeft.png"; 
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import toast, { ToastBar } from "react-hot-toast";
+import Image from "next/image";
 import Link from 'next/link';
 import SingleLoader from '@/loaders/singleLoader';
 import { ApiRequestService } from '@/services/apiRequest.service';
@@ -105,13 +106,13 @@ const CheckoutComponentPage = () => {
                        <div className="flex justify-between  w-full mb-3 mt-3" key={index}>
                         
                         <div className="summaryLeft flex lg:w-[70%]">
-                            <img 
-                              src={item.image_url}
-                              alt={item.description}
-                              className="mr-2 w-[50px] h-[50px]"
-                              width={50}
-                              height={50} 
-                            /> 
+                        <Image
+                          src={item.image_url} // Source of the image
+                          alt={item.description} // Alternate text for accessibility
+                          className="mr-2 w-[50px] h-[50px]" // Custom classes for styling
+                          width={50} // Width of the image
+                          height={50} // Height of the image
+                        />
                             <div className="flex column-layout">
                               <div className="font-bold w-full">{item.ingramPartNumber}</div>
                               <div className="txt-smaller w-full"><b>Qty:</b> {item.quantity}</div>

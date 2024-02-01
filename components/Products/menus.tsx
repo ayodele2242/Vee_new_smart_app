@@ -74,7 +74,7 @@ interface MenusProps {
   useEffect(() => {
     // Notify the parent component about the selected categories whenever they change
     onSelectedCategoriesChange(generateSelectedArray());
-  }, [selectedItems, selectedSubcategoryItems]);
+  },  [selectedItems, selectedSubcategoryItems]);
 
 
 

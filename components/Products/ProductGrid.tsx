@@ -110,17 +110,21 @@ interface ProductGridProps {
                 <div className="h-26 rounded-lg bg-default-300">
                   {product.images_url && product.images_url.length > 0 ? (
                    
-                    <img
-                      src={product.images_url[0].url as string}
-                      alt={product.description}
-                      className="relative"
-                    />
+                   <Image
+                    src={product.images_url[0].url as string}
+                    alt={product.description}
+                    width={300}
+                    height={300}
+                    className="relative"
+                  />
                   ) : (
-                    <img
-                      src="/images/logoheader.png"
-                      alt={product.description}
-                      className="relative"
-                    />
+                    <Image
+                    src="/images/logoheader.png"
+                    alt={product.description}
+                    width={300}
+                    height={300}
+                    className="relative"
+                  />
                   )}
                 </div>
                 <div className="favourite">

@@ -14,6 +14,7 @@ import { CheckIcon } from 'lucide-react';
 import numeral from "numeral"; 
 import SingleLoader from '@/loaders/singleLoader';
 import toast, { Toaster } from "react-hot-toast";
+
 import {
 	isUserLoggedIn
 } from "@/auth/auth";
@@ -182,7 +183,7 @@ export default function SuccessPage() {
 		return () => {
 		  isMounted.current = false;
 		};
-	  }, [sessionId]);
+	  }, [sessionId, cartItems, clearCart, isLoggedIn]);
 
 
     return (

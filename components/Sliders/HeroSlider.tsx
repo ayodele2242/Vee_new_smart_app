@@ -28,6 +28,12 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ onPageBackgroundChange }) => {
     setCurr((prev) => (prev - 1 + sliderConfig.homeSliderItems.length) % sliderConfig.homeSliderItems.length);
   };
 
+  const handleBackgroundImage = (imageUrl: string, position: 'left' | 'right') => {
+    // Pass imageUrl and position to the parent component using the callback function
+    onPageBackgroundChange(imageUrl, position);
+  };
+  
+
   useEffect(() => {
     const initialBackground = sliderConfig.homeSliderItems[0].isLeft ? 'left' : 'right';
   
@@ -47,10 +53,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ onPageBackgroundChange }) => {
     }
   };
 
-  const handleBackgroundImage = (imageUrl: string, position: 'left' | 'right') => {
-    // Pass imageUrl and position to the parent component using the callback function
-    onPageBackgroundChange(imageUrl, position);
-  };
+ 
 
   return (
    

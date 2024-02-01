@@ -60,7 +60,7 @@ const TabsPage: React.FC<TabPageProps> = ({product, loading}) => {
       //setAttributeContent(url)
     }
 
-}, [attributeValue]);
+}, []);
 
 useEffect(() => {
   onLoad();
