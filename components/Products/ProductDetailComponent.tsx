@@ -1,7 +1,5 @@
 "use client"
 
-// ProductDetail.tsx
-
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchProducts } from '@/services/product.service';
@@ -18,11 +16,11 @@ import SingleLoader from '@/loaders/singleLoader';
 import TabsPage from './TabsPage';
 
 
-interface ProductDetailProps {
+interface ProductDetailComponentProps {
   productId: string; 
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
+const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({ productId }) => {
 
   const [bgHeroLeftSrc, setBgHeroLeftSrc] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -183,4 +181,4 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetailComponent;

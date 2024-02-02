@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation"; // Import useRouter from next/router
 
-import ProductDetail from '@/components/Products/ProductDetail';
+import ProductDetailComponent from "@/components/Products/ProductDetailComponent";
 
 
 export default function ProductDetailsPage() {
@@ -20,7 +20,7 @@ export default function ProductDetailsPage() {
      
     >
       
-      <ProductDetail productId={id} /> {/* Pass the productId to ProductDetail */}
+      <ProductDetailComponent productId={id} /> {/* Pass the productId to ProductDetail */}
     </div>
   );
 }
