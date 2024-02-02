@@ -75,20 +75,20 @@ const CartQuantityActionBtns: React.FC<CartQuantityActionBtnsProps> = ({ product
       } else {
         addItemToCart(newItem);
       }
-      toast.success("Added to cart", {});
+      
     };
   
     const _increaseCartQuantity = () => {
       if (itemInCart) {
         increaseQuantity(itemInCart.ingramPartNumber);
-        toast.success("Quantity increased", {});
+       
       }
     };
   
     const _decreaseCartQuantity = () => {
       if (itemInCart) {
         decreaseQuantity(itemInCart.ingramPartNumber);
-        toast.success("Quantity decreased", {});
+        
       }
     };
   
@@ -122,7 +122,7 @@ const CartQuantityActionBtns: React.FC<CartQuantityActionBtnsProps> = ({ product
             <AddShoppingCartIcon fontSize="small" />
           </button>
         )}
-        <ToastContainer />
+       
       </div>
     );
   };

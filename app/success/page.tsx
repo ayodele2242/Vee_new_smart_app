@@ -1,18 +1,19 @@
 "use client"
-
-import React from "react";
+import React, { Suspense } from "react";
 import { SuccessComponent } from "@/components/SuccessComponent";
 import { useSearchParams } from "next/navigation";
 
-const SuccessPage: React.FC = () => {
-  const { get } = useSearchParams();
-  const sessionId = get("session_id");
-
+export default function SuccessPage() {
   return (
-    <div>
-      <SuccessComponent sessionId={sessionId} />
-    </div>
+    <Suspense fallback={<div className="h-[100vh] w-full flex justify-center text-center overlayer">Loading...</div>}>
+      <SuccessComponentWrapper />
+    </Suspense>
   );
 }
 
-export default SuccessPage;
+function SuccessComponentWrapper() {
+  const { get } = useSearchParams();
+  const sessionId = get("session_id");
+
+  return <SuccessComponent sessionId={sessionId} />;
+}
