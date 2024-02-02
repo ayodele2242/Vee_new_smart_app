@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import {headers} from "next/headers";
 import Stripe from "stripe"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
@@ -27,6 +28,7 @@ export async function GET(req, res) {
 }
 
 export async function POST(req, res) {
+	const headersList = headers();
 	const { lineItems } = await req.json()
 
 	try {
@@ -45,7 +47,7 @@ export async function POST(req, res) {
 			payment_method_types: ["card"],
 			mode: "payment",
 			line_items: transformedItems,
-			return_url: `${process.env.SERVER_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+			return_url: `${headersList.get("origin")}/success?session_id={CHECKOUT_SESSION_ID}`,
 			//success_url: `${process.env.SERVER_URL}/success?addressId?session_id={CHECKOUT_SESSION_ID}`,
 			//cancel_url: `${process.env.SERVER_URL}/cart`,
 		})
