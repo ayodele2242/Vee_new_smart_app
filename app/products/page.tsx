@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from 'next/link';
 import { Navbar } from "@/components/navbar";
-import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 import bgHeroLeft from "@/public/images/bgHeroLeft.png"; 
 import Menus from "@/components/Products/menus";
@@ -314,7 +313,7 @@ export default function ProductsPage() {
        
         </div>{/*Products listing #ends*/}
       </div>
-      <Toaster position="top-center" />
+      
      
     </div>
     

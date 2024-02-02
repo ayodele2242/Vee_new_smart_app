@@ -13,7 +13,8 @@ import { VeeCheckoutFormData } from '@/types/types';
 import { CheckIcon } from 'lucide-react';
 import numeral from "numeral"; 
 import SingleLoader from '@/loaders/singleLoader';
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
 	isUserLoggedIn
@@ -248,7 +249,7 @@ export default function SuccessPage() {
 							</div>
                
             </div>
-			<Toaster position="top-center" />
+			<ToastContainer />
             <Footer />
         </div>
     );

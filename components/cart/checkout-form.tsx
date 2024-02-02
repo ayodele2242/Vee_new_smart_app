@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import bgHeroLeft from "@/public/images/bgHeroLeft.png"; 
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ApiRequestService } from '@/services/apiRequest.service';
 import { VeeCheckoutFormData } from '@/types/types';
 import { LocalStorageService } from '@/services/localStorage';
@@ -296,7 +297,7 @@ const CheckoutForm = () => {
                                 {errorMessage && <div className="text-red-500">{errorMessage}</div>}
 								
 							</form>
-							<Toaster position="top-center" />
+							<ToastContainer />
                     </div>
 
                  

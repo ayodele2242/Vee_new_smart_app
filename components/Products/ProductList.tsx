@@ -12,7 +12,8 @@ import {
 	getUserData,
 	redirectToLoginPage,
 } from "@/auth/auth";
-import toast from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -228,7 +229,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
           </div>
         </div>
       ))}
-      
+      <ToastContainer />
     </div>
 
     

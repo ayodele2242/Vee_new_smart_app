@@ -6,7 +6,6 @@ import Footer from "@/components/Home/Footer/Footer";
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import bgHeroLeft from "@/public/images/bgHeroLeft.png"; 
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
-import toast, { ToastBar } from "react-hot-toast";
 import Image from "next/image";
 import Link from 'next/link';
 import SingleLoader from '@/loaders/singleLoader';

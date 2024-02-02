@@ -15,7 +15,8 @@ import CreditCardIcon from "@mui/icons-material/CreditCard"
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined"
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Link from 'next/link';
 import numeral from "numeral"
 import SingleLoader from '@/loaders/singleLoader';
@@ -501,7 +502,7 @@ const PaymentComponent = () => {
                 </div>
 
             </div>
-            <Toaster position="top-center" />
+           
             <Footer />
         </div>
     );
