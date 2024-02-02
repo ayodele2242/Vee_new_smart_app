@@ -6,7 +6,8 @@ import {
   removeFromCart,
   updateCart,
 } from "@/services/requestAll.service";
-import toast from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
 	isUserLoggedIn
 } from "@/auth/auth";
@@ -121,6 +122,7 @@ const CartQuantityActionBtns: React.FC<CartQuantityActionBtnsProps> = ({ product
             <AddShoppingCartIcon fontSize="small" />
           </button>
         )}
+        <ToastContainer />
       </div>
     );
   };
