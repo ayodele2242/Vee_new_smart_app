@@ -95,3 +95,27 @@ export async function removeFromWishList(payload: any) {
     throw error;
   }
 }
+
+
+
+
+export async function getShippingAddress(email: any) {
+	try {
+		const response = await instance.post("/orders/shippingAddress", {
+			action: "select",
+			email,
+		})
+		return response.data
+	} catch (error) {
+		throw error
+	}
+}
+
+export async function createShippingAddress(payload: any) {
+	try {
+		const response = await instance.post("/orders/shippingAddress", payload)
+		return response.data
+	} catch (error) {
+		throw error
+	}
+}

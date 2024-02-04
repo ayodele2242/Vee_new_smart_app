@@ -38,7 +38,7 @@ export async function POST(req, res) {
 				product_data: {
 					name: item.description,
 				},
-				unit_amount: item.price * 100,
+				unit_amount: parseInt(item.price * 100),
 			},
 			quantity: parseInt(item.quantity, 10),
 		}))

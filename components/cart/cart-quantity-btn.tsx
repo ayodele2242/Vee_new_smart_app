@@ -21,6 +21,8 @@ interface CartQuantityActionBtnsProps {
     description?: any;
     product_name?: string;
     price_details?: any;
+    vendorPartNumber?: string;
+    upc?: string;
     pricing?: any;
     images_url?: any
     
@@ -66,6 +68,8 @@ const CartQuantityActionBtns: React.FC<CartQuantityActionBtnsProps> = ({ product
         "",
         image_url: imageUrl || "/images/no-image-icon.png",
         price: product?.price_details?.pricing?.customerPrice || product?.pricing?.customerPrice,
+        vendorPartNumber: product?.vendorPartNumber,
+        upc: product?.price_details?.upc || product?.upc
 
       };
   

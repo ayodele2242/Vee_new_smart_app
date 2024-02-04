@@ -44,6 +44,7 @@ interface AvailabilityByWarehouse {
   }
   
   interface Product {
+    product_price(product_price: any): import("react").ReactNode;
     category: string;
     Product_id: string | null;
     description: string;
@@ -56,14 +57,17 @@ interface AvailabilityByWarehouse {
     hasWarranty: string;
     properties: any; // Adjust the type based on the actual properties structure
     authorizedToPurchase: string;
-    images_url: any[];
+    images_url?: any[] | any;
     price_details: PriceDetails;
+    upc: string;
   }
 
   interface CartItem {
     quantity: number;
     description: any;
     ingramPartNumber: string;
+    vendorPartNumber?: string;
+    upc?: string;
     image_url: string;
     price?: any;
   }

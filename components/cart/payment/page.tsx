@@ -13,6 +13,7 @@ import CheckIcon from "@mui/icons-material/Check"
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange"
 import CreditCardIcon from "@mui/icons-material/CreditCard"
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
+import { useRouter } from "next/navigation"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined"
 import { ToastContainer, toast } from "react-toastify";
@@ -37,9 +38,24 @@ import {
 import { Spinner } from '@nextui-org/react';
 
 
+
 interface ResponseDataItem {
     status: string;
     message: string;
+    data: any;
+}
+
+interface AddressInfo {
+  nickname: string;
+  company: string;
+  state: string;
+  address: string;
+  phone: any;
+  city: string;
+  country: string;
+  zip: any;
+
+  // Other properties...
 }
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!); 
@@ -60,6 +76,10 @@ const PaymentComponent = () => {
 	const [backendMsg, setBackendMsg] = useState<string | null>(null);
     const [message, setMessage] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
+    const [myAddressInfo, setMyAddressInfo] = useState<AddressInfo[] | null>(null);
+    const { push } = useRouter()
+
+
     
 
     const openModal = () => {
@@ -80,8 +100,44 @@ const PaymentComponent = () => {
   
     useEffect(() => {
       setBgHeroLeftSrc(bgHeroLeft.src);
-      setLoading(false);
+        setLoading(false);
+
+       
+
+      const fetchData = async () => {
+        
+        const addr = localStorage.getItem("myAddress");
+  
+        if (addr) {
+          const formData = JSON.stringify({
+            id: addr,
+            action: "get_by_id",
+          });
+  
+          try {
+            const response = await ApiRequestService.callAPI<ResponseDataItem>(formData, "orders/shippingAddress");
+            const responseData = response.data;
+    
+            if (response.status === 200) {
+              const { status, message, data } = responseData;
+              setMyAddressInfo(data);
+             
+                          
+          } else {
+              const { status, message } = responseData;
+              toast.error(message);
+              setBackendResponse(status);
+          }
+          
+        } catch (error) {
+            toast.error("An error occurred while finalizing orders details.");
+        }
+        }
+      };
+  
+      fetchData();
     }, []);
+    
 
     if (loading) {
       return <div className="h-[100vh] w-full flex justify-center text-center overlayer transparent">
@@ -97,6 +153,9 @@ const PaymentComponent = () => {
         const retrievedData = localStorageService.getData<any>(keyToRetrieve);
         // Use the retrieved data as needed
        // console.log(retrievedData);
+       
+       
+       
 
 
     const overallSum = cartItems.reduce(
@@ -121,6 +180,7 @@ const PaymentComponent = () => {
     };
 
     const handlePayment = async () => {
+
       setIsLoading(true);
       const response = await fetch(`/api/checkout_sessions`, {
           method: "POST",
@@ -148,41 +208,48 @@ const PaymentComponent = () => {
           }
       } catch (error) {
         setIsLoading(false);
-          console.error("Error parsing JSON:", error);
+         // console.error("Error parsing JSON:", error);
       }
   };
 
 	//Bank Transfer process
 	const handleBankPayment = async () => {
+    setIsLoading(true);
         const commentValue = document.getElementById("message") as HTMLInputElement | null;
+        const userJson = localStorage.getItem("user")
+        if (!userJson) return
+        const user = JSON.parse(userJson)
     
-        const formData = JSON.stringify({
+        const formData = {
             session_id: "",
-            email: retrievedData.email,
-            user_id: "", // userId,
+            email: user.email,
+            user_id: user.user_id, // userId,
             payment_type: "bank_transfer",
             note: commentValue,
             totalPrice: numeral(overallSum).format("0,0.00"),
-        });
+        };
     
         try {
-            const response = await ApiRequestService.callAPI<ResponseDataItem>(formData, "checkout/checkout");
+            const response = await ApiRequestService.callAPI<ResponseDataItem>(JSON.stringify(formData), "checkout/checkout");
             const responseData = response.data;
     
             if (response.status === 200) {
                 const { status, message } = responseData;
+                setIsLoading(false);
                 if (status === "error") {
                     toast.error(message);
                     setBackendMsg(message);
                     setBackendResponse(status);
+                    
                 } else if (status === "success") {
                     setBackendResponse(status);
                     setBackendMsg(message);
-    
+                    setIsLoading(false);
                     toast.success(message);
-                    //push("/account/my_orders");
+                    push("/account/my-orders");
                 }
             } else {
+              setIsLoading(false);
                 if (response.status === 400) {
                     const { status, message } = responseData;
                     toast.error(message);
@@ -190,6 +257,7 @@ const PaymentComponent = () => {
                 }
             }
         } catch (error) {
+          setIsLoading(false);
             toast.error("An error occurred while finalizing orders details.");
         }
     };
@@ -201,8 +269,11 @@ const PaymentComponent = () => {
 					className="mt-10 flex w-full justify-center rounded-md border border-transparent bg-[#daa50e] py-2 px-4 text-sm font-medium text-white shadow-sm"
 					type="submit"
 					onClick={handleBankPayment}
+          disabled={isLoading}
 				>
-					Bank Transfer
+					
+          {isLoading && <Spinner size="sm" color="primary" />}
+							{isLoading ? 'Processing...' : 'Bank Transfer'}
 				</button>
 			)
 		} else if (selectedOption === "card") {
@@ -407,7 +478,7 @@ const PaymentComponent = () => {
                       <div className="w-full text-sm flex justify-between border-[1px] bg-yellow-50 border-gray-100 mb-2 column-layout p-3">
                         <div className="flex justify-between text-sm mb-2">
                             <div className="font-semibold">Cart Subtotal</div>
-                            <div className="font-semibold">US${overallSum}</div>
+                            <div className="font-semibold">US${numeral(overallSum).format("0,0.00")}</div>
                         </div>
                         <div className="flex justify-between text-sm mb-2">
                             <div className="font-semibold">Insurance Fee</div>
@@ -485,11 +556,26 @@ const PaymentComponent = () => {
                       <RoomOutlinedIcon />
                       
                       </div>
-                      <div className="w-full mt-1 txt-small">{retrievedData.last_name} {retrievedData.first_name}</div>
-                      <div className="w-full mt-1 txt-small">{retrievedData.company}</div>
-                      <div className="w-full mt-1 txt-small">{retrievedData.state}, {retrievedData.city} {retrievedData.zip}</div>
-                      <div className="w-full mt-1 txt-small">{retrievedData.country}</div>
-                      <div className="w-full mt-1 txt-small">{retrievedData.phone}</div>
+                      {!isLoggedIn && (
+                        <>
+                      <div className="w-full mt-1 txt-small">{retrievedData?.last_name} {retrievedData?.first_name}</div>
+                      <div className="w-full mt-1 txt-small">{retrievedData?.company}</div>
+                      <div className="w-full mt-1 txt-small">{retrievedData?.state}, {retrievedData?.city} {retrievedData?.zip}</div>
+                      <div className="w-full mt-1 txt-small">{retrievedData?.country}</div>
+                      <div className="w-full mt-1 txt-small">{retrievedData?.phone}</div>
+                      </>
+                      )}
+
+                      {isLoggedIn && (
+                        <>
+                      <div className="w-full mt-1 txt-small">{myAddressInfo?.[0]?.nickname}</div>
+                      <div className="w-full mt-1 txt-small">{myAddressInfo?.[0]?.company}</div>
+                      <div className="w-full mt-1 txt-small">{myAddressInfo?.[0]?.state}, {myAddressInfo?.[0]?.city} {myAddressInfo?.[0]?.zip}</div>
+                      <div className="w-full mt-1 txt-small">{myAddressInfo?.[0]?.country}</div>
+                      <div className="w-full mt-1 txt-small">{myAddressInfo?.[0]?.phone}</div>
+                      </>
+                      )}
+
 
 
 

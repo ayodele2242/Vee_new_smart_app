@@ -361,7 +361,7 @@ input:-webkit-autofill:active {
 
  .dropdown-menu {
    position: absolute;
-   top: 74px;
+   top: 84px;
    right: 0;
    width: 250px;
    height: auto;
@@ -1105,6 +1105,7 @@ height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: rgba(255, 255, 255, .5);
   top: 0;
   right: 0;
   left: 0;
@@ -1132,7 +1133,7 @@ height: 100%;
 
 }
 
-.column-layout{
+.column-layout, .column-display{
   flex-direction: column;
 }
 
@@ -1194,12 +1195,38 @@ height: 100%;
   background: rgba(255, 255, 255, 0.5) ;
 }
 
+.user-menus{
+display: flex;
+flex-direction: row;
+}
 
-@media screen and (min-width: 640px) {
-  .progress-step:first-of-type:before {
-    right: 50%;
-    width: 50%;
-  }
+.user-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+}
+
+.iname{
+  font-size: 14px;
+}
+
+.user-name{
+  display: flex;
+  flex-direction: column;
+}
+
+.row-layout{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+
+
+.system-only{
+  display: none;
 }
 
 .progress-step:last-of-type:after {
@@ -1240,6 +1267,44 @@ height: 100%;
   font-size: 0.8rem;
 }
 
+.flex-item{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.register-container{
+  border-radius: 20px;
+}
+
+.menu-list-body{
+  padding: 18px 30px;
+}
+
+
+
+.menu-list-body ul li{
+  width: 100%;
+  padding: 10px;
+  margin-right: 0;
+  margin-left: 0;
+  margin-bottom: 7px;
+}
+
+.active-link{
+  background: rgba(255, 255, 255, .5) !important ;
+  font-weight: bolder;
+}
+
+.btn-list{
+  display: flex;
+  padding: 8px 20px;
+}
+
+.btn-list button{
+ margin: 15px;
+}
+
 
 @media screen and (max-width: 640px) {
   .progress-step:first-of-type:before, .progress-step:last-of-type:after {
@@ -1247,8 +1312,17 @@ height: 100%;
   }
 }
 
+@media screen and (min-width: 640px) {
+  .progress-step:first-of-type:before {
+    right: 50%;
+    width: 50%;
+  }
+}
+
 
    @media screen and (max-width: 768px) {
+
+    
 
     .cartSummary{
       margin-top: 10px;

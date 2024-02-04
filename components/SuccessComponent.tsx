@@ -10,6 +10,7 @@ import { LocalStorageService } from '@/services/localStorage';
 import { ApiRequestService } from '@/services/apiRequest.service';
 import { CheckIcon } from 'lucide-react';
 import numeral from "numeral"; 
+import { useRouter } from "next/navigation"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { isUserLoggedIn } from '@/auth/auth';
@@ -36,7 +37,7 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
     const [selectAllChecked, setSelectAllChecked] = useState(false);
 	const [processingPayment, setProcessingPayment] = useState(true); 
     const { cartItems, clearCart } = useCartStore();
-	
+	const { push } = useRouter()
 	const isLoggedIn = isUserLoggedIn();
 
     useEffect(() => {
@@ -57,8 +58,8 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
 	useEffect(() => {
 		setBgHeroLeftSrc(bgHeroLeft.src);
 
-		if (isMounted.current) {
-		  isMounted.current = false;
+		/*if (isMounted.current) {
+		  isMounted.current = false;*/
 	
 		  fetch(`/api/checkout_sessions?session_id=${sessionId}`, {
 			method: 'GET',
@@ -110,10 +111,9 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
 						} else if (status === "success") {
 							setBackendResponse(status);
 							setBackendMsg(message);
-							clearCart();
 							toast.success(message);
 							
-							//push("/account/my_orders");
+							//
 						}
 					} else {
 						if (response.status === 400) {
@@ -125,23 +125,32 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
 				} catch (error) {
 					toast.error("An error occurred while finalizing orders details.");
 				}
-			}else{
+			}else if(isLoggedIn){
 
-				const formData = JSON.stringify({
+				const userJson = localStorage.getItem("user")
+				if (!userJson) return
+				const user = JSON.parse(userJson)
+				const commentValue = localStorage.getItem('comment');
+				const addr = localStorage.getItem("myAddress");
+				//console.log(commentValue);
+				//console.log(JSON.stringify(cartItems))
+
+				const formData = {
 					session_id: sessionId,
-					email: retrievedData.email,
+					email: user.email,
 					checkOutEmail: data.customer_email,
-					user_id: '',
+					user_id: user.user_id,
+					selected_address_id: addr,
 					payment_type: "card",
 					note: commentValue,
 					items: cartItems,
 					totalPrice: numeral(overallSum).format('0,0.00')
-				  });
+				  };
 	  
   
   
 				  try {
-					  const response = await ApiRequestService.callAPI<ResponseDataItem>(formData, "checkout/checkout");
+					  const response = await ApiRequestService.callAPI<ResponseDataItem>(JSON.stringify(formData), "checkout/checkout");
 					  const responseData = response.data;
 			  
 					  if (response.status === 200) {
@@ -153,9 +162,10 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
 						  } else if (status === "success") {
 							  setBackendResponse(status);
 							  setBackendMsg(message);
-			  
+							  clearCart();
 							  toast.success(message);
-							  //push("/account/my_orders");
+
+							  push("/account/my_orders");
 						  }
 					  } else {
 						  if (response.status === 400) {
@@ -176,12 +186,12 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
 
 			  }
 			});
-		}
+		//}
 	
-		return () => {
+		/*return () => {
 		  isMounted.current = false;
-		};
-	  }, [sessionId, cartItems, clearCart, isLoggedIn]);
+		};*/
+	  }, [sessionId, cartItems, isLoggedIn, clearCart]);
 
 
   return (

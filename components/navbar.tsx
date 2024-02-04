@@ -45,11 +45,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 interface NavbarProps {
 	onSelectedCategoriesChange: (selectedCategories: { category: string[] }) => void;
+	hideUserMenus?: boolean;
 }
 
 
 
-export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hideUserMenus }) => {
 
 
 	const router = useRouter();
@@ -291,7 +292,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange }) =>
 							</Link>
 						</div>
                         <div className="hidden sm:flex">
-						<UserMenus onOtherDropdownToggle={handleOtherDropdownToggle} isOtherDropdownOpen={isOtherDropdownOpen} />
+						{!hideUserMenus && (
+							<UserMenus onOtherDropdownToggle={handleOtherDropdownToggle} isOtherDropdownOpen={isOtherDropdownOpen} />
+						)}
 						</div>
 
 					</div>
@@ -353,17 +356,30 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange }) =>
 			{/*Mobile view layout*/}
 			<NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
 				
-				<div className="cartContainer"><ShoppingCartOutlinedIcon className="cartIcon" /></div>
-				<ThemeSwitch />
+			       <div className="cartContainer" suppressHydrationWarning>
+							<Link href="/cart">
+									<ShoppingCartOutlinedIcon className="cartIcon" />
+									{loaded && cartCount > 0 && (
+									<div className='cartCounter' >
+									{loaded ? cartCount : ''}
+									</div>
+									)}
+							</Link>
+					</div>
+				{/*<ThemeSwitch />*/}
+				{!hideUserMenus && (
 				<UserMenus onOtherDropdownToggle={handleOtherDropdownToggle} isOtherDropdownOpen={isOtherDropdownOpen} />
+				)}
 				<NavbarMenuToggle />
 			</NavbarContent>
 
 			<NavbarMenu>
 				{/*<SearchInput />*/}
+				<div className="mt-6">
 				<Autocomplete handleSelected={handleSelected} handleSearch={handleSearchTerm}/>
+				</div>
 				
-				<div className="mx-4 mt-2 flex flex-col gap-2">
+				<div className="mx-4 mt-2 flex flex-col gap-2 hidden">
 					{siteConfig.navMenuItems.map((item, index) => (
 						<NavbarMenuItem key={`${item}-${index}`}>
 							<Link

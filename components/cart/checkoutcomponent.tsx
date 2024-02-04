@@ -18,6 +18,7 @@ import {
 import {
 	isUserLoggedIn
 } from "@/auth/auth";
+import Addresses from './address';
 
 const CheckoutComponentPage = () => {
     const [bgHeroLeftSrc, setBgHeroLeftSrc] = useState<string | null>(null);
@@ -72,14 +73,19 @@ const CheckoutComponentPage = () => {
                     Checkout
                 </div>
                 <div className="mb-3 ml-8 w-full font-bold loginBody">
-                    <PersonOutlineOutlinedIcon className="largeIcon"/> <span className="loginBtn bg-yellow-500 cursor-pointer">Login</span>
+                  
+                {!isLoggedIn && 
+                <><PersonOutlineOutlinedIcon className="largeIcon" /><Link href="/login"><span className="loginBtn bg-yellow-500 cursor-pointer">Login</span></Link></>
+                }
                 </div>
+             
 
                 <div className="w-full justify-between sCart  flex column lg:p-8 bg-gray-50  md:w-[100%] ">
 
                     <div className="cartBody lg:w-[65%] md:w-[100%]">
                     {!isLoggedIn && <CheckoutForm />}
 
+                    {isLoggedIn && <Addresses />}
                        
                     </div>
 

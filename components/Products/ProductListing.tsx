@@ -307,7 +307,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
 								pageSize={PageSize}
 								className="pagination-bar"
 							/>
-              {/*<Pagination onPageChange={handlePageChange} total={recordsFound} initialPage={1} currentPage={currentPage}  />*/}
+              
 						</div>
 					)}
        
