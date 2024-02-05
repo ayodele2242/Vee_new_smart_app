@@ -33,6 +33,9 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
   const [userName, setUserName] = useState('');
   const [truncatedUserName, setTruncatedUserName] = useState('');
 
+
+
+
   const profileName =
 		userData && userData.profile_name ? userData.profile_name : "Guest"
 
@@ -102,7 +105,7 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
        {!isLogin && !isLoading && (
             <>
               <div className="greeting txt-smaller">Welcome</div>
-              <div className="iname text-sm font-bold flex">Sign In / Register <KeyboardArrowDownOutlinedIcon /></div>
+              <div className="iname text-sm font-bold flex row-layout">Sign In / Register <KeyboardArrowDownOutlinedIcon /></div>
             </>
         )}
        </div>
@@ -136,10 +139,10 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
 
             </div>  
             <div className="mb-2 border-b-1 border-yellow-500 w-full"></div>
-              <Link href="/account/my-orders" className="w-full  mb-2 font-normal flex-item tracking-wide group-hover:text-blue-500"><DescriptionOutlinedIcon fontSize="medium" className="mr-1"/> My Orders</Link>
-              <Link href="messages" className="w-full  mb-2 font-normal  flex-item tracking-wide"><MessageOutlinedIcon fontSize="medium" className="mr-1"/> Messages</Link>
-              <Link href="account/wishlist" className="w-full  mb-2 font-normal flex-item tracking-wide"><FavoriteBorderOutlinedIcon fontSize="medium" className="mr-1"/> Wishlist</Link>
-              <Link href="account/profile-settings" className="w-full  mb-2 font-normal flex-item tracking-wide"><ManageAccountsOutlinedIcon fontSize="medium" className="mr-1"/> Profile Settings</Link>
+              <Link href="/account/my_orders" className="w-full  mb-2 font-normal flex-item tracking-wide group-hover:text-blue-500"><DescriptionOutlinedIcon fontSize="medium" className="mr-1"/> My Orders</Link>
+              <Link href="/account/messages" className="w-full  mb-2 font-normal  flex-item tracking-wide"><MessageOutlinedIcon fontSize="medium" className="mr-1"/> Messages</Link>
+              <Link href="/account/wishlist" className="w-full  mb-2 font-normal flex-item tracking-wide"><FavoriteBorderOutlinedIcon fontSize="medium" className="mr-1"/> Wishlist</Link>
+              <Link href="/account/profile-settings" className="w-full  mb-2 font-normal flex-item tracking-wide"><ManageAccountsOutlinedIcon fontSize="medium" className="mr-1"/> Profile Settings</Link>
               <Link href="#" 
               onClick={ redirectToLoginPage } 
               className="w-full  mb-2 font-normal flex-item bg-red-500 p-2 mt-3 text-white tracking-wide"><LogoutOutlinedIcon fontSize="medium" className="mr-1"/> Log Out</Link>

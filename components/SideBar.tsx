@@ -7,9 +7,11 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
 
+
 const SideBar: React.FC = () => {
   const pathname = usePathname();
   const [activeLink, setActiveLink] = useState('');
+ 
 
   useEffect(() => {
     setActiveLink(pathname);

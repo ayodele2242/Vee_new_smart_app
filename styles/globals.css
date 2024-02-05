@@ -1137,6 +1137,13 @@ height: 100%;
   flex-direction: column;
 }
 
+.column-layout-center{
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
 .txt-small{
   font-size: 14px !important;
   text-transform: capitalize !important;
@@ -1147,12 +1154,65 @@ height: 100%;
   text-transform: capitalize !important;
 }
 
+.compare-container{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 12px;
+}
+
+.compare-container span{
+ height: 20px;
+ width: 20px;
+ border-radius: 50%;
+ display: flex !important;
+ justify-content: center !important;
+ align-items: center !important;
+}
+
+.compare-div .searchIcon{
+  fill: #888885;
+}
+
+.searcIncon{
+  display: flex !important;
+ justify-content: center !important;
+ align-items: center !important;
+}
+
+.searchInput{
+  border: none;
+  outline: 0;
+}
+
+.searchInput:focus{
+  border: none;
+  outline: 0;
+}
 
 .ReactModal__Overlay{
   position: absolute;
   background-color: rgba(0, 0, 0, 0.7) !important;
   z-index: 201;
 
+}
+
+.listItems{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.listItems .formWrapper{
+  height: 30px !important;
+  border-radius: 6px !important;
+  padding: 3px;
+  overflow: hidden;
+  border: solid 1px #727171;
+}
+
+.listItems .formWrapper label{
+font-size: 12px;
 }
 
 .closeModalBtn{
@@ -1305,24 +1365,47 @@ flex-direction: row;
  margin: 15px;
 }
 
+.input-div{
+  display: flex;
+  border-radius: 50px;
+  background-color: #1d1c1c;
+  overflow: hidden;
 
-@media screen and (max-width: 640px) {
-  .progress-step:first-of-type:before, .progress-step:last-of-type:after {
-    background-color: white !important;
-  }
 }
 
-@media screen and (min-width: 640px) {
-  .progress-step:first-of-type:before {
-    right: 50%;
-    width: 50%;
-  }
+.searchIcon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.active-favourite, .fake-active-favourite{
+  color:rgb(79, 144, 230);
+  fill: #4e65ff !important;
+
+  
+}
+
+
 
 
    @media screen and (max-width: 768px) {
 
-    
+    .mobile{
+      flex-direction: column;
+    }
+
+    .compare-div, .listItems{
+      width: 100% !important;
+      max-width: 100%;
+      margin-top: 10px !important;
+      margin-right: 0 !important;
+    }
+
+    .listGrid .formWrapper{
+      width: 100% !important;
+      max-width: 100%;
+    }
 
     .cartSummary{
       margin-top: 10px;
@@ -1408,6 +1491,19 @@ flex-direction: row;
    }
 
 
+   @media screen and (max-width: 640px) {
+    .progress-step:first-of-type:before, .progress-step:last-of-type:after {
+      background-color: white !important;
+    }
+  }
+  
+  @media screen and (min-width: 640px) {
+    .progress-step:first-of-type:before {
+      right: 50%;
+      width: 50%;
+    }
+  }
+  
 
    @keyframes loading {
     0%{

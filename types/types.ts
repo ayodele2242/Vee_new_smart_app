@@ -44,6 +44,8 @@ interface AvailabilityByWarehouse {
   }
   
   interface Product {
+    compare: boolean;
+    wishlist: any;
     product_price(product_price: any): import("react").ReactNode;
     category: string;
     Product_id: string | null;

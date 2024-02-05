@@ -29,7 +29,7 @@ interface ProductListProps {
   products: VeeProductType[];
 }
 
-const AllProductList: React.FC<ProductListProps> = ({ products }) => {
+const CompletedList: React.FC<ProductListProps> = ({ products }) => {
     const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
     const [isLoading, setIsLoading] = useState(false);
     const [backendResponse, setBackendResponse] = useState(null)
@@ -193,141 +193,141 @@ const AllProductList: React.FC<ProductListProps> = ({ products }) => {
 
     
   return (
-    
     <div className="productList pt-4">
-    {products.map((item, index) => (
-      <div className="px-2 mb-5" key={index}>
-      <div className="flex -mx-2">
-        <div className="w-1/5 px-2">
-          <div className="relative">
-          
-            <div className="h-26 rounded-lg bg-default-300 mt-3">
-              {item.images_url && item?.images_url?.length > 0 ? (
-                 <Image
-                 src={item?.images_url}
-                 alt={item?.description}
-                 width={300}
-                 height={300}
-                 className="relative"
-               />
-              ) : (
-                <Image
-                src="/images/logoheader.png"
-                alt={item.description}
-                width={300}
-                height={300}
-                className="relative"
-              />
-              )}
-            </div>
-            <div className="favourite">
-              {!processing &&
-            <FavoriteIcon 
-                onClick={() => handleAddToFavorites(item?.ingramPartNumber || '')} 
-                className={ingramId === item.ingramPartNumber ? 'fake-active-favourite' : (item.wishlist ? 'active-favourite' : '')}
-                style={{ fill: item.wishlist || ingramId === item.ingramPartNumber ? 'blue' : 'black' }}
-              />
-            }
-            {processingItemId === item.ingramPartNumber && <Spinner size="sm" className="ml-1"/>}
-            </div>
-          </div>
-        </div>
-
-        <div className="w-1/2 px-2">
-          {item.price_details?.pricing?.retailPrice != null && (
-            <span className="inline-block text-xs px-1.5 py-1 rounded-full border border-gray-700 mb-1">
-              Special Price
-            </span>
-          )}
-          <div className="">
-            <div className="mb-2 text-xs font-bold">
-              <Link href={`/productdetail?id=${item.ingramPartNumber}`} className="text-xs">
-              {item.description}
-              </Link>
-             
-              </div>
-
+      {products.map((item, index) => (
+        <div className="px-2 mb-5" key={index}>
+        <div className="flex -mx-2">
+          <div className="w-1/5 px-2">
+            <div className="relative">
             
-
-            <div className="w-100 itemListMe mt-1">
-              <div className="iTemRight">
-                <span className="uppercase text-sm">
-                  <b>VPN: </b> {item.vendorPartNumber}
-                </span>
+              <div className="h-26 rounded-lg bg-default-300 mt-3">
+                {item.images_url && item?.images_url?.length > 0 ? (
+                   <Image
+                   src={item?.images_url}
+                   alt={item?.description}
+                   width={300}
+                   height={300}
+                   className="relative"
+                 />
+                ) : (
+                  <Image
+                  src="/images/logoheader.png"
+                  alt={item.description}
+                  width={300}
+                  height={300}
+                  className="relative"
+                />
+                )}
               </div>
-              <div className="iTemLeft">
-                <span className="uppercase text-sm">
-                  <b>SKU: </b> {item.ingramPartNumber}
-                </span>
-              </div>
-              <div className="iTemLeft">
-                <span className="uppercase text-sm">
-                  <b>UPC: </b> {item?.upc}
-                </span>
+              <div className="favourite">
+                {!processing &&
+              <FavoriteIcon 
+                  onClick={() => handleAddToFavorites(item?.ingramPartNumber || '')} 
+                  className={ingramId === item.ingramPartNumber ? 'fake-active-favourite' : (item.wishlist ? 'active-favourite' : '')}
+                  style={{ fill: item.wishlist || ingramId === item.ingramPartNumber ? 'blue' : 'black' }}
+                />
+              }
+              {processingItemId === item.ingramPartNumber && <Spinner size="sm" className="ml-1"/>}
               </div>
             </div>
-
-           
           </div>
-        </div>
 
-        <div className="w-1/3 px-2">
-       
-          <div className="compare-checkbox">
-          <input
-              type="checkbox"
-              id={item?.ingramPartNumber}
-              checked={item.compare || false}
-              onChange={() => handleCheckboxChange(item?.ingramPartNumber || '')}
+          <div className="w-1/2 px-2">
+            {item.price_details?.pricing?.retailPrice != null && (
+              <span className="inline-block text-xs px-1.5 py-1 rounded-full border border-gray-700 mb-1">
+                Special Price
+              </span>
+            )}
+            <div className="">
+              <div className="mb-2 text-xs font-bold">
+                <Link href={`/productdetail?id=${item.ingramPartNumber}`} className="text-xs">
+                {item.description}
+                </Link>
+               
+                </div>
+
               
-            />
-            <label htmlFor={item?.ingramPartNumber}>Add to Compare</label>
-          </div>
-          <div className="">
-            <div className="h-24">
-              <div className="">
-                 <h6 className="text-1xl lg:text-xl font-bold ">
-                   
-                    {new Intl.NumberFormat('en-US', {
-                        style: 'currency',
-                        currency: 'USD'
-                    }).format(Number(item?.product_price))}
-                </h6>
-              </div>
 
-
-              {/*<div className="w-100 itemListMe mt-1">
+              <div className="w-100 itemListMe mt-1">
                 <div className="iTemRight">
-                  <div className="h-5 rounded-lg bg-default-300"></div>
+                  <span className="uppercase text-sm">
+                    <b>VPN: </b> {item.vendorPartNumber}
+                  </span>
                 </div>
                 <div className="iTemLeft">
-                  <div className="h-5 rounded-lg bg-default-300"></div>
+                  <span className="uppercase text-sm">
+                    <b>SKU: </b> {item.ingramPartNumber}
+                  </span>
                 </div>
-              </div>*/}
+                <div className="iTemLeft">
+                  <span className="uppercase text-sm">
+                    <b>UPC: </b> {item?.upc}
+                  </span>
+                </div>
+              </div>
 
-              <div className="itemListMe">
+             
+            </div>
+          </div>
 
-              {/*<CartQuantityActionBtns 
-              product={item}
-              id={item.ingramPartNumber}
-              />*/}
+          <div className="w-1/3 px-2">
+         
+            <div className="compare-checkbox">
+            <input
+                type="checkbox"
+                id={item?.ingramPartNumber}
+                checked={item.compare || false}
+                onChange={() => handleCheckboxChange(item?.ingramPartNumber || '')}
+                
+              />
+              <label htmlFor={item?.ingramPartNumber}>Add to Compare</label>
+            </div>
+            <div className="">
+              <div className="h-24">
+                <div className="">
+                   <h6 className="text-1xl lg:text-xl font-bold ">
+                     
+                      {new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD'
+                      }).format(Number(item?.product_price))}
+                  </h6>
+                </div>
+
+
+                {/*<div className="w-100 itemListMe mt-1">
+                  <div className="iTemRight">
+                    <div className="h-5 rounded-lg bg-default-300"></div>
+                  </div>
+                  <div className="iTemLeft">
+                    <div className="h-5 rounded-lg bg-default-300"></div>
+                  </div>
+                </div>*/}
+
+                <div className="itemListMe">
+
+                {/*<CartQuantityActionBtns 
+                product={item}
+                id={item.ingramPartNumber}
+                />*/}
+                
+
+
               
-
-
-            
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      ))}
+      
     </div>
-    ))}
-    
-  </div>
 
-  
+    
+
     
   );
 };
 
-export default AllProductList;
+export default CompletedList;

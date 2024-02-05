@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 // Define an interface for your response data
 interface ApiResponse<T> {
+  totalRecords(totalRecords: any): unknown;
   data(data: any): any;
   message: string;
   token?: string;

@@ -42,7 +42,7 @@ export default function RootLayout({
 				)}
 			>   
 			  
-				<Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+				<Providers themeProps={{ attribute: "class", defaultTheme: "white" }}>
 					
 				   
 						<main className="w-full mainContainer " >
