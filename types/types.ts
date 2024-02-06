@@ -44,9 +44,11 @@ interface AvailabilityByWarehouse {
   }
   
   interface Product {
+    product_price(product_price: any): number | bigint;
+    customerPrice?: any;
+    detail?: string;
     compare: boolean;
     wishlist: any;
-    product_price(product_price: any): import("react").ReactNode;
     category: string;
     Product_id: string | null;
     description: string;
@@ -72,6 +74,8 @@ interface AvailabilityByWarehouse {
     upc?: string;
     image_url: string;
     price?: any;
+    detail?: string;
+    descr?: string;
   }
 
   interface FormData {

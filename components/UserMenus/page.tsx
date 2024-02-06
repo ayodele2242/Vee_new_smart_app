@@ -105,7 +105,7 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
        {!isLogin && !isLoading && (
             <>
               <div className="greeting txt-smaller">Welcome</div>
-              <div className="iname text-sm font-bold flex row-layout">Sign In / Register <KeyboardArrowDownOutlinedIcon /></div>
+              <div className="iname text-sm font-bold flex row-layout">Login / Signup <KeyboardArrowDownOutlinedIcon /></div>
             </>
         )}
        </div>
@@ -116,8 +116,8 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
           <div className="dropdown-menu-inner">
             {!isLogin && 
              <div className="dropdown-item w-full pl-4 pr-4">
-              <div className=" w-100 flex justify-center  register-container mb-1 bg-yellow-600 p-1 text-white font-semibold"><Link href="login" className="w-100">Sign In</Link></div>
-             <div className="w-100 mb-2 w-100 flex justify-center register-container  p-2 text-gray font-semibold"><Link href="register" className="w-100">Register</Link></div> 
+              <div className=" w-100 flex justify-center  register-container mb-1 bg-yellow-600 p-1 text-white font-semibold"><Link href="login" className="w-100">Login</Link></div>
+             <div className="w-100 mb-2 w-100 flex justify-center register-container  p-2 text-gray font-semibold"><Link href="register" className="w-100">Signup</Link></div> 
              <div className="mb-2 border-b-1 border-yellow-500 w-full"></div>
               <Link href="#" className="w-full  mb-2 font-normal flex-item tracking-wide group-hover:text-blue-500"><DescriptionOutlinedIcon fontSize="medium" className="mr-1"/> My Orders</Link>
             <Link href="#" className="w-full  mb-2 font-normal  flex-item tracking-wide"><MessageOutlinedIcon fontSize="medium" className="mr-1"/> Messages</Link>

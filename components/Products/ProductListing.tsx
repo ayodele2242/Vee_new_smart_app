@@ -14,6 +14,7 @@ import ProductsAnime from "@/loaders/ProductsAime";
 import Pagination from "@/pagination/Pagination";
 import { debounce } from "lodash";
 import SingleLoader from "@/loaders/singleLoader";
+import Link from "next/link";
 
 interface ProductListingProps {
   searchTerm: any;
@@ -278,7 +279,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
 
                 </div>
               </div>
-              <div className="btnDiv">Compare</div>
+              <Link href="/compare" className="btnDiv">Compare</Link>
             </div>
           </div>
 

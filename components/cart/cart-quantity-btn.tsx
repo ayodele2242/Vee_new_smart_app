@@ -24,7 +24,9 @@ interface CartQuantityActionBtnsProps {
     vendorPartNumber?: string;
     upc?: string;
     pricing?: any;
-    images_url?: any
+    images_url?: any;
+    descr?: string;
+    customerPrice?: any;
     
   } | null;
   id: string;
@@ -67,9 +69,10 @@ const CartQuantityActionBtns: React.FC<CartQuantityActionBtnsProps> = ({ product
         (Array.isArray(product) && product.length > 0 ? product[0]?.description : "") ||
         "",
         image_url: imageUrl || "/images/no-image-icon.png",
-        price: product?.price_details?.pricing?.customerPrice || product?.pricing?.customerPrice,
+        price: product?.price_details?.pricing?.customerPrice || product?.pricing?.customerPrice || product?.customerPrice,
         vendorPartNumber: product?.vendorPartNumber,
-        upc: product?.price_details?.upc || product?.upc
+        upc: product?.price_details?.upc || product?.upc,
+        descr: product?.descr
 
       };
   
@@ -79,6 +82,8 @@ const CartQuantityActionBtns: React.FC<CartQuantityActionBtnsProps> = ({ product
       } else {
         addItemToCart(newItem);
       }
+
+      console.log(JSON.stringify(newItem));
       
     };
   

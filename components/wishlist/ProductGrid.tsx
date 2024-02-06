@@ -35,25 +35,23 @@ interface ProductGridProps {
    }
 
    const handleCheckboxChange = (productId: string) => {
-    // Check if the checkbox is checked
-    if (!checkedItems[productId]) {
-      // Check if the user is logged in
-      if (!isUserLoggedIn()) {
-           toast.error("Please log in to add item to compare.", {});
-        // or redirectToLoginPage(); // Uncomment this line to redirect to the login page
-        return;
-      }
-  
-      // Update the checked items state
-      setCheckedItems((prev) => ({
-        ...prev,
-        [productId]: !prev[productId],
-      }));
-  
-      // Send the request to the backend
-      sendCheckedItemsToBackend({ [productId]: true });
+    // Check if the user is logged in
+    if (!isUserLoggedIn()) {
+      toast.error("Please log in to add item to compare.", {});
+      // or redirectToLoginPage(); // Uncomment this line to redirect to the login page
+      return;
     }
+  
+    // Toggle the checked state of the checkbox
+    setCheckedItems((prev) => ({
+      ...prev,
+      [productId]: !prev[productId],
+    }));
+  
+    // Send the request to the backend
+    sendCheckedItemsToBackend({ [productId]: !checkedItems[productId] });
   };
+  
 
     const sendCheckedItemsToBackend = async (updatedCheckedItems: Record<string, boolean>) => {
 
@@ -102,7 +100,7 @@ interface ProductGridProps {
   return (
 
   <div className="mx-auto mb-5 mt-5">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1  md:grid-cols-3 lg:grid-cols-4 gap-6">
     {sortedProducts.map((product, i) => (
 
 
@@ -112,7 +110,7 @@ interface ProductGridProps {
                   {product.images_url && product.images_url.length > 0 ? (
                    
                    <Image
-                    src={product.images_url[0].url as string}
+                    src={product.images_url as string}
                     alt={product.description}
                     width={300}
                     height={300}
@@ -128,17 +126,16 @@ interface ProductGridProps {
                   />
                   )}
                 </div>
-                <div className="favourite">
-                <FavoriteBorderOutlinedIcon onClick={() => handleAddToFavorites(product?.ingramPartNumber || '')} />
-
-                </div>
+                {/*<div className="favourite">
+                <FavoriteBorderOutlinedIcon onClick={() => handleAddToFavorites(product?.ingramPartNumber || '')} fontSize="medium"/>
+                </div>*/}
                 <div className="mb-2 mt-2 text-xs color-[yellow] font-bold p-2">
                 <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs">
                   {product.description}
                   </Link>
                 </div>
-                <div className="text-sm font-semibold p-2">
-                  {product.category} - {product.subCategory} - {product.productType} - {product.vendorName}
+                <div className="p-2 text-small">
+                {product.detail}
                 </div>
 
                 <div className="w-100 itemListMe mt-1">
@@ -152,9 +149,14 @@ interface ProductGridProps {
                       <b>SKU: </b> {product.ingramPartNumber}
                     </span>
                   </div>
+                  <div className="iTemLeft">
+                    <span className="uppercase text-sm">
+                      <b>UPC: </b> {product.upc}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="w-100 itemListMe">
+                {/*<div className="w-100 itemListMe">
                   <div className="iTemRight">
                     <span className="py-1 px-2 rounded-full bg-green-100 font-bold text-xs text-green-800 ">
                       Direct Ship
@@ -163,7 +165,7 @@ interface ProductGridProps {
                   <div className="iTemLeft">
                     <span className="text-red-700 font-bold text-sm">No returns</span>
                   </div>
-                </div>
+                </div>*/}
 
                
            
@@ -181,10 +183,10 @@ interface ProductGridProps {
                <div className="">
                   <h6 className="text-1xl lg:text-2xl font-bold ">
                     
-                     {new Intl.NumberFormat('en-US', {
-                         style: 'currency',
-                         currency: 'USD'
-                     }).format(product?.price_details?.pricing?.customerPrice)}
+                  {new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD'
+                            }).format(product?.customerPrice)}
                  </h6>
                </div>
 

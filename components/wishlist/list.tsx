@@ -40,11 +40,11 @@ const Wishes: React.FC = () => {
 	const [backendMsg, setBackendMsg] = useState<string | null>(null);
   const [orders, setOrders] = useState<{ [key: string]: any }>({});
   const [loading, setLoading] = useState(true);
-
+  const [products, setProducts] = useState<any[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const [pageSize, setPageSize] = useState(5); // Set default page size
+  const [pageSize, setPageSize] = useState(10); // Set default page size
   const [searchQuery, setSearchQuery] = useState('');
   const [searchType, setSearchType] = useState('product_name'); 
   const [totalPages, setTotalPages] = useState(1);
@@ -70,31 +70,9 @@ const Wishes: React.FC = () => {
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
+    fetchData('wishlist/wishlist', pageNumber);
   };
 
-
-
-  const handleButtonClick = (buttonNumber: number) => {
-    setActiveButton(buttonNumber);
-
-    let url = '';
-    if (buttonNumber === 1) {
-      url = "orders/orders";
-      setCurrentPage(1);
-    } else if (buttonNumber === 2) {
-      url = "orders/processing_orders";
-      setCurrentPage(1);
-    } else if (buttonNumber === 3) {
-      url = "orders/completed_orders";
-      setCurrentPage(1);
-    }
-
-    // Call fetchData with the updated URL
-    fetchData(url);
-  };
-
-
- 
 
   const handleSearchInputChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchQuery(event.target.value);
@@ -113,11 +91,10 @@ const Wishes: React.FC = () => {
 
 
   useEffect(() => {
-
-    fetchData('wishlist/wishlist');
+    fetchData('wishlist/wishlist', 1);
   }, [searchQuery, searchType]);
 
-  const fetchData = async (url: string) => {
+  const fetchData = async (url: string, pageNumber: number) => {
     try {
       
       let payload = {};
@@ -130,7 +107,7 @@ const Wishes: React.FC = () => {
       payload = {
         action: "get",
         email: user.email,
-        pageNo: currentPage,
+        pageNo: pageNumber,
         limit: pageSize,
         search_query: searchQuery,
         search_type: searchType,
@@ -142,7 +119,7 @@ const Wishes: React.FC = () => {
     
       if (response.status === 200) {
         const { status, message, data } = responseData;
-        setOrders(responseData.data);
+        setProducts(responseData.data);
         setTotalCount(parseInt(responseData.totalRecords as any));
         setRecordsFound(parseInt(responseData.totalRecords as any));
         const totalPages = Math.ceil(parseInt(responseData.totalRecords as any) / pageSize);
@@ -224,7 +201,6 @@ const Wishes: React.FC = () => {
 
             <div className="listItems mr-8 flex">
                <div className="formWrapper">
-                <label>Sort By:</label>
                 <select
                     id="relevant"
                     name="relevant"
@@ -248,11 +224,35 @@ const Wishes: React.FC = () => {
             </div>
         </div>
 
-        <div className="w-full flex justify-center text-center h-[200px] p-9">
+        <div className="w-full mainLayer  p-9">
         
-                <h2 className="font-bold text-xlg">In progress</h2>
+        {loading && <ProductsAnime  numberOfItems={5} />}
+            {error && <p className="text-danger color-[red]">Error occured: {error}</p>}
+            {!loading && !error && (
+              layoutType === "list" ? <ProductList products={products} sortOption={sortOption} /> : <ProductGrid products={products} sortOption={sortOption} />
+            )}
+
+            {!loading && !error && (!products || products.length === 0) && (
+            <div className="text-center mt-5 mb-5 h-200 w-100 ">
+                <p className="text-danger color-[red]">No products found.</p>
+            </div>
+            )}
+
        
         </div>
+                   {recordsFound > 0 && !loading && (
+						<div className="navContainer mt-4 mb-10 w-full">
+							<Pagination
+								onPageChange={handlePageChange}
+								totalCount={recordsFound}
+								siblingCount={1}
+								currentPage={currentPage}
+								pageSize={pageSize}
+								className="pagination-bar"
+							/>
+              
+						</div>
+					)}
       </div>
       <ToastContainer />
       <Footer />

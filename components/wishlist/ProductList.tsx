@@ -7,6 +7,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { VeeProductType } from '@/types/types';
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CartQuantityActionBtns from '../cart/cart-quantity-btn';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
 	isUserLoggedIn,
 	getUserData,
@@ -30,32 +31,30 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
     // Sorting logic based on the selected option
   const sortedProducts = [...products];
   if (sortOption === "low-to-high") {
-    sortedProducts.sort((a, b) => a.price_details.pricing.customerPrice - b.price_details.pricing.customerPrice);
+    sortedProducts.sort((a, b) => a.customerPrice - b.customerPrice);
   } else if (sortOption === "high-to-low") {
-    sortedProducts.sort((a, b) => b.price_details.pricing.customerPrice - a.price_details.pricing.customerPrice);
+    sortedProducts.sort((a, b) => b.customerPrice - a.customerPrice);
   }
  
 
   const handleCheckboxChange = (productId: string) => {
-    // Check if the checkbox is checked
-    if (!checkedItems[productId]) {
-      // Check if the user is logged in
-      if (!isUserLoggedIn()) {
-           toast.error("Please log in to add item to compare.", {});
-        // or redirectToLoginPage(); // Uncomment this line to redirect to the login page
-        return;
-      }
-  
-      // Update the checked items state
-      setCheckedItems((prev) => ({
-        ...prev,
-        [productId]: !prev[productId],
-      }));
-  
-      // Send the request to the backend
-      sendCheckedItemsToBackend({ [productId]: true });
+    // Check if the user is logged in
+    if (!isUserLoggedIn()) {
+      toast.error("Please log in to add item to compare.", {});
+      // or redirectToLoginPage(); // Uncomment this line to redirect to the login page
+      return;
     }
+  
+    // Toggle the checked state of the checkbox
+    setCheckedItems((prev) => ({
+      ...prev,
+      [productId]: !prev[productId],
+    }));
+  
+    // Send the request to the backend
+    sendCheckedItemsToBackend({ [productId]: !checkedItems[productId] });
   };
+  
 
     const sendCheckedItemsToBackend = async (updatedCheckedItems: Record<string, boolean>) => {
 
@@ -103,16 +102,16 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
     
   return (
     
-    <div className="productList pt-4">
-      {sortedProducts.map((product, index) => (
-        <div className="px-2 mb-5" key={index}>
-          <div className="flex -mx-2">
-            <div className="w-1/5 px-2">
-              <div className="relative">
-                <div className="h-26 rounded-lg bg-default-300 mt-3">
+<div className="productItems w-full p-6">
+
+{sortedProducts.map((product, index) => (
+ <div className="px-2 mb-2 products_list flex" key={index}>
+
+          <div className="imgHolder lg:w-[20%] p-3 relative">
+            <div className="h-26 rounded-lg bg-default-300 mt-3">
                   {product.images_url && product.images_url.length > 0 ? (
                      <Image
-                     src={product.images_url[0].url as string}
+                     src={product.images_url as string}
                      alt={product.description}
                      width={300}
                      height={300}
@@ -128,31 +127,24 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
                   />
                   )}
                 </div>
-                <div className="favourite">
-                <FavoriteBorderOutlinedIcon onClick={() => handleAddToFavorites(product?.ingramPartNumber || '')} />
-                </div>
-              </div>
-            </div>
+                {/*<div className="favourite-list">
+                <FavoriteIcon onClick={() => handleAddToFavorites(product?.ingramPartNumber || '')} fontSize="medium"/>
+                </div>*/}
+          </div>
 
-            <div className="w-1/2 px-2">
-              {product.price_details?.pricing?.retailPrice != null && (
-                <span className="inline-block text-xs px-1.5 py-1 rounded-full border border-gray-700 mb-1">
-                  Special Price
-                </span>
-              )}
-              <div className="">
-                <div className="mb-2 text-xs font-bold">
-                  <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs">
+          <div className="p-6 lg:w-[65%] centerLayout">
+
+          <div className="flex w-full mb-3">
+                  <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs font-bold">
                   {product.description}
-                  </Link>
-                 
-                  </div>
+                  </Link>   
+          </div>
 
-                <div className="text-sm font-semibold">
-                  {product.category} - {product.subCategory} - {product.productType} - {product.vendorName}
-                </div>
+          <div className="flex w-full mb-3 text-small">
+                  {product.detail}
+          </div>
 
-                <div className="w-100 itemListMe mt-1">
+          <div className="flex w-full iTemRightMobile">
                   <div className="iTemRight">
                     <span className="uppercase text-sm">
                       <b>VPN: </b> {product.vendorPartNumber}
@@ -163,75 +155,57 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
                       <b>SKU: </b> {product.ingramPartNumber}
                     </span>
                   </div>
-                </div>
-
-                <div className="w-100 itemListMe">
-                  <div className="iTemRight">
-                    <span className="py-1 px-2 rounded-full bg-green-100 font-bold text-xs text-green-800 ">
-                      Direct Ship
+                  <div className="iTemLeft">
+                    <span className="uppercase text-sm">
+                      <b>UPC: </b> {product.upc}
                     </span>
                   </div>
-                  <div className="iTemLeft">
-                    <span className="text-red-700 font-bold text-sm">No returns</span>
-                  </div>
-                </div>
+          </div>
+
+          </div>
+
+          <div className="p-3 lg:w-[15%] flex centerLayout">
+              <div className="compare-checkbox flex w-full">
+                  <input
+                      type="checkbox"
+                      id={product?.ingramPartNumber}
+                      checked={checkedItems[product?.ingramPartNumber] || false}
+                      onChange={() => handleCheckboxChange(product?.ingramPartNumber || '')}
+                      
+                    />
+                    <label htmlFor={product?.ingramPartNumber}>Add to Compare</label>
               </div>
-            </div>
 
-            <div className="w-1/3 px-2">
-           
-              <div className="compare-checkbox">
-              <input
-                  type="checkbox"
-                  id={product?.ingramPartNumber}
-                  checked={checkedItems[product?.ingramPartNumber] || false}
-                  onChange={() => handleCheckboxChange(product?.ingramPartNumber || '')}
-                  
-                />
-                <label htmlFor={product?.ingramPartNumber}>Add to Compare</label>
+              <div className="mobilr-flex">
+              <div className="w-full mt-2 mb-2 justItem">
+                      <div className="">
+                        <h6 className="text-1xl lg:text-2xl font-bold ">
+            
+                            {new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD'
+                            }).format(product?.customerPrice)}
+                        </h6>
+                      </div>
               </div>
-              <div className="">
-                <div className="h-24">
-                  <div className="">
-                     <h6 className="text-1xl lg:text-2xl font-bold ">
-                       
-                        {new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: 'USD'
-                        }).format(product?.price_details?.pricing?.customerPrice)}
-                    </h6>
-                  </div>
-
-
-                  {/*<div className="w-100 itemListMe mt-1">
-                    <div className="iTemRight">
-                      <div className="h-5 rounded-lg bg-default-300"></div>
-                    </div>
-                    <div className="iTemLeft">
-                      <div className="h-5 rounded-lg bg-default-300"></div>
-                    </div>
-                  </div>*/}
-
-                  <div className="itemListMe">
-
-                  <CartQuantityActionBtns 
+              <div className="w-full mt-2 mb-2 justItem">
+              <CartQuantityActionBtns 
                   product={product}
                   id={product.ingramPartNumber}
                   />
-                  
-
-
-                
-                  </div>
-                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      ))}
-      <ToastContainer />
-    </div>
 
+              </div>
+
+          </div>
+
+
+
+
+ </div>
+))}
+
+</div>
     
   );
 };

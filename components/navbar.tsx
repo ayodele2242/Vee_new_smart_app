@@ -283,7 +283,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 
 						<div className="cartContainer hidden sm:flex" suppressHydrationWarning>
 							<Link href="/cart">
-									<ShoppingCartOutlinedIcon className="cartIcon mr-4" />
+									<ShoppingCartOutlinedIcon className="cartIcon mr-4 text-black" />
 									{loaded && cartCount > 0 && (
 									<div className='cartCounter' >
 									{loaded ? cartCount : ''}
@@ -358,7 +358,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 				
 			       <div className="cartContainer" suppressHydrationWarning>
 							<Link href="/cart">
-									<ShoppingCartOutlinedIcon className="cartIcon" />
+									<ShoppingCartOutlinedIcon className="cartIcon text-black" />
 									{loaded && cartCount > 0 && (
 									<div className='cartCounter' >
 									{loaded ? cartCount : ''}

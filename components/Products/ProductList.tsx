@@ -12,9 +12,11 @@ import {
 	getUserData,
 	redirectToLoginPage,
 } from "@/auth/auth";
-import { ToastContainer, toast } from "react-toastify";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { ApiRequestService } from '@/services/apiRequest.service';
+import { Spinner } from '@nextui-org/react';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 interface ProductListProps {
@@ -22,10 +24,26 @@ interface ProductListProps {
   sortOption: any
 }
 
+interface ResponseDataItem {
+  status: string;
+  message: string;
+  data: any;
+}
+
 const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
 
     const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
     const isLoggedIn = isUserLoggedIn();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [backendResponse, setBackendResponse] = useState(null)
+    const [backendMsg, setBackendMsg] = useState<string | null>(null);
+      const [message, setMessage] = useState<string>("");
+      const [iStatus, setIStatus] = useState(false);
+      const [processing, setProcessing] = useState(false);
+      const [processingItemId, setProcessingItemId] = useState<string | null>(null);
+      const [ingramId, setIngramId] = useState<string | null>(null);
+
 
     // Sorting logic based on the selected option
   const sortedProducts = [...products];
@@ -57,25 +75,64 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
     }
   };
 
-    const sendCheckedItemsToBackend = async (updatedCheckedItems: Record<string, boolean>) => {
+  const sendCheckedItemsToBackend = async (updatedCheckedItems: Record<string, boolean>) => {
 
-        try {
-            const productKeys = Object.keys(updatedCheckedItems);
-            if (productKeys.length > 0) {
-              const productId = productKeys[0];
-              console.log('Compare ', productId);
-              
-              // Now you can use `productId` in your API request or wherever needed
-            } else {
-              console.error('No products selected');
-            }
-        
-            // The rest of your API request code goes here...
-          } catch (error) {
-            console.error('Error extracting product ID:', error);
-          }
-
+    try {
+      const productKeys = Object.keys(updatedCheckedItems);
+      if (productKeys.length > 0) {
+        const productId = productKeys[0];
+        const formData = {
+          action: 'add',
+          ingramPartNumber: productId
       };
+
+      const response = await ApiRequestService.callAPI<ResponseDataItem>(JSON.stringify(formData), "compare/compare");
+      const responseData = response.data;
+
+      if (response.status === 200) {
+        const { status, message } = responseData;
+        setIsLoading(false);
+
+        if (status === false) {
+          toast.error(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            theme: "dark",
+            transition: Bounce
+          });
+         
+          setBackendMsg(message);
+          setBackendResponse(status);
+          
+      } else if (status === true) {
+        setBackendResponse(status);
+        setBackendMsg(message);
+        setIsLoading(false);
+        toast.success(message);
+
+      }
+
+
+      }else {
+        setIsLoading(false);
+          if (response.status === 400) {
+              const { status, message } = responseData;
+              toast.error(message);
+              setBackendResponse(status);
+          }
+      }
+
+    }
+      
+
+
+    }catch (error) {
+      console.error('Error extracting product ID:', error);
+    }
+
+    
+    };
 
       const handleAddToFavorites = (productId: string) => {
         // Check if the user is logged in
@@ -89,14 +146,63 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
       };
 
       const sendProductToBackend = async (productId: string) => {
-        try {
-          // Your API request to add the product to favorites goes here
-          console.log('Add to Favorites:', productId);
-          // ... rest of the API request code
-        } catch (error) {
-          console.error('Error adding to favorites:', error);
-        }
+       
+        const formData = {
+          action: 'add',
+          ingramPartNumber: productId
       };
+
+      setProcessingItemId(productId);
+
+      try {
+        const response = await ApiRequestService.callAPI<ResponseDataItem>(JSON.stringify(formData), "wishlist/wishlist");
+        const responseData = response.data;
+
+        if (response.status === 200) {
+            const { status, message } = responseData;
+            setIsLoading(false);
+            setProcessingItemId(null);
+            
+            if (status === false) {
+                toast.error(message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                });
+               
+                setBackendMsg(message);
+                setBackendResponse(status);
+                setIStatus(status);
+                setIngramId(null);
+                
+            } else if (status === true) {
+                setBackendResponse(status);
+                setBackendMsg(message);
+                setIsLoading(false);
+                toast.success(message);
+                setIngramId(productId);
+                setIStatus(true);
+                
+               
+            }
+        } else {
+          setProcessingItemId(null);
+          setIsLoading(false);
+            if (response.status === 400) {
+                const { status, message } = responseData;
+                toast.error(message);
+                setBackendResponse(status);
+                setIStatus(false);
+            }
+        }
+    } catch (error) {
+      setProcessingItemId(null);
+      setIsLoading(false);
+        toast.error("Error adding to favorites");
+    }
+
+
+    };
       
       
 
@@ -129,7 +235,14 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
                   )}
                 </div>
                 <div className="favourite">
-                <FavoriteBorderOutlinedIcon onClick={() => handleAddToFavorites(product?.ingramPartNumber || '')} />
+                {!processing &&
+                <FavoriteIcon 
+                    onClick={() => handleAddToFavorites(product?.ingramPartNumber || '')} 
+                    className={ingramId === product.ingramPartNumber ? 'fake-active-favourite' : (product.wishlist ? 'active-favourite' : '')}
+                    style={{ fill: product.wishlist || ingramId === product.ingramPartNumber ? 'blue' : 'black' }}
+                  />
+                }
+                {processingItemId === product?.ingramPartNumber && <Spinner size="sm" className="ml-1"/>}
                 </div>
               </div>
             </div>
