@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 
 // Define an interface for your response data
 interface ApiResponse<T> {
+  xpire(arg0: string, xpire: any): unknown;
+  image(arg0: string, image: any): unknown;
   totalRecords(totalRecords: any): unknown;
   data(data: any): any;
   message: string;

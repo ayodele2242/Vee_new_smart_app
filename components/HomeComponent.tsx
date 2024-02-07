@@ -38,6 +38,7 @@ const HomeComponent: React.FC = () => {
 						<Navbar onSelectedCategoriesChange={selectedSearchedItems}/>
 						<HeroSlider onPageBackgroundChange={onPageBackgroundChange} />
 		
+				<FirstSection />
 
 		        <SecondSection
 					title="On-premise and Cloud Products & Services"
@@ -48,7 +49,7 @@ const HomeComponent: React.FC = () => {
 					bg={bgSection2}        
 				/>
 
-                <FirstSection />
+                
 				<SecondSection
 					title="Our tech team at your disposal"
 					desc={
@@ -58,14 +59,14 @@ const HomeComponent: React.FC = () => {
 					bg={bgSection3}
 				/>
 
-				<SecondSection
+				{/*<SecondSection
 					title="Our tech team at your disposal"
 					desc={
 						"Tailored solutions for your unique needs - Let us help you find the IT products & services  that work best for you"
 					}
 					isVisibleLogo={false}
 					bg={bgSection4}
-				/>
+				/>*/}
 
                 <ThirdSection
 					isVisibleLogo={true}

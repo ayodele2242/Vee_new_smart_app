@@ -12,17 +12,17 @@ export const siteConfig = {
 		  {
 			id: 2,
 			label: 'Brands',
-			href: '/brands',
+			href: '#/brands',
 		  },
 		  {
 		     id: 3,
 		     label: "Services",
-		     href: "/services",
+		     href: "#/services",
 		   },
 		  {
 			id: 4,
 			label: 'Deals',
-			href: '/deals',
+			href: '#/deals',
 		  },
 		  {
 			id: 5,

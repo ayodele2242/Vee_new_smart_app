@@ -451,7 +451,7 @@ const PaymentComponent = () => {
 											className="closeModalBtn"
 											onClick={closeModal}
 										>
-											Close Modal 
+											Return to Cart
 										</button>
 									</Modal>
 

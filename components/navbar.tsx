@@ -245,7 +245,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 			>
 
 				<div className="overAllHeader">
-					<div className="topMenu mb-2">
+					<div className="topMenu mb-0 mt-3">
                     
 						<ul className="hidden lg:flex gap-4 justify-start ml-2">
 							{siteConfig.menu1.map((item, index, array) => (
@@ -266,7 +266,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 						</ul>
 					</div>
 
-					<div className="middleMenus lg:flex mb-2 mt-2">
+					<div className="middleMenus lg:flex mb-1 mt-2">
 						<NavbarItem className="hidden sm:flex gap-2">
 						<ThemeSwitch className="mr-4" />
 						</NavbarItem>

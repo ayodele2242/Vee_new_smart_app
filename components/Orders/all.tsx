@@ -273,7 +273,7 @@ const AllProductList: React.FC<ProductListProps> = ({ products }) => {
 
         <div className="w-1/3 px-2">
        
-          <div className="compare-checkbox">
+          {/*<div className="compare-checkbox">
           <input
               type="checkbox"
               id={item?.ingramPartNumber}
@@ -282,7 +282,7 @@ const AllProductList: React.FC<ProductListProps> = ({ products }) => {
               
             />
             <label htmlFor={item?.ingramPartNumber}>Add to Compare</label>
-          </div>
+          </div>*/}
           <div className="">
             <div className="h-24">
               <div className="">

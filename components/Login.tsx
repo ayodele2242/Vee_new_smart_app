@@ -14,7 +14,9 @@ import Link from 'next/link';
 interface ResponseDataItem {
     status: string;
     message: string;
-    token: string
+    token: string;
+	image: any;
+	xpire: any
 }
 
 const Login: React.FC = () => {
@@ -48,7 +50,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         const response = await ApiRequestService.callAPI<ResponseDataItem>(formData, "auth/login");
         if (response.status === 200) {
             const responseData = response.data;
-            console.log("Data ", responseData)
+            //console.log("Data ", responseData)
             setIsLoading(false);
             if (responseData.status === "error") {
                 toast.error("Error occurred: " + responseData.message)
@@ -61,6 +63,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                     "user",
                     JSON.stringify(responseData.userinfo)
                 )
+				localStorage.setItem('uploadedImage', responseData.image.toString());
+
+				localStorage.setItem('expire_period', responseData.xpire.toString());
                 push("/account/my_orders");
             }
         } else {

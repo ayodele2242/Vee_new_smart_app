@@ -216,7 +216,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
             <div className="w-1/5 px-2">
               <div className="relative">
                 <div className="h-26 rounded-lg bg-default-300 mt-3">
-                  {product.images_url && product.images_url.length > 0 ? (
+                {product && product.images_url && product.images_url.length > 0 ? (
                      <Image
                      src={product.images_url[0].url as string}
                      alt={product.description}

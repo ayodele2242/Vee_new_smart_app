@@ -148,7 +148,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         >
           <ul className="suggestions">
             {suggestions.map((item, index) => (
-              <li key={index}>
+              <li key={index} className="font-bold">
                 <Link href={`/productdetail?id=${item.ingramPartNumber}`}>
                 {item.description}
                 </Link>

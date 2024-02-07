@@ -57,6 +57,8 @@ export const sliderConfig = {
             title: "The smart store for digital transformation",
             desc: "Transform your business with our products and services.",
             isRightText: true,
+            isLeft: false,
+            imageUrl: "",
           },
           {
             id: 2,
@@ -67,62 +69,10 @@ export const sliderConfig = {
             desc: "Transform your business with our products and services.",
             position: "bg-top",
             isRightText: true,
+            isLeft: false,
+            imageUrl: "",
           },
-          {
-            id: 3,
-            isActive: false,
-            isVisibleBackground: true,
-            background: bg_home_3,
-            title: "The smart store for digital transformation",
-            desc: "Transform your business with our products and services.",
-            position: "bg-top",
-          },
-          {
-            id: 4,
-            isActive: false,
-            imageUrl: bg_home_4,
-            title: "Accelerate your business",
-            desc: "Shop Next-Generation and Legacy servers.\
-            Select Servers and Specifications that meet your business needs or have us do the work for you.",
-          },
-          {
-            id: 5,
-            isActive: false,
-            imageUrl: bg_home_5,
-            title: "Secure your business",
-            desc: "Buy new and refurbished Next Generation Firewalls to Secure your business operations, network and users.",
-            isLeft: true,
-          },
-          {
-            id: 6,
-            isActive: false,
-            imageUrl: bg_home_6,
-            title: "Connect with confidence",
-            desc: "Empower your network with reliable switches.",
-          },
-          {
-            id: 7,
-            isActive: false,
-            imageUrl: bg_home_7,
-            title: "Go wireless",
-            desc: "Stay connected, stay productive - experience seamless wireless with our access points.",
-            isLeft: true,
-          },
-          {
-            id: 8,
-            isActive: false,
-            imageUrl: bg_home_8,
-            title: "Work & play",
-            desc: "Stay productive and kick back with desktop computers and laptops that meet your job and fun descriptions.",
-          },
-          {
-            id: 9,
-            isActive: false,
-            imageUrl: bg_home_9,
-            title: "Unified communications",
-            desc: "Unified communications and collaboration endpoints at your fingertips",
-            isLeft: true,
-          },
+          
 	]
 	
 	

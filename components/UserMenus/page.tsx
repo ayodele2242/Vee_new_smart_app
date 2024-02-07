@@ -11,6 +11,8 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import Link from "next/link";
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import SingleLoader from '@/loaders/singleLoader';
+import Image from 'next/image';
+import { useImage } from '@/providers/ImageContext'; 
 import {
 	isUserLoggedIn,
 	getUserData,
@@ -32,6 +34,7 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
   const [greetingText, setGreetingText] = useState('');
   const [userName, setUserName] = useState('');
   const [truncatedUserName, setTruncatedUserName] = useState('');
+  const { uploadedImage } = useImage();
 
 
 
@@ -84,7 +87,16 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
   return (
     <div className="dropdown" ref={dropdownRef}>
       <div className="dropdown-icon user-menus " onClick={toggleDropdown}>
-       <div className="user-icon"><PermIdentityOutlinedIcon fontSize="large" className=""/></div>
+       <div className="user-icon">
+        
+       {uploadedImage && (
+        <Avatar src={uploadedImage} className="w-6 h-6 text-tiny mr-2"  />
+      )}
+      {!uploadedImage && (
+        <PermIdentityOutlinedIcon fontSize="large" className=""/>
+      )}
+        
+        </div>
        <div className="user-name cursor-pointer hidden sm:flex md:flex system-only">
 
        {isLoading && (
@@ -131,7 +143,14 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
             {isLogin && 
              <>
             <div className="profile-header w-full">
-              <div className='profileAvatar'></div>
+              <div className='profileAvatar'>
+                {uploadedImage && (
+                  <Avatar  src={uploadedImage} className="w-6 h-6 text-tiny"  />
+                )}
+                {!uploadedImage && (
+                  <PermIdentityOutlinedIcon fontSize="large" className="mr-3 userIcon"/>
+                )}
+              </div>
               <div className='profileName '>
                 <div className='greeting font-normal text-[1.1rem] text-small'>Welcome Back</div>
                 <div className='name font-semibold text-[1.1rem] truncate text-ellipsis overflow-hidden'>{profileName}</div>
@@ -140,7 +159,7 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
             </div>  
             <div className="mb-2 border-b-1 border-yellow-500 w-full"></div>
               <Link href="/account/my_orders" className="w-full  mb-2 font-normal flex-item tracking-wide group-hover:text-blue-500"><DescriptionOutlinedIcon fontSize="medium" className="mr-1"/> My Orders</Link>
-              <Link href="/account/messages" className="w-full  mb-2 font-normal  flex-item tracking-wide"><MessageOutlinedIcon fontSize="medium" className="mr-1"/> Messages</Link>
+              <Link href="#/account/messages" className="w-full  mb-2 font-normal  flex-item tracking-wide"><MessageOutlinedIcon fontSize="medium" className="mr-1"/> Messages</Link>
               <Link href="/account/wishlist" className="w-full  mb-2 font-normal flex-item tracking-wide"><FavoriteBorderOutlinedIcon fontSize="medium" className="mr-1"/> Wishlist</Link>
               <Link href="/account/profile-settings" className="w-full  mb-2 font-normal flex-item tracking-wide"><ManageAccountsOutlinedIcon fontSize="medium" className="mr-1"/> Profile Settings</Link>
               <Link href="#" 

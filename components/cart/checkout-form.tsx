@@ -265,7 +265,7 @@ const CheckoutForm = () => {
 
 								<div>
 									<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-										Company <span className="text-red-300 font-bold">*</span>
+										Company 
 									</label>
 									<input
 										type="text"

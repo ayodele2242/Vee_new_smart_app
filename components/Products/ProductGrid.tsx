@@ -217,7 +217,7 @@ interface ResponseDataItem {
       <div key={i} className="box-item flex justify-center border-2 border-gray-300 rounded-xl p-0 pb-3">
           <div className="relative">
                 <div className="h-26 rounded-lg bg-default-300">
-                  {product.images_url && product.images_url.length > 0 ? (
+                {product && product.images_url && product.images_url.length > 0 ? (
                    
                    <Image
                     src={product.images_url[0].url as string}

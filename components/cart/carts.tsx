@@ -323,7 +323,7 @@ const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 									Calculate Estimate
 								</button>
 			</form>
-			<div className="mb-4 mt-4">
+			{/*<div className="mb-4 mt-4">
 				<h3 className="font-300 font-bold">Shipped by Your Account</h3>
 				<div className="flex items-center">
 					<input
@@ -418,15 +418,19 @@ const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 						EMS Speed Post <b>$51.00</b>
 					</label>
 				</div>
-			</div>
-			<div className="flex justify-between text-md font-normal">
+			</div>*/}
+
+
+
+
+			<div className="flex justify-between text-md font-normal mt-3">
 				<p className="font-bold">Subtotal</p>
 				<p className="font-bold">{new Intl.NumberFormat('en-US', {
                           style: 'currency',
                           currency: 'USD'
                         }).format(overallSum)}</p>
 			</div>
-			<div className="flex justify-end text-md font-normal border-b border-gray-200">
+			{/*<div className="flex justify-end text-md font-normal border-b border-gray-200">
 				<p className="mt-2 mb-3">
 					Shipping (Table Rate - UPS Worldwide Expedited)
 				</p>
@@ -436,7 +440,7 @@ const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                           currency: 'USD'
                         }).format(overallSum)}
 				</p>
-			</div>
+			</div>*/}
 			<div className="inset-0">
 				<div className="h-[2px] w-auto bg-gray-200" />
 			</div>

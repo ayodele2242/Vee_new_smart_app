@@ -7,6 +7,7 @@ import { Suspense, lazy } from "react";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 import PageLoading from "@/components/PageLoading";
+import { ImageProvider } from "@/providers/ImageContext";
 
 
 export const metadata: Metadata = {
@@ -44,12 +45,13 @@ export default function RootLayout({
 			  
 				<Providers themeProps={{ attribute: "class", defaultTheme: "white" }}>
 					
-				   
+				<ImageProvider>
 						<main className="w-full mainContainer " >
 						
 							{children}
 						
 						</main>
+				</ImageProvider>
 						
 					
 				</Providers>
