@@ -117,9 +117,7 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({ product
                     ) : (
                     <>
                     {!loading && product && (
-                       <Link href="/quick_order">
-                       <div className="rounded outline-2 outline-black radiou-border"> Quick Order</div>
-                     </Link>
+                      <></>
                     )}
                     </>
                 )}
