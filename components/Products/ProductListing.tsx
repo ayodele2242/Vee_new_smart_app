@@ -290,7 +290,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
               layoutType === "list" ? <ProductList products={products} sortOption={sortOption} /> : <ProductGrid products={products} sortOption={sortOption} />
             )}
 
-           {!loading && !error && products.length == 0 && (
+            {!loading && !error && products?.length === 0 && (
               <div className="text-center mt-5 mb-5 h-200 w-100 ">
                 <p className="text-danger color-[red]">No products found.</p>
               </div>

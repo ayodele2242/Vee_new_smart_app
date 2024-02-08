@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import useCartStore  from '@/store/cart';
 import { VeeCartItem } from '@/types/types';
-import {Breadcrumbs, BreadcrumbItem, Button} from "@nextui-org/react";
+import {Breadcrumbs, BreadcrumbItem, Button, Spinner} from "@nextui-org/react";
 import { Navbar } from "@/components/navbar";
 import Footer from "@/components/Home/Footer/Footer";
 import bgHeroLeft from "@/public/images/bgHeroLeft.png"; 
@@ -28,8 +28,9 @@ const CartPageComponent: React.FC = () => {
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const { cartItems, removeItemFromCart, removeMultipleItemsFromCart } = useCartStore();
   const [countries, setCountries] = useState<{ id: string; name: string }[]>([]);
-    const [selectedCountry, setSelectedCountry] = useState("")
-    const [states, setStates] = useState<{ id: string; name: string }[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState("")
+  const [states, setStates] = useState<{ id: string; name: string }[]>([]);
+  const [showSpinner, setShowSpinner] = useState(false);
 
 	const [formData, setFormData] = useState({
 		selectedCountry: "",
@@ -160,6 +161,10 @@ const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 	 // const localStorageService = new LocalStorageService("checkoutFormData");
 	 // localStorageService.setData("formData", formData);
 };
+
+const handleProceedToCheckout = () => {
+    setShowSpinner(true);
+  };
 
   return (
     <div className="w-full" style={{
@@ -455,9 +460,11 @@ const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 			</div>
 			<Link
 				href={"/cart/checkout"}
-				className="mt-4 bg-blue-500 px-4 py-3 flex justify-center rounded text-white hover:bg-blue-500 transition"
+				className="flex justify-center gap-4 mt-4 bg-blue-500 px-4 py-3 flex justify-center rounded text-white hover:bg-blue-500 transition"
+				onClick={handleProceedToCheckout}
 			>
-				Proceed to Checkout
+				{showSpinner && <Spinner  size="sm"/>} 
+				{showSpinner ? 'Please wait...' : 'Proceed to Checkout'}
 			</Link>
 			{/*<PayPalPayment className="-mt-8" />*/}
 		</div>

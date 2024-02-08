@@ -55,7 +55,7 @@ const SideBar: React.FC = () => {
             </Link>
           </li>
           <li className={isLinkActive('/account/address-book')}>
-            <Link href="#/account/address-book">
+            <Link href="/account/address-book">
              <ContactsOutlinedIcon fontSize="small" className="mr-1" />Address Book
             </Link>
           </li>
