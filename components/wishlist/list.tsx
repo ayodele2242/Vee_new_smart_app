@@ -33,6 +33,8 @@ interface ResponseDataItem {
 
 
 const Wishes: React.FC = () => {
+
+  
   const [bgHeroLeftSrc, setBgHeroLeftSrc] = useState<string | null>(null);
   const { push } = useRouter();
   const [activeButton, setActiveButton] = useState<number>(1);

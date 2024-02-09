@@ -46,7 +46,9 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
 
 
     // Sorting logic based on the selected option
-  const sortedProducts = [...products];
+  //const sortedProducts = [...products];
+  const sortedProducts = products ? [...products] : [];
+
   if (sortOption === "low-to-high") {
     sortedProducts.sort((a, b) => a.price_details.pricing.customerPrice - b.price_details.pricing.customerPrice);
   } else if (sortOption === "high-to-low") {

@@ -15,6 +15,7 @@ import Pagination from "@/pagination/Pagination";
 import { debounce } from "lodash";
 import SingleLoader from "@/loaders/singleLoader";
 import Link from "next/link";
+import { Spinner } from "@nextui-org/react";
 
 interface ProductListingProps {
   searchTerm: any;
@@ -28,6 +29,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
     const [bgHeroLeftSrc, setBgHeroLeftSrc] = useState<string | null>(null);
     const [selectedCategories, setSelectedCategories] = useState<{ category: string[] } | null>(null);
     const [loading, setLoading] = useState(false);
+    const [trackLoading, setTrackLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [products, setProducts] = useState<any[]>([]);
     const [pageNumber, setPageNumber] = useState(1);
@@ -71,6 +73,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
   
     const handlePageChange = (pageNumber: number) => {
       setCurrentPage(pageNumber);
+      setTrackLoading(true);
     
       // Capture the values at the time of defining the callback
       const currentSelectedCategories = selectedCategories?.category || [];
@@ -96,6 +99,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
     }) => {
       setError(null);
       setLoading(true);
+      setTrackLoading(true);
     
       if (!navigator.onLine) {
         setError("You are currently offline. Please check your internet connection.");
@@ -140,9 +144,11 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
     
             const totalPages = Math.ceil(dataToUse.recordsFound / itemPerPage);
             setTotalPages(totalPages);
+            setTrackLoading(false);
           }
         })
         .catch((error) => {
+          setTrackLoading(false);
           if (error.response) {
             if (error.response.status === 401) {
               setError("Please log in to access this content.");
@@ -175,6 +181,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
     };
   
     useEffect(() => {
+      setTrackLoading(true);
       // Check if the component is mounted
       if (isMounted.current) {
         if (typeof window !== 'undefined') {
@@ -286,15 +293,22 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
           <div className="productItems w-[100%] mt-5">
           {loading && <ProductsAnime  numberOfItems={5} />}
             {error && <p className="text-danger color-[red]">Error occured: {error}</p>}
-            {!loading && !error && (
+            {!loading && !error && !trackLoading && (
               layoutType === "list" ? <ProductList products={products} sortOption={sortOption} /> : <ProductGrid products={products} sortOption={sortOption} />
             )}
 
-            {!loading && !error && products?.length === 0 && (
+            {!loading && !error && !trackLoading && products?.length === 0 && (
               <div className="text-center mt-5 mb-5 h-200 w-100 ">
                 <p className="text-danger color-[red]">No products found.</p>
               </div>
             )}
+
+            {trackLoading && (
+              <div className="text-center mt-5 mb-5 h-200 w-100 ">
+                <Spinner />
+              </div>
+            )}
+
 
           </div>
           <div className="mt-4"></div>

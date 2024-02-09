@@ -19,6 +19,8 @@ const TabsPage: React.FC<TabPageProps> = ({product, loading}) => {
   const [messageData, setMessageData] = useState(undefined);
   const [url, setUrl] = useState('');
 
+  //console.log(JSON.stringify(product));
+
  
   const attributeValue = (product?.technicalSpecifications?.[0]?.attributeValue || '') || '';
 
@@ -108,7 +110,7 @@ useEffect(() => {
       {activeTab === 'tab1' && 
       <div className="tab-content pt-5">
         <div className="attributeName">
-        <span dangerouslySetInnerHTML={{ __html: genralInfo }} />
+        <span dangerouslySetInnerHTML={{ __html: product?.descr }} />
         </div>
         
         </div>}

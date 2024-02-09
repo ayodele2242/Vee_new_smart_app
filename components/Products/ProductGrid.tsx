@@ -46,7 +46,9 @@ interface ResponseDataItem {
     const [processingItemId, setProcessingItemId] = useState<string | null>(null);
     const [ingramId, setIngramId] = useState<string | null>(null);
    // Sorting logic based on the selected option
-   const sortedProducts = [...products];
+   //const sortedProducts = [...products];
+
+   const sortedProducts = products ? [...products] : [];
 
    
    if (sortOption === "low-to-high") {

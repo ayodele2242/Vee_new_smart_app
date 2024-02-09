@@ -22,7 +22,6 @@ import clsx from "clsx";
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import { ThemeSwitch } from "@/components/theme-switch";
 import UserMenus from "./UserMenus/page";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, User} from "@nextui-org/react";
 import SearchInput from "./SearchInput/page";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
