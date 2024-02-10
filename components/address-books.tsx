@@ -9,6 +9,7 @@ import { ApiRequestService } from '@/services/apiRequest.service';
 import Pagination from "@/pagination/Pagination";
 import ProductsAnime from '@/loaders/ProductsAime';
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
 	isUserLoggedIn,

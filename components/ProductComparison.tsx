@@ -190,11 +190,9 @@ const ProductComparison = () => {
 
         <div className="w-full flex justify-between bg-white pl-10 pr-10 ">
             <b>Favorite Products</b>
-
-            <div className="h-6 flex bg-gray-200 compare-container">Compare <span className="bg-gray-700 ml-3 text-white">0</span></div>
         </div>
 
-        <div className="w-full flex justify-between mobile bg-white lg:pl-10 pr-10 mt-9">
+        {/*<div className="w-full flex justify-between mobile bg-white lg:pl-10 pr-10 mt-9">
             <div className="compare-div  rounded-lg  lg:w-[400px] sm:w-full  flex row-display border border-gray-300 pr-5 pl-5">
                 <div className="w-30 h-30 searcIncon"><SearchOutlinedIcon fontSize="small" /></div>
                 <input
@@ -230,7 +228,7 @@ const ProductComparison = () => {
               <ListAltOutlinedIcon sx={{ fontSize: 25 }} onClick={handleLayoutToggle} />
                <GridViewOutlinedIcon sx={{ fontSize: 25 }} onClick={handleLayoutToggle} />
             </div>
-        </div>
+        </div>*/}
 
         <div className="w-full mainLayer  p-9">
         

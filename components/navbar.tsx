@@ -29,6 +29,7 @@ import { Logo } from "@/components/icons";
 import Partners from './Home/Partners';
 import About from './Home/About';
 import Header from './Home/Header/page';
+import Vendors from './Vendors';
 import Autocomplete from './SearchInput/Autocomplete/page';
 import {
 	isUserLoggedIn,
@@ -58,6 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 	const isScrolledRef = useRef(isScrolled);
 	const [isOpen, setIsOpen] = useState(false);
 	const [isBrandOpen, setIsBrandOpen] = useState(false);
+	const [isVendorsOpen, setIsVendorsOpen] = useState(false);
 	const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
 	const dropdownRef: RefObject<HTMLDivElement> = useRef(null);
 	const [isOtherDropdownOpen, setOtherDropdownOpen] = useState(false);
@@ -129,10 +131,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 		toggleDropdown();
 	    setIsBrandOpen(false);
 		setIsAboutUsOpen(false);
+		setIsVendorsOpen(false);
 	} else if (item.label === 'Partners') {
 		toggleBrandDropdown();
 		setIsOpen(false);
 		setIsAboutUsOpen(false);
+		setIsVendorsOpen(false);
 	} else if (item.label === 'Deals') {
 	  // Handle dropdown for Deals
 	  // Implement your dropdown logic for Deals
@@ -141,9 +145,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 		toggleAboutUsDropdown();
 		setIsOpen(false);
 		setIsBrandOpen(false);
+		setIsVendorsOpen(false);
+	}else if (item.label === 'Vendors') {
+		toggleVendorsDropdown();
+		setIsOpen(false);
+		setIsBrandOpen(false);
 	} else {
 	  //console.log('Navigate to link page:', item.href);
 	}
+  };
+
+  const toggleVendorsDropdown = () => {
+    setIsOpen(!isVendorsOpen);
   };
 
   const toggleDropdown = () => {
@@ -179,6 +192,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
         setIsOpen(false);
 		setIsBrandOpen(false);
 		setIsAboutUsOpen(false);
+		setIsVendorsOpen(false);
       }
     };
   
@@ -199,11 +213,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 	  } else {
 		document.removeEventListener('mousedown', handleOutsideClick as unknown as EventListener);
 	  }
+
+	  if (isVendorsOpen) {
+		document.addEventListener('mousedown', handleOutsideClick as unknown as EventListener);
+	  } else {
+		document.removeEventListener('mousedown', handleOutsideClick as unknown as EventListener);
+	  }
   
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick as unknown as EventListener);
     };
-  }, [isOpen, isBrandOpen, isAboutUsOpen]);
+  }, [isOpen, isBrandOpen, isAboutUsOpen, isVendorsOpen]);
   
 
  
@@ -341,6 +361,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 								<div className="partners-dropdown-menu">
 									<div className="partners-dropdown-menu-inner">
 										<About />
+										
+									</div>
+								</div>
+					    )}
+
+                         {isVendorsOpen && (
+								<div className="partners-dropdown-menu">
+									<div className="partners-dropdown-menu-inner">
+										<Vendors />
 										
 									</div>
 								</div>
