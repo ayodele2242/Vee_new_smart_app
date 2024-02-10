@@ -34,11 +34,11 @@ const Vendors: React.FC = () => {
     const fetchData = async () => {
         try {
           const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/sellers/getSeller');
-          if (!response.status == true) {
-            throw new Error('Failed to fetch data');
-          }
           const responseData = await response.json();
-          setProducts(responseData.data);
+          if (typeof responseData.data !== 'object' || Array.isArray(responseData.data)) {
+            throw new Error('Invalid data structure: expected an object');
+          }
+          setProducts([responseData.data]);
         } catch (error: any) {
           setError(error.message || 'An error occurred while fetching data');
         } finally {
@@ -68,11 +68,11 @@ const Vendors: React.FC = () => {
 
 
   return (
-    <div className="productsContainer">
+    <div className="productsContainers">
         
-      <div className='childrenCategories'>
-            {products.map((vendor) => (
-                <div  key={vendor.id} className="vendor w-full" >
+      <div className='childrenCategory'>
+            {products.map((vendor: any) => (
+                <div  key={vendor.id} className="vendor w-full cursor-pointer hover:text-yellow-600 font-bold  mb-2" >
                   <Link href={`products?search=${vendor.name}`}>{vendor.name}</Link>   
 
                 </div>
