@@ -34,11 +34,11 @@ const Vendors: React.FC = () => {
     const fetchData = async () => {
         try {
           const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/sellers/getSeller');
-          if (!response.status == false) {
+          if (!response.status == true) {
             throw new Error('Failed to fetch data');
           }
           const responseData = await response.json();
-          setProducts(responseData);
+          setProducts(responseData.data);
         } catch (error: any) {
           setError(error.message || 'An error occurred while fetching data');
         } finally {
