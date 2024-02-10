@@ -504,6 +504,33 @@ input:-webkit-autofill:active {
   background-color: #fff;
 }
 
+.vendors-dropdown-menu{
+  position: absolute;
+  top: 59px;
+  right: 320px;
+  width: 300px;
+  height: auto;
+  padding: 13px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: width 0.5s, height 0.5s;
+  transition-delay: 0s, 0.75s;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.vendors-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  z-index: -1;
+}
+
 
 .partners-dropdown-menu{
   position: absolute;

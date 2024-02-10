@@ -146,7 +146,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 		setIsOpen(false);
 		setIsBrandOpen(false);
 		setIsVendorsOpen(false);
-	}else if (item.label === 'Vendors') {
+	}else if (item.label === 'Brands') {
 		toggleVendorsDropdown();
 		setIsOpen(false);
 		setIsBrandOpen(false);
@@ -156,7 +156,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
   };
 
   const toggleVendorsDropdown = () => {
-    setIsOpen(!isVendorsOpen);
+    setIsVendorsOpen(!isVendorsOpen);
   };
 
   const toggleDropdown = () => {
@@ -349,6 +349,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 								</div>
 					    )}
 
+                        {isVendorsOpen && (
+								<div className="vendors-dropdown-menu">
+									<div className="partners-dropdown-menu-inner">
+										<Vendors />
+										
+									</div>
+								</div>
+					    )}
+
+
                         {isBrandOpen && (
 								<div className="partners-dropdown-menu">
 									<div className="partners-dropdown-menu-inner">
@@ -366,14 +376,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 								</div>
 					    )}
 
-                         {isVendorsOpen && (
-								<div className="partners-dropdown-menu">
-									<div className="partners-dropdown-menu-inner">
-										<Vendors />
-										
-									</div>
-								</div>
-					    )}
+                        
 
 					</div>
 

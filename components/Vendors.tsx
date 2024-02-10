@@ -4,6 +4,7 @@ import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRig
 import { useRouter } from 'next/navigation';
 import SkeletonList from '@/loaders/SkeletonList';
 import { ApiRequestService } from '@/services/apiRequest.service';
+import Link from 'next/link';
 
 const INITIAL_DISPLAY_COUNT = 10;
 interface ResponseDataItem {
@@ -30,69 +31,35 @@ const Vendors: React.FC = () => {
 
 
   useEffect(() => {
-    fetchData('sellers/getSeller', 1);
-  }, []);
-
-  const fetchData = async (url: string, pageNumber: number) => {
-    try {
-      
-      let payload = {};
-      let userJson = localStorage.getItem("user");
-      if (!userJson) return;
-      let user = JSON.parse(userJson);
-  
-  
-      payload = {
-        action: "get",
+    const fetchData = async () => {
+        try {
+          const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/sellers/getSeller');
+          if (!response.status == false) {
+            throw new Error('Failed to fetch data');
+          }
+          const responseData = await response.json();
+          setProducts(responseData);
+        } catch (error: any) {
+          setError(error.message || 'An error occurred while fetching data');
+        } finally {
+          setLoading(false);
+        }
       };
   
-      const response = await ApiRequestService.callAPI<ResponseDataItem>(JSON.stringify(payload), url);
-      const responseData = response.data;
-  
-    
-      if (response.status === 200) {
-        const { status, message, data } = responseData;
-        setProducts(responseData.data);
-        setError(null);
-        setLoading(false);
-                    
-    } else {
-        const { status, message } = responseData;
-        setBackendResponse(status);
-        setLoading(false);
-    }
-      
-    } catch (error: any) {
-      console.error('Error fetching orders:', error);
-      setLoading(false);
-      if (error.response) {
-        if (error.response.status === 401) {
-          setError("Please log in to access this content.");
-        } else if (error.response.status === 403) {
-          setError("You do not have permission to access this content.");
-        } else {
-          setError("An error occurred on the server. Please try again later.");
-        }
-      } else if (error.request) {
-        setError("No response from the server. Please try again later.");
-      } else {
-        setError("An unexpected error occurred. Please try again later.");
-      }
-    }
-  };
-  
+      fetchData();
+  }, []);
 
- 
+  
 
   if (loading) {
-    return <div className="w-[400px] "><SkeletonList numberOfItems={5} /></div>;
+    return <div><SkeletonList numberOfItems={5} /></div>;
   }
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  if (categories.length === 0) {
+  if (products?.length === 0) {
     return <div>No data available.</div>;
   }
 
@@ -106,7 +73,7 @@ const Vendors: React.FC = () => {
       <div className='childrenCategories'>
             {products.map((vendor: any) => (
                 <div  key={vendor.id} className="vendor w-full" >
-                    {vendor.name}
+                  <Link href={`products?search=${vendor.name}`}>{vendor.name}</Link>   
 
                 </div>
                
