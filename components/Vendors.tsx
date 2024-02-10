@@ -71,7 +71,7 @@ const Vendors: React.FC = () => {
     <div className="productsContainer">
         
       <div className='childrenCategories'>
-            {products.map((vendor: any) => (
+            {products.map((vendor) => (
                 <div  key={vendor.id} className="vendor w-full" >
                   <Link href={`products?search=${vendor.name}`}>{vendor.name}</Link>   
 
