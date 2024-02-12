@@ -236,42 +236,46 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                            <div className="flex form-group ">
                             <label className="mr-3">Last Name</label>
                             <input
-										type="text"
-										name="last_name"
-										id="last_name"
-                                        value={lName}
-										onChange={handleChange}
-                                        className="inputs"
-                                        />
+                              type="text"
+                              name="last_name"
+                              id="last_name"
+                              value={lName}
+										          onChange={handleChange}
+                              className="inputs bg-gray-100"
+                              readOnly
+                              />
                            </div>
                            <div className="flex form-group ">
                             <label className="mr-3">First Name</label>
                             <input
-										type="text"
-										name="first_name"
-										id="first_name"
-                                        value={fName}
-										onChange={handleChange}
-                                        className="inputs"
-                                        />
+                              type="text"
+                              name="first_name"
+                              id="first_name"
+                              value={fName}
+									           	onChange={handleChange}
+                              className="inputs bg-gray-100"
+                              readOnly
+                              />
                            </div>
                            <div className="flex form-group">
                             <label className="mr-3">Phone</label>
                             <input
-										type="text"
-										name="phone"
-										id="phone"
-                                        value={phone}
-										onChange={handleChange}
-                                        className="inputs"
-                                        />
+                              type="text"
+                              name="phone"
+                              id="phone"
+                              value={phone}
+										           onChange={handleChange}
+                                className="inputs bg-gray-100"
+                                readOnly
+                                />
                            </div>
                            <div className="flex form-group">
                             <label className="mr-3">Country / Region</label>
                              <select
                                     value={selectedCountry}
                                     onChange={handleCountryChange}
-                                    className=""
+                                    className="bg-gray-100"
+                                    
                                 >
                                     
                                     {countries.map((country) => (

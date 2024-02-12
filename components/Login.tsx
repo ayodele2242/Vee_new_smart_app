@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation"
 import Footer from './Home/Footer/Footer';
 import { ApiRequestService } from '@/services/apiRequest.service';
 import Link from 'next/link';
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 
 interface ResponseDataItem {
     status: string;
@@ -25,7 +26,10 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isEmilLoading, setIsEmailLoading] = useState(false);
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const { push } = useRouter()
 
   const [formData, setFormData] = useState({
@@ -37,6 +41,42 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 };
+
+const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+
+  const handleRecoverPassword = async () => {
+    setIsEmailLoading(true);
+
+    try {
+      const response = await ApiRequestService.callAPI<any>({ email }, "auth/pwdRecovery");
+      if (response.status === 200) {
+		const responseData = response.data;
+		//console.log("Data ", responseData)
+		setIsEmailLoading(false);
+		if (responseData.status === false) {
+			toast.error(responseData.message)
+		} else if (responseData.status === true) {
+			toast.success(responseData.message);
+			setEmail('');
+		}
+	} else {
+		setIsEmailLoading(false);
+		if (response.status === 400) {
+			const responseData = response.data
+			toast.error(responseData.message)
+		}
+	}
+    } catch (error: any) {
+      // Handle network or other errors
+	  toast.error("An error occurred during password recovery:", error)
+      
+    } finally {
+		setIsEmailLoading(false);
+    }
+  };
 
 
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -164,12 +204,13 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 											</label>
 										</div>
 									</div>
-									<a
-										href="#"
-										className="text-sm font-medium text-yellow-600 hover:underline dark:text-yellow-500"
+									<span
+										
+										className="text-sm font-medium text-yellow-600 hover:underline dark:text-yellow-500 cursor-pointer"
+										onClick={onOpen}
 									>
 										Forgot password?
-									</a>
+									</span>
 								</div>
 								<button
 									type="submit"
@@ -194,6 +235,48 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 						</div>
 					</div>
     </div>
+
+	<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+	   <ModalContent>
+		   {(onClose) => (
+			 <>
+			   <ModalHeader className="flex flex-col gap-1">Recover Password</ModalHeader>
+			   <ModalBody>
+			   
+				 <div className="p-3 w-full text-gray-500">
+				  Enter your registered email address. A new password will be forwarded to your email address.
+				 </div>
+				 <div className="p-3 w-full text-gray-500">
+				 <form className="max-w-sm mx-auto">
+					<div className="mb-1">
+						<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+						<input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+						focus:ring-yello-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 
+						dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" 
+						placeholder="name@xyz.com"
+						 required 
+						 value={email}
+                        onChange={handleEmailChange}/>
+					</div>
+					
+					
+					</form>
+
+				 </div>
+			   </ModalBody>
+			   <ModalFooter>
+				 <Button color="danger" variant="light" onClick={onClose}>
+				   Close
+				 </Button>
+				 <Button  className="text-white bg-yellow-600" onClick={handleRecoverPassword} disabled={isEmilLoading}>
+                  {isEmilLoading ? 'Recovering...' : 'Recover'}
+                </Button>
+			   </ModalFooter>
+			 </>
+		   )}
+		 </ModalContent>
+	   </Modal>
+
     <ToastContainer />
       <Footer />
     </div>

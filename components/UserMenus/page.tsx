@@ -36,16 +36,25 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
   const [userName, setUserName] = useState('');
   const [truncatedUserName, setTruncatedUserName] = useState('');
   const { uploadedImage } = useImage();
-
-
-
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
 
   const profileName =
 		userData && userData.profile_name ? userData.profile_name : "Guest"
+  
+
+  
 
 
 
-
+  useEffect(() => {
+    // Check if localStorage is available (client-side)
+    if (typeof window !== 'undefined' && localStorage.getItem('uploadedImage')) {
+      const img = localStorage.getItem('uploadedImage');
+      setProfilePicture(img);
+    } else {
+      setProfilePicture(uploadedImage);
+    }
+  }, [uploadedImage]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -90,10 +99,14 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
       <div className="dropdown-icon user-menus " onClick={toggleDropdown}>
        <div className="user-icon">
         
-       {uploadedImage && (
-        <Avatar src={uploadedImage} className="w-6 h-6 text-tiny mr-2"  />
+       {profilePicture && isLogin && (
+        <Avatar src={profilePicture} className="w-6 h-6 text-tiny mr-2"  />
       )}
-      {!uploadedImage && (
+      {!profilePicture && isLogin && (
+        <PermIdentityOutlinedIcon fontSize="large" className=""/>
+      )}
+
+      {!isLogin && (
         <PermIdentityOutlinedIcon fontSize="large" className=""/>
       )}
         
@@ -145,10 +158,10 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
              <>
             <div className="profile-header w-full">
               <div className='profileAvatar'>
-                {uploadedImage && (
-                  <Avatar  src={uploadedImage} className="w-6 h-6 text-tiny"  />
+                {profilePicture && (
+                  <Avatar  src={profilePicture} className="w-6 h-6 text-tiny"  />
                 )}
-                {!uploadedImage && (
+                {!profilePicture && (
                   <PermIdentityOutlinedIcon fontSize="large" className="mr-3 userIcon"/>
                 )}
               </div>

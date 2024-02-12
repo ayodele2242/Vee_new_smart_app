@@ -79,6 +79,8 @@ interface ResponseDataItem {
 
   
       useEffect(() => {
+       
+
         fetchData('orders/shippingAddress', 1);
       }, [searchQuery, searchType]);
     
@@ -274,7 +276,7 @@ interface ResponseDataItem {
         {!loading && (
           
         <>
-        {products.map((product, index) => (
+        {products && products.map((product, index) => (
         <div key={index} className="w-full bg-white p-3 mb-3 flex flex-col lg:flex-row">
           {editIndex === index ? (
             <div className="flex column-display w-full lg:mr-3 p-3">
@@ -373,6 +375,13 @@ interface ResponseDataItem {
           )}
         </div>
       ))}
+
+      {!products && (
+      <div className="text-red-500 font-bold w-full h-[100%] flex justify-center bg-red-100 p-9">No shipping address available.</div>
+      )}
+
+
+
         </>
 
         )}
