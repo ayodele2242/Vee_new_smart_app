@@ -239,7 +239,7 @@ const ProductComparison = () => {
             {!loading && !error && (
 
                 <>
-                {products.map((product, i) => (
+                {products && products.map((product, i) => (
                  
                  <div key={i} className="box-item flex justify-center border-2 border-gray-300 rounded-xl p-0 pb-3">
                  <div className="relative">

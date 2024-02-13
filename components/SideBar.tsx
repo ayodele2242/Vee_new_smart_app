@@ -34,7 +34,7 @@ const SideBar: React.FC = () => {
             </Link>
           </li>
           <li className={isLinkActive('/account/messages')}>
-            <Link href="/account/messages">
+            <Link href="/messages">
              
                 <MessageOutlinedIcon fontSize="small" className="mr-1"/> Messages
              
