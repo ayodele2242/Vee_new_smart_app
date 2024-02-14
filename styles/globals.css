@@ -1547,8 +1547,125 @@ flex-direction: row;
   align-items: center;
 }
 
+.iChats{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.chat-body{
+position: absolute;
+display: flex;
+flex-direction: column;
+width: 100%;
+bottom: 0;
+
+}
+
+.messages-container{
+  width: 100%;
+  height: 100%;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.mediaContainer{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.mediaItem{
+  position: relative;
+  width: 50px;
+  margin: 6px;
+  height: 50px;
+  background: #fff;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.mediaItem img, .mediaItem video{
+width: 100%;
+height: 100%;
+}
+
+.delBtn{
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #c90404;
+  border-radius: 50%;
+  font-size: 12px;
+  color: #fff;
+  top: 2px;
+  right: 2px;
+  z-index: 9009;
+}
+
+
+.text-area-container{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: none;
+ 
+}
+
+.text-area-container textarea{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+ width: 85%;
+ outline: none;
+}
+
+.text-area-container textarea:hover, .text-area-container textarea:active, .text-area-container textarea:focus{
+  border: none;
+  outline: none;
+}
+
+.text-area-container .iconBtn{
+  width: 40px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 20px;
+  margin: 10px
+ }
+
+ .bottomDiv{
+  position: relative !important;
+ }
+
+ .emojiContainer{
+  position: absolute;
+  bottom: 70px;
+  z-index: 2001;
+ }
+
 
    @media screen and (max-width: 768px) {
+
+    .iChats{
+      margin-top: 20px !important;
+      height: 70vh;
+    }
 
     .content-div{
       width: 100%;
