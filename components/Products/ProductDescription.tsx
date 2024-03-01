@@ -51,8 +51,9 @@ const currentYear = currentDate.getFullYear();
         <>
          <h2 className="font-extrabold">{product?.description}</h2>
          <div className="text-sm w-full mb-8">
-            {product?.productCategory} - {product?.productSubCategory} - {product?.price_details?.extendedVendorPartNumber} 
-            - {product?.price_details?.uom} - {product?.price_details?.productClass}
+         {product?.descr}
+            {/*product?.productCategory} - {product?.productSubCategory} - {product?.price_details?.extendedVendorPartNumber} 
+            - {product?.price_details?.uom} - {product?.price_details?.productClass*/}
         </div>
         </>
         )}
@@ -128,6 +129,7 @@ const currentYear = currentDate.getFullYear();
 
                     <div className="topDev w-full mt-2">
                     {loading && !product ? (
+                      
                     <div className="w-[50px] mt-3 mr-3">
                     <SingleLoader numberOfItems={1} />
                     </div>
@@ -171,13 +173,31 @@ const currentYear = currentDate.getFullYear();
                     ) : (
                     <>
                     {!loading && product && (
-                    
-                    <h4 className="text-1xl lg:text-2xl font-bold ">
+                    <>
+                    {product?.pricing?.customerPrice ? (
+                    <>
+                  <h6 className="text-1xl lg:text-2xl font-bold">
                     {new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'USD'
-                            }).format(product?.pricing?.customerPrice)}
-                     </h4>
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(product?.pricing?.customerPrice)}
+                  </h6>
+                  <p>MSRP  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                  }).format(product?.pricing.retailPrice)} </p>
+                  <p>EXCL TAX</p>
+                  </>
+                ) : (
+                  <h6 className="text-1xl lg:text-2xl font-bold">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(0.0)}
+                  </h6>
+                )}
+                    </>
+                    
                     )}
                         </>
                     

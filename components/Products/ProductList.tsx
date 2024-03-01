@@ -206,7 +206,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
 
     };
       
-      
+   
 
     
   return (
@@ -263,8 +263,9 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
                  
                   </div>
 
-                <div className="text-sm font-semibold">
-                  {product.category} - {product.subCategory} - {product.productType} - {product.vendorName}
+                <div className="text-sm font-normal">
+                {product.descr}
+                  {/*product.category} - {product.subCategory} - {product.productType} - {product.vendorName*/}
                 </div>
 
                 <div className="w-100 itemListMe mt-1">
@@ -308,13 +309,28 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
               <div className="">
                 <div className="h-24">
                   <div className="">
-                     <h6 className="text-1xl lg:text-2xl font-bold ">
-                       
-                        {new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: 'USD'
-                        }).format(product?.price_details?.pricing?.customerPrice)}
-                    </h6>
+                  {product.price_details?.pricing?.customerPrice ? (
+                    <>
+                  <h6 className="text-1xl lg:text-2xl font-bold">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(product.price_details.pricing.customerPrice)}
+                  </h6>
+                  <p>MSRP  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                  }).format(product.price_details.pricing.retailPrice)} </p>
+                  <p>EXCL TAX</p>
+                  </>
+                ) : (
+                  <h6 className="text-1xl lg:text-2xl font-bold">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(0.0)}
+                  </h6>
+                )}
                   </div>
 
 

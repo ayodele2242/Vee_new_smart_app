@@ -8,6 +8,12 @@ interface TabPageProps{
   product: any;
 }
 
+interface TechnicalSpecification {
+  headerName: string;
+  attributeName: string;
+  attributeValue: string;
+}
+
 const TabsPage: React.FC<TabPageProps> = ({product, loading}) => {
 
   const ref = useRef<HTMLIFrameElement>(null);
@@ -18,8 +24,7 @@ const TabsPage: React.FC<TabPageProps> = ({product, loading}) => {
   const [genralInfo,  setGeneralInfo] = useState('');
   const [messageData, setMessageData] = useState(undefined);
   const [url, setUrl] = useState('');
-
-  //console.log(JSON.stringify(product));
+  const groupedSpecifications: Record<string, TechnicalSpecification[]> = {};
 
  
   const attributeValue = (product?.technicalSpecifications?.[0]?.attributeValue || '') || '';
@@ -27,6 +32,20 @@ const TabsPage: React.FC<TabPageProps> = ({product, loading}) => {
   const attributeDisplay = (product?.technicalSpecifications?.[0]?.attributeDisplay || '') || '';
 
   const technicalSpecifications = product?.technicalSpecifications || '';
+
+// Group the attributes by headerName
+// Group the attributes by headerName
+if (Array.isArray(product?.technicalSpecifications)) {
+  product?.technicalSpecifications.forEach((spec: TechnicalSpecification) => {
+    if (!groupedSpecifications[spec.headerName]) {
+      groupedSpecifications[spec.headerName] = [];
+    }
+    groupedSpecifications[spec.headerName].push(spec);
+  });
+} else {
+  console.error("technicalSpecifications is not an array.");
+}
+
 
   const onLoad = () => {
     if (ref.current?.contentWindow) {
@@ -118,14 +137,17 @@ useEffect(() => {
       <div className="tab-content">
        
           
-       {Array.isArray(technicalSpecifications) && technicalSpecifications.map((spec: any, index: number) => (
-          <div className="informationDetails" key={index}>
-              <div className="attributeName"><strong>Attribute Name:</strong> {spec.attributeName}</div>
-              <div className="attributeDisplay"><strong>Attribute Display:</strong> <span dangerouslySetInnerHTML={{ __html: spec.attributeDisplay }} /></div>
-              <div className="attributeValue"><strong>Attribute Value:</strong> <span dangerouslySetInnerHTML={{ __html: spec.attributeValue }} /> </div>
-            
-          </div>
-        ))}
+       {Object.entries(groupedSpecifications).map(([headerName, attributes]) => (
+    <div key={headerName} className="group informationDetails">
+        <div className="bg-gray-200 p-3 ">{headerName}</div>
+          {attributes.map((spec, index) => (
+              <div className="informationDetail mb-1 p-3 w-full" key={index}>
+                  <div className="lg:w-[300px]">{spec.attributeName}</div>  <div><span dangerouslySetInnerHTML={{ __html: spec.attributeValue }} /></div>
+              </div>
+          ))}
+      </div>
+  ))}
+
       
 
       </div>}

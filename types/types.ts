@@ -44,6 +44,7 @@ interface AvailabilityByWarehouse {
   }
   
   interface Product {
+    descr: ReactNode;
     product_price(product_price: any): number | bigint;
     customerPrice?: any;
     detail?: string;

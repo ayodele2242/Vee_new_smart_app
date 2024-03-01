@@ -119,7 +119,10 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                     password: "",
                     cpassword: "",
                 });
-                push("/login");
+				setTimeout(function() {
+					push("/login");
+				}, 4000);
+               
             }
         } else {
             setIsLoading(false);
@@ -134,7 +137,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         }
     } catch (error) {
         setIsLoading(false);
-        toast.error("An error occurred while logging in.")
+        toast.error("An error occurred while Registering. Please try again later");
        
     }
 }

@@ -37,9 +37,11 @@ const VerifyComponent: React.FC<Props> = ({ verifyKey }) => {
 
                     if (responseData.status === false) {
                         toast.error("Error occurred: " + responseData.message);
-                    } else if (responseData.status === true) {
+                    } else{
                         toast.success(responseData.message);
-                        push("/login");
+                        setTimeout(function() {
+                            push("/login");
+                        }, 2000);
                     }
                 } else if (response.status === 400) {
                     const responseData = response.data;

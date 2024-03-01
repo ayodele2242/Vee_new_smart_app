@@ -255,7 +255,7 @@ interface ResponseDataItem {
                   </Link>
                 </div>
                 <div className="text-sm font-semibold p-2">
-                  {product.category} - {product.subCategory} - {product.productType} - {product.vendorName}
+                  {product?.descr}
                 </div>
 
                 <div className="w-100 itemListMe mt-1">
@@ -296,13 +296,28 @@ interface ResponseDataItem {
            <div className="w-100 p-2">
              
                <div className="">
-                  <h6 className="text-1xl lg:text-2xl font-bold ">
-                    
-                     {new Intl.NumberFormat('en-US', {
-                         style: 'currency',
-                         currency: 'USD'
-                     }).format(product?.price_details?.pricing?.customerPrice)}
-                 </h6>
+               {product.price_details?.pricing?.customerPrice ? (
+                    <>
+                  <h6 className="text-1xl lg:text-2xl font-bold">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(product.price_details.pricing.customerPrice)}
+                  </h6>
+                  <p>MSRP  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                  }).format(product.price_details.pricing.retailPrice)} </p>
+                  <p>EXCL TAX</p>
+                  </>
+                ) : (
+                  <h6 className="text-1xl lg:text-2xl font-bold">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(0.0)}
+                  </h6>
+                )}
                </div>
 
 

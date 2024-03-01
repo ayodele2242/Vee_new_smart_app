@@ -97,25 +97,16 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
   return (
     <div className="dropdown" ref={dropdownRef}>
       <div className="dropdown-icon user-menus " onClick={toggleDropdown}>
-       <div className="user-icon">
+      {/* <div className="user-icon">
         
-       {profilePicture && isLogin && (
-        <Avatar src={profilePicture} className="w-6 h-6 text-tiny mr-2"  />
-      )}
-      {!profilePicture && isLogin && (
-        <PermIdentityOutlinedIcon fontSize="large" className=""/>
-      )}
-
-      {!isLogin && (
-        <PermIdentityOutlinedIcon fontSize="large" className=""/>
-      )}
+      
         
-        </div>
+  </div>*/}
        <div className="user-name cursor-pointer hidden sm:flex md:flex system-only">
 
        {isLoading && (
             <>
-              <div className="greeting txt-smaller mb-1"><SingleLoader numberOfItems={1} /></div>
+              {/*<div className="greeting txt-smaller mb-1"><SingleLoader numberOfItems={1} /></div>*/}
               <div className="iname text-sm font-bold flex user-description"><SingleLoader numberOfItems={1} /> <KeyboardArrowDownOutlinedIcon /></div>
             </>
         )}
@@ -123,17 +114,34 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
 
        {isLogin && !isLoading && (
             <>
-              <div className="greeting txt-smaller">Hi</div>
-              <div className="iname text-sm font-bold flex user-description truncate text-ellipsis lg:w-[70px]">{profileName} <KeyboardArrowDownOutlinedIcon /></div>
+              {/*<div className="greeting txt-smaller">Hi</div>*/}
+              <div className="iname text-sm font-bold flex user-description truncate text-ellipsis lg:w-[150px]">
+                    <span>
+                    {profilePicture && isLogin && (
+                      <Avatar src={profilePicture} className="w-6 h-6 text-tiny mr-2"  />
+                    )}
+                    {!profilePicture && isLogin && (
+                      <PermIdentityOutlinedIcon fontSize="large" className=""/>
+                    )}
+                      <span className="profile-name">{profileName}</span> <KeyboardArrowDownOutlinedIcon /></span>
+                  </div>
             </>
           )}
 
-       {!isLogin && !isLoading && (
+        {!isLogin && !isLoading && (
             <>
-              <div className="greeting txt-smaller">Welcome</div>
-              <div className="iname text-sm font-bold flex row-layout">Login / Signup <KeyboardArrowDownOutlinedIcon /></div>
+             
+              <div className="iname text-sm font-bold flex row-layout">
+                <span>
+                  {!isLogin && (
+                    <PermIdentityOutlinedIcon fontSize="large" className="" />
+                  )}
+                  
+                  Login / Signup <KeyboardArrowDownOutlinedIcon />
+                </span>
+              </div>
             </>
-        )}
+          )}
        </div>
       </div>
 
