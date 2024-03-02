@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Paper, InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { fetchSearch } from "@/services/product.service";
+import { fetchDefaultSearch } from "@/services/product.service";
 import useRouting from "@/hooks/routing";
 import Link from 'next/link';
 
@@ -52,9 +52,11 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleSearch(searchTerm); // Pass the searchTerm as an argument
+      e.preventDefault(); // Prevent the default behavior of form submission
+      goToProduct(searchTerm); // Directly search the item on the products page
     }
   };
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -77,9 +79,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
             pageNumber: pageNumber,
           };
 
-          fetchSearch(JSON.stringify(payload))
+          fetchDefaultSearch(JSON.stringify(payload))
             .then((data) => {
-              console.log(JSON.stringify(data));
+              //console.log(JSON.stringify(data));
               const suggestionsData = data.data.map(
                 (product: { description: string; ingramPartNumber: string }) => ({
                   description: product.description,
