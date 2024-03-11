@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useState, useRef, MouseEvent, RefObject, useEffect } from 'react';
 import { useShoppingCart } from "use-shopping-cart";
 import {
-	Navbar as NextUINavbar,
-	NavbarContent,
-	NavbarMenu,
-	NavbarMenuToggle,
-	NavbarBrand,
-	NavbarItem,
-	NavbarMenuItem,
+    Navbar as NextUINavbar,
+    NavbarContent,
+    NavbarMenu,
+    NavbarMenuToggle,
+    NavbarBrand,
+    NavbarItem,
+    NavbarMenuItem,
 } from "@nextui-org/navbar";
 import Image from "next/image";
 import { Button } from "@nextui-org/button";
@@ -32,405 +32,383 @@ import Header from './Home/Header/page';
 import Vendors from './Vendors';
 import Autocomplete from './SearchInput/Autocomplete/page';
 import {
-	isUserLoggedIn,
-	getUserData,
-	redirectToLoginPage,
+    isUserLoggedIn,
+    getUserData,
+    redirectToLoginPage,
 } from "@/auth/auth";
 
 import { fetchCart } from "@/services/requestAll.service"
 //import { useCartStore } from "@/hooks/store/cart.store"
-import  useCartStore  from '@/store/cart';
+import useCartStore from '@/store/cart';
 import { useRouter, useSearchParams } from "next/navigation";
 
 
 interface NavbarProps {
-	onSelectedCategoriesChange: (selectedCategories: { category: string[] }) => void;
-	hideUserMenus?: boolean;
+    onSelectedCategoriesChange: (selectedCategories: { category: string[] }) => void;
+    hideUserMenus?: boolean;
 }
-
 
 
 export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hideUserMenus }) => {
 
 
-	const router = useRouter();
-	const { get } = useSearchParams();
-	const [isScrolled, setIsScrolled] = useState(false);
-	const isScrolledRef = useRef(isScrolled);
-	const [isOpen, setIsOpen] = useState(false);
-	const [isBrandOpen, setIsBrandOpen] = useState(false);
-	const [isVendorsOpen, setIsVendorsOpen] = useState(false);
-	const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
-	const dropdownRef: RefObject<HTMLDivElement> = useRef(null);
-	const [isOtherDropdownOpen, setOtherDropdownOpen] = useState(false);
-	const [activeLink, setActiveLink] = useState<string | null>(null);
-	const [totalItemsInCart, setTotalItemsInCart] = useState<number>(0);
-	const search = get("search")
-	const { cartItems } = useCartStore();
-	const [cartCount, setCartCount] = useState<number>(cartItems.length);
-	const [loaded, setLoaded] = useState(false);
-
-
-	useEffect(() => {
-		// Update cartCount whenever cart change
-		setCartCount(cartItems.length);
-		setLoaded(true); // Set loaded to true once cart is available
-	  }, [cartItems]);
+    const router = useRouter();
+    const { get } = useSearchParams();
+    const [isScrolled, setIsScrolled] = useState(false);
+    const isScrolledRef = useRef(isScrolled);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isBrandOpen, setIsBrandOpen] = useState(false);
+    const [isVendorsOpen, setIsVendorsOpen] = useState(false);
+    const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
+    const dropdownRef: RefObject<HTMLDivElement> = useRef(null);
+    const [isOtherDropdownOpen, setOtherDropdownOpen] = useState(false);
+    const [activeLink, setActiveLink] = useState<string | null>(null);
+    const [totalItemsInCart, setTotalItemsInCart] = useState<number>(0);
+    const search = get("search")
+    const { cartItems } = useCartStore();
+    const [cartCount, setCartCount] = useState<number>(cartItems.length);
+    const [loaded, setLoaded] = useState(false);
 	
 
-	
+
+    useEffect(() => {
+        // Update cartCount whenever cart change
+        setCartCount(cartItems.length);
+        setLoaded(true); // Set loaded to true once cart is available
+    }, [cartItems]);
+
+
     const isLoggedIn = isUserLoggedIn();
-	
-
-	useEffect(() => {
-		isScrolledRef.current = isScrolled;
-	  }, [isScrolled]);
-	
-	  useEffect(() => {
-		const handleScroll = () => {
-		  const scrollTop = window.scrollY;
-		  const scrollThreshold = 30;
-		  const isScrollPastThreshold = scrollTop > scrollThreshold;
-	
-		  setIsScrolled(isScrollPastThreshold);
-		};
-	
-		// Add scroll event listener
-		window.addEventListener('scroll', handleScroll);
-	
-		// Clean up the event listener on component unmount
-		return () => {
-		  window.removeEventListener('scroll', handleScroll);
-		};
-	  }, []);
-
-	
 
 
-  const handleOtherDropdownToggle = () => {
-    setOtherDropdownOpen(!isOtherDropdownOpen);
-  };
+    useEffect(() => {
+        isScrolledRef.current = isScrolled;
+    }, [isScrolled]);
 
-  const handleSelected = (selectedItem: string) => {
-	// You can perform any additional logic here if needed
-	onSelectedCategoriesChange({ category: [selectedItem] });
-  };
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            const scrollThreshold = 30;
+            const isScrollPastThreshold = scrollTop > scrollThreshold;
+
+            setIsScrolled(isScrollPastThreshold);
+        };
+
+        // Add scroll event listener
+        window.addEventListener('scroll', handleScroll);
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
 
-  const handleSearchTerm = (searchTerm: string) => {
-	router.push(`/products?search=${searchTerm}`);
-  };
-  
 
-  const handleLinkClick = (item: { label: string; href: string }) => {
-	setActiveLink(item.label);
-	//toggleDropdown();
-  
-	// Check for specific labels to handle dropdowns
-	if (item.label === 'Products') {
-		toggleDropdown();
-	    setIsBrandOpen(false);
-		setIsAboutUsOpen(false);
-		setIsVendorsOpen(false);
-	} else if (item.label === 'Partners') {
-		toggleBrandDropdown();
-		setIsOpen(false);
-		setIsAboutUsOpen(false);
-		setIsVendorsOpen(false);
-	} else if (item.label === 'Deals') {
-	  // Handle dropdown for Deals
-	  // Implement your dropdown logic for Deals
-	  console.log('Dropdown logic for Deals');
-	} else if (item.label === 'About Us') {
-		toggleAboutUsDropdown();
-		setIsOpen(false);
-		setIsBrandOpen(false);
-		setIsVendorsOpen(false);
-	}else if (item.label === 'Brands') {
-		toggleVendorsDropdown();
-		setIsOpen(false);
-		setIsBrandOpen(false);
-	} else {
-	  //console.log('Navigate to link page:', item.href);
-	}
-  };
 
-  const toggleVendorsDropdown = () => {
-    setIsVendorsOpen(!isVendorsOpen);
-  };
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+    const handleOtherDropdownToggle = () => {
+        setOtherDropdownOpen(!isOtherDropdownOpen);
+    };
 
-  const toggleBrandDropdown = () => {
-    setIsBrandOpen(!isBrandOpen);
-  };
+    const handleSelected = (selectedItem: string) => {
+        // You can perform any additional logic here if needed
+        onSelectedCategoriesChange({ category: [selectedItem] });
+    };
 
-  const toggleAboutUsDropdown = () => {
-    setIsAboutUsOpen(!isAboutUsOpen);
-  };
 
-  const handleItemClick = (item: string) => {
-    console.log(`Clicked on ${item}`);
-    setIsOpen(false);
-	setIsBrandOpen(false);
-	setIsAboutUsOpen(false);
-  };
+    const handleSearchTerm = (searchTerm: string) => {
+        router.push(`/products?search=${searchTerm}`);
+    };
 
-  const handleOutsideClick = (event: MouseEvent<Document>) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
-	  setIsBrandOpen(false);
-	  setIsAboutUsOpen(false);
-    }
-  };
 
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    const handleLinkClick = (item: { label: string; href: string }) => {
+        setActiveLink(item.label);
+        //toggleDropdown();
+
+        // Check for specific labels to handle dropdowns
+        if (item.label === 'Products') {
+            toggleDropdown();
+            setIsBrandOpen(false);
+            setIsAboutUsOpen(false);
+            setIsVendorsOpen(false);
+        } else if (item.label === 'Partners') {
+            toggleBrandDropdown();
+            setIsOpen(false);
+            setIsAboutUsOpen(false);
+            setIsVendorsOpen(false);
+        } else if (item.label === 'Deals') {
+            // Handle dropdown for Deals
+            // Implement your dropdown logic for Deals
+            console.log('Dropdown logic for Deals');
+        } else if (item.label === 'About Us') {
+            toggleAboutUsDropdown();
+            setIsOpen(false);
+            setIsBrandOpen(false);
+            setIsVendorsOpen(false);
+        } else if (item.label === 'Brands') {
+            toggleVendorsDropdown();
+            setIsOpen(false);
+            setIsBrandOpen(false);
+        } else {
+            //console.log('Navigate to link page:', item.href);
+        }
+    };
+
+    const toggleVendorsDropdown = () => {
+        setIsVendorsOpen(!isVendorsOpen);
+    };
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const toggleBrandDropdown = () => {
+        setIsBrandOpen(!isBrandOpen);
+    };
+
+    const toggleAboutUsDropdown = () => {
+        setIsAboutUsOpen(!isAboutUsOpen);
+    };
+
+    const handleItemClick = (item: string) => {
+        console.log(`Clicked on ${item}`);
         setIsOpen(false);
-		setIsBrandOpen(false);
-		setIsAboutUsOpen(false);
-		setIsVendorsOpen(false);
-      }
+        setIsBrandOpen(false);
+        setIsAboutUsOpen(false);
     };
-  
-    if (isOpen) {
-      document.addEventListener('mousedown', handleOutsideClick as unknown as EventListener);
-    } else {
-      document.removeEventListener('mousedown', handleOutsideClick as unknown as EventListener);
-    }
 
-	if (isBrandOpen) {
-		document.addEventListener('mousedown', handleOutsideClick as unknown as EventListener);
-	  } else {
-		document.removeEventListener('mousedown', handleOutsideClick as unknown as EventListener);
-	  }
-
-	  if (isAboutUsOpen) {
-		document.addEventListener('mousedown', handleOutsideClick as unknown as EventListener);
-	  } else {
-		document.removeEventListener('mousedown', handleOutsideClick as unknown as EventListener);
-	  }
-
-	  if (isVendorsOpen) {
-		document.addEventListener('mousedown', handleOutsideClick as unknown as EventListener);
-	  } else {
-		document.removeEventListener('mousedown', handleOutsideClick as unknown as EventListener);
-	  }
-  
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick as unknown as EventListener);
+    const handleOutsideClick = (event: MouseEvent<Document>) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            setIsOpen(false);
+            setIsBrandOpen(false);
+            setIsAboutUsOpen(false);
+            setIsVendorsOpen(false);
+        }
     };
-  }, [isOpen, isBrandOpen, isAboutUsOpen, isVendorsOpen]);
-  
 
- 
-  
+    useEffect(() => {
+        const handleOutsideClick = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+                setIsBrandOpen(false);
+                setIsAboutUsOpen(false);
+                setIsVendorsOpen(false);
+            }
+        };
 
+        if (isOpen || isBrandOpen || isAboutUsOpen || isVendorsOpen) {
+            document.addEventListener('mousedown', handleOutsideClick as unknown as EventListener);
+        } else {
+            document.removeEventListener('mousedown', handleOutsideClick as unknown as EventListener);
+        }
 
-	return (
-		
-		
-		<NextUINavbar 
-		key={isScrolled ? 'scrolled' : 'notScrolled'} 
-		maxWidth="full" 
-		position="sticky" 
-		className={`
-        sm:pt-3 topNav ${isScrolled ? 'scrolledBar' : ''} 
-      `}>
-			<NavbarContent 
-			className="basis-1/5 sm:basis-full leftItems" justify="start">
-				<div className="imgBody">
-					<NavbarBrand as="li" className="gap-3 max-w-fit  ">
-						<NextLink className="flex justify-start  gap-1" href="/">
-							<Image
-								src="/images/logoheader.png"
-								alt="Logo"
-								width={370}
-								height={120}
-								className="siteLogo" />
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick as unknown as EventListener);
+        };
+    }, [isOpen, isBrandOpen, isAboutUsOpen, isVendorsOpen]);
 
-						</NextLink>
-					</NavbarBrand>
-					
-				</div>
-			</NavbarContent>
+    return (
+        <NextUINavbar
+            key={isScrolled ? 'scrolled' : 'notScrolled'}
+            maxWidth="full"
+            position="sticky"
+            className={`
+            sm:pt-3 topNav ${isScrolled ? 'scrolledBar' : ''}
+          `}>
+            <NavbarContent
+                className="basis-1/5 sm:basis-full leftItems" justify="start">
+                <div className="imgBody">
+                    <NavbarBrand as="li" className="gap-3 max-w-fit  ">
+                        <NextLink className="flex justify-start  gap-1" href="/">
+                            <Image
+                                src="/images/logoheader.png"
+                                alt="Logo"
+                                width={370}
+                                height={120}
+                                className="siteLogo" />
 
-			<NavbarContent
-				className="hidden sm:flex basis-1/5 sm:basis-full rightItems"
-				justify="end"
-			>
+                        </NextLink>
+                    </NavbarBrand>
 
-				<div className="overAllHeader">
-					<div className="topMenu mb-0 mt-3">
-                    
-						<ul className="hidden lg:flex gap-4 justify-start ml-2">
-							{siteConfig.menu1.map((item, index, array) => (
-								<NavbarItem key={item.id}>
-									<NextLink
-										className={clsx(
-											linkStyles({ color: "foreground" }),
-											"data-[active=true]:text-primary data-[active=true]:font-bold font-semibold"
-										)}
-										color="foreground"
-										href={item.href}
-									>
-										{item.label}
-										{index !== array.length - 1 && <span className="mr-1 ml-4">|</span>}
-									</NextLink>
-								</NavbarItem>
-							))}
-						</ul>
-					</div>
+                </div>
+            </NavbarContent>
 
-					<div className="middleMenus lg:flex mb-1 mt-2">
-						<NavbarItem className="hidden sm:flex gap-2">
-						<ThemeSwitch className="mr-4" />
-						</NavbarItem>
-						<div className="hidden sm:flex">
-							{/*<SearchInput />*/}
-							<Autocomplete handleSelected={handleSelected} handleSearch={handleSearchTerm}/>
-						</div>
-						<Image
-							src="/images/quick_notes-transformed.png"
-							alt="Logo"
-							width={90}
-							height={37}
-							className="ml-4 mr-4 hidden sm:flex" />
+            <NavbarContent
+                className="hidden sm:flex basis-1/5 sm:basis-full rightItems"
+                justify="end"
+            >
 
-						<div className="cartContainer hidden sm:flex" suppressHydrationWarning>
-							<Link href="/cart">
-									<ShoppingCartOutlinedIcon className="cartIcon mr-4 text-black" />
-									{loaded && cartCount > 0 && (
-									<div className='cartCounter' >
-									{loaded ? cartCount : ''}
-									</div>
-									)}
-							</Link>
-						</div>
+                <div className="overAllHeader">
+                    <div className="topMenu mb-0 mt-3">
+
+                        <ul className="hidden lg:flex gap-4 justify-start ml-2">
+                            {siteConfig.menu1.map((item, index, array) => (
+                                <NavbarItem key={item.id}>
+                                    <NextLink
+                                        className={clsx(
+                                            linkStyles({ color: "foreground" }),
+                                            "data-[active=true]:text-primary data-[active=true]:font-bold font-semibold"
+                                        )}
+                                        color="foreground"
+                                        href={item.href}
+                                    >
+                                        {item.label}
+                                        {index !== array.length - 1 && <span className="mr-1 ml-4">|</span>}
+                                    </NextLink>
+                                </NavbarItem>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="middleMenus lg:flex mb-1 mt-2">
+                        <NavbarItem className="hidden sm:flex gap-2">
+                            <ThemeSwitch className="mr-4" />
+                        </NavbarItem>
                         <div className="hidden sm:flex">
-						{!hideUserMenus && (
-							<UserMenus onOtherDropdownToggle={handleOtherDropdownToggle} isOtherDropdownOpen={isOtherDropdownOpen} />
-						)}
-						</div>
+                            {/*<SearchInput />*/}
+                            <Autocomplete handleSelected={handleSelected} handleSearch={handleSearchTerm} />
 
-					</div>
-					<div className="bottomMenus relative" ref={dropdownRef}>
+                        </div>
+                        <Image
+                            src="/images/quick_notes-transformed.png"
+                            alt="Logo"
+                            width={90}
+                            height={37}
+                            className="ml-4 mr-4 hidden sm:flex" />
 
-					<ul className="hidden lg:flex gap-4 justify-start ml-2">
-					{siteConfig.navItems.map((item, index) => (
-						<NavbarItem key={index} className="b-items">
-						<NextLink
-							onClick={() => handleLinkClick(item)}
-							className={clsx(
-							linkStyles({ color: "foreground" }),
-							{
-								'default-color font-bold': item.label === activeLink,
-								'text-xl font-semibold': item.label !== activeLink,
-							},
-							"mr-3 items-links"
-							)}
-							color="foreground"
-							href={item.href}
-						>
-							{index === 0 && <EqualizerIcon className="equalizer-icon rotate-up product-icon" />} {item.label}
-						</NextLink>
-						</NavbarItem>
-					))}
-					</ul>
+                        <div className="cartContainer hidden sm:flex" suppressHydrationWarning>
+                            <Link href="/cart">
+                                <ShoppingCartOutlinedIcon className="cartIcon mr-4 text-black" />
+                                {loaded && cartCount > 0 && (
+                                    <div className='cartCounter' >
+                                        {loaded ? cartCount : ''}
+                                    </div>
+                                )}
+                            </Link>
+                        </div>
+                        <div className="hidden sm:flex">
+                            {!hideUserMenus && (
+                                <UserMenus onOtherDropdownToggle={handleOtherDropdownToggle} isOtherDropdownOpen={isOtherDropdownOpen} />
+                            )}
+                        </div>
 
-						{isOpen && (
-								<div className="products-dropdown-menu">
-									<div className="products-dropdown-menu-inner">
-										<Header />
-									</div>
-								</div>
-					    )}
+                    </div>
+                    <div className="bottomMenus relative" ref={dropdownRef}>
+
+                        <ul className="hidden lg:flex gap-4 justify-start ml-2">
+                            {siteConfig.navItems.map((item, index) => (
+                                <NavbarItem key={index} className="b-items">
+                                    <NextLink
+                                        onClick={() => handleLinkClick(item)}
+                                        className={clsx(
+                                            linkStyles({ color: "foreground" }),
+                                            {
+                                                'default-color font-bold': item.label === activeLink,
+                                                'text-xl font-semibold text-shadow': item.label !== activeLink,
+                                            },
+                                            "mr-3 items-links "
+                                        )}
+                                        color="foreground"
+                                        href={item.href}
+                                    >
+                                        {index === 0 && <EqualizerIcon className="equalizer-icon rotate-up product-icon" />} {item.label}
+                                    </NextLink>
+                                </NavbarItem>
+                            ))}
+                        </ul>
+
+                        {isOpen && (
+                            <div className="products-dropdown-menu">
+                                <div className="products-dropdown-menu-inner">
+                                    <Header />
+                                </div>
+                            </div>
+                        )}
 
                         {isVendorsOpen && (
-								<div className="vendors-dropdown-menu">
-									<div className="partners-dropdown-menu-inner">
-										<Vendors />
-										
-									</div>
-								</div>
-					    )}
+                            <div className="vendors-dropdown-menu">
+                                <div className="partners-dropdown-menu-inner">
+                                    <Vendors />
+
+                                </div>
+                            </div>
+                        )}
 
 
                         {isBrandOpen && (
-								<div className="partners-dropdown-menu">
-									<div className="partners-dropdown-menu-inner">
-										<Partners />
-										
-									</div>
-								</div>
-					    )}
-						{isAboutUsOpen && (
-								<div className="partners-dropdown-menu">
-									<div className="partners-dropdown-menu-inner">
-										<About />
-										
-									</div>
-								</div>
-					    )}
+                            <div className="partners-dropdown-menu">
+                                <div className="partners-dropdown-menu-inner">
+                                    <Partners />
 
-                        
+                                </div>
+                            </div>
+                        )}
+                        {isAboutUsOpen && (
+                            <div className="partners-dropdown-menu">
+                                <div className="partners-dropdown-menu-inner">
+                                    <About />
 
-					</div>
+                                </div>
+                            </div>
+                        )}
 
-				</div>
 
-			</NavbarContent>
 
-			{/*Mobile view layout*/}
-			<NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-				
-			       <div className="cartContainer" suppressHydrationWarning>
-							<Link href="/cart">
-									<ShoppingCartOutlinedIcon className="cartIcon text-black" />
-									{loaded && cartCount > 0 && (
-									<div className='cartCounter' >
-									{loaded ? cartCount : ''}
-									</div>
-									)}
-							</Link>
-					</div>
-				{/*<ThemeSwitch />*/}
-				{!hideUserMenus && (
-				<UserMenus onOtherDropdownToggle={handleOtherDropdownToggle} isOtherDropdownOpen={isOtherDropdownOpen} />
-				)}
-				<NavbarMenuToggle />
-			</NavbarContent>
+                    </div>
 
-			<NavbarMenu>
-				{/*<SearchInput />*/}
-				<div className="mt-6">
-				<Autocomplete handleSelected={handleSelected} handleSearch={handleSearchTerm}/>
-				</div>
-				
-				<div className="mx-4 mt-2 flex flex-col gap-2 hidden">
-					{siteConfig.navMenuItems.map((item, index) => (
-						<NavbarMenuItem key={`${item}-${index}`}>
-							<Link
-								color={index === 2
-									? "primary"
-									: index === siteConfig.navMenuItems.length - 1
-										? "danger"
-										: "foreground"}
-								href="#"
-								size="lg"
-							>
-								{item.label}
-							</Link>
-						</NavbarMenuItem>
-					))}
-				</div>
-								</NavbarMenu>
-		</NextUINavbar>
-		
-	);
+                </div>
+
+            </NavbarContent>
+
+            {/*Mobile view layout*/}
+            <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
+
+                <div className="cartContainer" suppressHydrationWarning>
+                    <Link href="/cart">
+                        <ShoppingCartOutlinedIcon className="cartIcon text-black" />
+                        {loaded && cartCount > 0 && (
+                            <div className='cartCounter' >
+                                {loaded ? cartCount : ''}
+                            </div>
+                        )}
+                    </Link>
+                </div>
+                {/*<ThemeSwitch />*/}
+                {!hideUserMenus && (
+                    <UserMenus onOtherDropdownToggle={handleOtherDropdownToggle} isOtherDropdownOpen={isOtherDropdownOpen} />
+                )}
+                <NavbarMenuToggle />
+            </NavbarContent>
+
+            <NavbarMenu>
+                {/*<SearchInput />*/}
+                <div className="mt-6">
+                    <Autocomplete handleSelected={handleSelected} handleSearch={handleSearchTerm} />
+					
+                </div>
+
+                <div className="mx-4 mt-2 flex flex-col gap-2 hidden">
+                    {siteConfig.navMenuItems.map((item, index) => (
+                        <NavbarMenuItem key={`${item}-${index}`}>
+                            <Link
+                                color={index === 2
+                                    ? "primary"
+                                    : index === siteConfig.navMenuItems.length - 1
+                                        ? "danger"
+                                        : "foreground"}
+                                href="#"
+                                size="lg"
+                            >
+                                {item.label}
+                            </Link>
+                        </NavbarMenuItem>
+                    ))}
+                </div>
+            </NavbarMenu>
+        </NextUINavbar>
+
+    );
 };
 
-
+export default Navbar;

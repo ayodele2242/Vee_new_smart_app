@@ -134,12 +134,12 @@ useEffect(() => {
         
         </div>}
       {activeTab === 'tab2' && 
-      <div className="tab-content">
+      <div className="tab-content lg:grid lg:grid-cols-2 lg:gap-5">
        
           
        {Object.entries(groupedSpecifications).map(([headerName, attributes]) => (
     <div key={headerName} className="group informationDetails">
-        <div className="bg-gray-200 p-3 ">{headerName}</div>
+        <div className="bg-gray-200 p-3 font-bold">{headerName}</div>
           {attributes.map((spec, index) => (
               <div className="informationDetail mb-1 p-3 w-full" key={index}>
                   <div className="lg:w-[300px]">{spec.attributeName}</div>  <div><span dangerouslySetInnerHTML={{ __html: spec.attributeValue }} /></div>

@@ -28,6 +28,6 @@
       "services/*": ["./services/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "services/localStorage.ts", "app/api/checkout_sessions/route.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "services/localStorage.ts", "app/api/checkout_sessions/route.js", "providers/ClickOutsideContext.tsx"],
   "exclude": ["node_modules"]
 }

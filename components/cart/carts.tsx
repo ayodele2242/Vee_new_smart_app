@@ -41,6 +41,7 @@ const CartPageComponent: React.FC = () => {
 
 
   useEffect(() => {
+	console.log(JSON.stringify(cartItems));
     setBgHeroLeftSrc(bgHeroLeft.src);
 	fetchCountries()
 	.then((data) => {
@@ -191,66 +192,102 @@ const handleProceedToCheckout = () => {
             {cartItems.length === 0 ? (
               <p>Your cart is empty.</p>
             ) : (
-              <div className="table-wrapper">
-              <table className="w-full text-sm txt-small text-left content-table text-gray-500 border-b-[2px] border-yellow-600 border-dashed">
-                <thead className="text-sm txt-small text-gray-700 uppercase">
+				<div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+              <div className="table-wrapper inline-block min-w-full overflow-hidden">
+              <table className="min-w-full leading-normal text-sm txt-small text-left  text-gray-500 border-b-[2px] border-yellow-600 border-dashed">
+                <thead className="text-sm txt-small  uppercase">
                   <tr className="font-bold text-black text-md border-b-[2px] border-yellow-600 border-dashed">
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-5 py-3 text-left text-xs font-semibold  uppercase tracking-wider">
                     <Checkbox checked={selectAllChecked} onChange={handleSelectAll} />
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-5 py-3  text-left text-xs font-semibold  uppercase tracking-wider">
                       Item Description
                     </th>
-                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                    <th scope="col" className="px-5 py-3 text-left text-xs font-semibold  uppercase tracking-wider whitespace-nowrap">
                       Unit Price
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-5 py-3 text-left text-xs font-semibold  uppercase tracking-wider">
                       Quantity
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-5 py-3 text-left text-xs font-semibold  uppercase tracking-wider">
                       Line Total
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {cartItems.map((item: VeeCartItem, index: number) => (
-                    <tr className="p-2 mb-3 text-left" key={index}>
-                      <td><Checkbox
-                            checked={selectedItems.includes(item)}
-                            onChange={() => handleCheckboxChange(item)}
-                          /></td>
-                      <td className="flex font-semibold">
-					  <Image 
+                     <tr>
+					<td  className="px-5 py-5  bg-white text-sm">
+						<Checkbox
+						checked={selectedItems.includes(item)}
+						onChange={() => handleCheckboxChange(item)}
+						/></td>
+					 <td className="px-5 py-5  bg-white text-sm">
+					   <div className="flex flex-col lg:flex-row">
+						 <div className="flex-shrink-0">
+						 <Image 
                             src={item.image_url}
                             alt="Trash"
-                            className="mr-2 w-[80px] h-[80px]"
+                            className="mr-2"
                             width={80}
                             height={80}
-                          />{item.description}
-                  </td>
-                      <td className="text-lg font-extrabold">${item.price}</td>
-                      <td>
-                      <CartQuantityActionBtns 
-                    product={item} 
-                    id={item?.ingramPartNumber}
-                    hideButton={true}
-                        />
-                        
-                       </td>
-                       <td className="text-lg font-extrabold">
-                        <div className="w-full mb-2 flex justify-between">
-                         <DescriptionOutlinedIcon />
+                          />
+						 </div>
+						 <div className="ml-3">
+						   <p className="text-gray-900 whitespace-no-wrap font-semibold">
+						   
+						   <Link href={`/productdetail?id=${item.ingramPartNumber}`} className="text-xs">
+							{item.description}
+							</Link>
+						   </p>
+						   <p className="text-gray-600 whitespace-no-wrap"><small>{item.descr}</small></p>
+						 </div>
+					   </div>
+					 </td>
+					 <td className="px-5 py-5  bg-white text-sm">
+					   <p className="text-gray-900 whitespace-no-wrap font-extrabold">	
+					 
+					   {new Intl.NumberFormat('en-US', {
+							style: 'currency',
+							currency: 'USD'
+						}).format(item.price)}
+					   
+					   </p>
+					   
+					 </td>
+					 <td className="px-5 py-5  bg-white text-sm">
+					   <p className="text-gray-900 whitespace-no-wrap">
+					   <CartQuantityActionBtns 
+						product={item} 
+						id={item?.ingramPartNumber}
+						hideButton={true}
+							/>
+					   </p>
+					  
+					 </td>
+					 <td className="relative">
+					 <div className="w-full text-right absolute top-0 pt-2 pr-3">
+                         <DescriptionOutlinedIcon className="mr-3"/>
                         <DeleteOutlinedIcon onClick={() => handleDeleteItem(item)} />
                         </div>
-                        {new Intl.NumberFormat('en-US', {
+					   <span
+						 className="relative inline-block px-3 py-1 w-full font-semibold text-green-900 leading-tight"
+					   >
+						
+						 <span className="relative font-extrabold"> 
+						 {new Intl.NumberFormat('en-US', {
                           style: 'currency',
                           currency: 'USD'
-                        }).format(item.price * item.quantity)}</td>
-                    </tr>
+                        }).format(item.price * item.quantity)}</span>
+					   </span>
+					 </td>
+					
+				   </tr>
                   ))}
                 </tbody>
               </table>
               </div>
+			  </div>
             )}
           </div>
 
@@ -435,7 +472,7 @@ const handleProceedToCheckout = () => {
                           currency: 'USD'
                         }).format(overallSum)}</p>
 			</div>
-			{/*<div className="flex justify-end text-md font-normal border-b border-gray-200">
+			{/*<div className="flex justify-end text-md font-normal ">
 				<p className="mt-2 mb-3">
 					Shipping (Table Rate - UPS Worldwide Expedited)
 				</p>

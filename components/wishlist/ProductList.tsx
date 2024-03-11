@@ -28,6 +28,11 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
     const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
     const isLoggedIn = isUserLoggedIn();
 
+    if (!products || !Array.isArray(products)) {
+      // Handle the case where products is not defined or not an array
+      return <div></div>;
+    }
+
     // Sorting logic based on the selected option
   const sortedProducts = [...products];
   if (sortOption === "low-to-high") {
@@ -141,7 +146,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
           </div>
 
           <div className="flex w-full mb-3 text-small">
-                  {product.detail}
+                  {product?.descr}
           </div>
 
           <div className="flex w-full iTemRightMobile">
@@ -178,15 +183,31 @@ const ProductList: React.FC<ProductListProps> = ({ products, sortOption }) => {
 
               <div className="mobilr-flex">
               <div className="w-full mt-2 mb-2 justItem">
-                      <div className="">
-                        <h6 className="text-1xl lg:text-2xl font-bold ">
-            
-                            {new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'USD'
-                            }).format(product?.customerPrice)}
-                        </h6>
-                      </div>
+              <div className="">
+                  {product.pricing?.customerPrice ? (
+                    <>
+                  <h6 className="text-1xl lg:text-2xl font-bold">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(product.pricing.customerPrice)}
+                  </h6>
+                  <p>MSRP  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                  }).format(product.pricing.retailPrice)} </p>
+                  <p>EXCL TAX</p>
+                  </>
+                ) : (
+                  <h6 className="text-1xl lg:text-2xl font-bold">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(0.0)}
+                  </h6>
+                )}
+                  </div>
+
               </div>
               <div className="w-full mt-2 mb-2 justItem">
               <CartQuantityActionBtns 

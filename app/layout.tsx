@@ -46,11 +46,13 @@ export default function RootLayout({
 				<Providers themeProps={{ attribute: "class", defaultTheme: "white" }}>
 					
 				<ImageProvider>
+					
 						<main className="w-full mainContainer " >
 						
 							{children}
 						
 						</main>
+					
 				</ImageProvider>
 						
 					

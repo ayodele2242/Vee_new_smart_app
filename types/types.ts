@@ -44,6 +44,7 @@ interface AvailabilityByWarehouse {
   }
   
   interface Product {
+    pricing: any;
     descr: string;
     product_price(product_price: any): number | bigint;
     customerPrice?: any;

@@ -10,15 +10,19 @@ import Pagination from "@/pagination/Pagination";
 import ProductsAnime from '@/loaders/ProductsAime';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Modal from 'react-modal';
+import {
+  fetchCountries,
+  fetchStatesByCountry,
+  createShippingAddress,
+getShippingAddress,
+} from "@/services/requestAll.service";
 import {
 	isUserLoggedIn,
 	getUserData,
 	redirectToLoginPage,
 } from "@/auth/auth";
-import {
-	getShippingAddress
-} from "@/services/requestAll.service";
+
 import Link from 'next/link';
 import { Spinner } from '@nextui-org/react';
 
@@ -57,6 +61,56 @@ interface ResponseDataItem {
     const [isLoading, setIsLoading] = useState(false);
     const [editIndex, setEditIndex] = useState<number | null>(null);
     const [editedValues, setEditedValues] = useState<any>({});
+    const [showModal, setShowModal] = useState(false);
+    const [countries, setCountries] = useState<{ id: string; name: string }[]>([]);
+    const [selectedCountry, setSelectedCountry] = useState("")
+    const [states, setStates] = useState<{ id: string; name: string }[]>([]);
+    const [errorMessage, setErrorMessage] = useState("");
+    //const openModal = () => setShowModal(true);
+    const closeModal = () => setShowModal(false);
+
+
+    const [formData, setFormData] = useState({
+      action: "insert",
+      email: "",
+      street: "",
+      state: "",
+      city: "",
+      zip: "",
+      company: "",
+      selectedCountry: "",
+      phone: "",
+      nickname: "",
+        
+    })
+
+    useEffect(() => {
+      fetchCountries()
+          .then((data) => {
+              setCountries(data)
+          })
+          .catch((error) => {
+              console.log("Error occurred " + error)
+          })
+  }, [])
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCountry(e.target.value);
+    const selectedCountry = e.target.value;
+    setFormData({
+        ...formData,
+        selectedCountry,
+    });
+
+    fetchStatesByCountry(e.target.value)
+        .then((data) => {
+            setStates(data);
+        })
+        .catch((error) => {
+            console.log("Error occurred " + error);
+        });
+};
+
 
 
     useLayoutEffect(() => {
@@ -72,6 +126,103 @@ interface ResponseDataItem {
     }, []);
 
 
+    const _handleSubmit = async (e: { preventDefault: () => void; }) => {
+      e.preventDefault();
+          setIsLoading(true);
+      createShippingAddress(formData).then(() => init())
+    }
+  
+    const _handleChange = (e: { target: { name: any; value: any; }; }) => {
+      const { name, value } = e.target
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }))
+    }
+
+    const init = async () => {
+      const userJson = localStorage.getItem("user")
+      if (!userJson) return
+      const user = JSON.parse(userJson);
+      setFormData({
+        action: "insert",
+        email: "",
+        street: "",
+        state: "",
+        city: "",
+        zip: "",
+        company: "",
+        selectedCountry: "",
+        phone: "",
+        nickname: "",
+      });
+      getShippingAddress(user.email).then(({ data }) => {
+        if (!data || !data.length) return
+        
+              setIsLoading(false);
+              setShowModal(true)
+              fetchData('orders/shippingAddress', 1);
+              
+      })
+    }
+    useEffect(() => {
+     
+    }, [])
+
+    const openModal = () => {
+      setShowModal(true);
+      //init()
+    };
+    
+
+    const handleSetDefaultAddress = async (addressId: string) => {
+      console.log("Selected item", addressId);
+      setIsLoading(true);
+        try {
+          
+          let payload = {};
+          payload = {
+            action: "update_address",
+            id: addressId,
+           
+          };
+      
+          const response = await ApiRequestService.callAPI<ResponseDataItem>(JSON.stringify(payload), 'orders/shippingAddress');
+          const responseData = response.data;
+      
+        
+          if (response.status === 200) {
+            const { status, message, data } = responseData;
+            toast.success(message);
+            setError(null);
+            setEditIndex(null);
+            setIsLoading(false);
+            fetchData('orders/shippingAddress', 1);      
+        } else {
+            const { status, message } = responseData;
+            setBackendResponse(status);
+            setIsLoading(false);
+            toast.error(message);
+        }
+          
+        } catch (error: any) {
+          setIsLoading(false);
+        
+          if (error.response) {
+            if (error.response.status === 401) {
+              setError("Please log in to access this content.");
+            } else if (error.response.status === 403) {
+              setError("You do not have permission to access this content.");
+            } else {
+              setError("An error occurred on the server. Please try again later.");
+            }
+          } else if (error.request) {
+            setError("No response from the server. Please try again later.");
+          } else {
+            setError("An unexpected error occurred. Please try again later.");
+          }
+        }
+    };
+  
+
+
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
         fetchData('orders/shippingAddress', pageNumber);
@@ -79,7 +230,6 @@ interface ResponseDataItem {
 
   
       useEffect(() => {
-       
 
         fetchData('orders/shippingAddress', 1);
       }, [searchQuery, searchType]);
@@ -195,7 +345,7 @@ interface ResponseDataItem {
             setError(null);
             setEditIndex(null);
             setIsLoading(false);
-                        
+            fetchData('orders/shippingAddress', 1);      
         } else {
             const { status, message } = responseData;
             setBackendResponse(status);
@@ -234,6 +384,9 @@ interface ResponseDataItem {
         // console.log("Selected Item from Search on product page", selectedItem);
       };
 
+      
+
+
   return (
     <div className="flex flex-col min-h-screen">
     <div
@@ -265,7 +418,11 @@ interface ResponseDataItem {
           <div className="content-div lg:w-3/4  bg-gray-100 rounded-xlg lg:m-5 sm:p-1">
 
           <div className="flex column-layout w-full sm:pb-3">
-           
+            <div className="flex justify-between p-3">
+              <b></b>
+            <button className="btn bg-yellow-600 text-white rounded-xl font-semibold p-2" onClick={openModal}>Add Address</button>
+            </div>
+          
           
         <div className="w-full lg:p-0 relative">
         {loading && <div className="iSpinner pt-9"> <Spinner size="sm" /> </div>}
@@ -361,16 +518,37 @@ interface ResponseDataItem {
           ) : (
             <>
               <div className="flex column-display w-full lg:mr-3 p-3">
-                <div className="font-bold w-full">{product.nickname}</div>
+                <div className="font-bold w-full flex">
+                {product.nickname}
+                {product.default_address_status === "1" && (
+                  <span className="default-address-indicator bg-yellow-600 text-white ml-3">Default</span>
+                )}</div>
                 <div className="font-normal w-full txt-small">{product.email}</div>
                 <div className="font-normal w-full txt-small">{product.phone}</div>
+                {!product.default_address_status && (
+                <><label className="radio-btn mt-2">
+                        <input
+                          type="radio"
+                          name="defaultAddress"
+                          className="mr-2"
+                          onChange={() => handleSetDefaultAddress(product.id)} />
+                        Set as Default {isLoading && <Spinner size="sm" className="ml-2" />}
+                      </label> 
+                      {errorMessage && <div className="text-red-500">{errorMessage}</div>}
+                      </>
+                
+
+                )}
               </div>
               <div className="flex column-display w-full lg:mr-3 p-3">
                 <div className="w-full">{product.state}</div>
                 <div className="w-full">{product.street}</div>
                 <div className="w-full">{product.city} - {product.zip}</div>
               </div>
+
               <button onClick={() => handleEdit(index)} className="text-red-600">Edit</button>
+              
+
             </>
           )}
         </div>
@@ -387,7 +565,232 @@ interface ResponseDataItem {
         )}
          
        
-          
+         <Modal isOpen={showModal} onRequestClose={closeModal} className="formModal">
+          <div className="addressContainer">
+          <div className="header flex justify-between">
+          <h2>Add New Address</h2>
+          <button onClick={closeModal} className="closeButton">Close</button>
+        </div>
+          <form
+								className="space-y-4 md:space-y-6"
+								onSubmit={_handleSubmit}
+							>
+								<div className="  flex-1 ">
+											<label
+												htmlFor=""
+												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											>
+												Nickname
+												<span className=" text-[#982c2e]">
+													{" "}
+													*{" "}
+												</span>
+											</label>
+											<input
+												type="text"
+												className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+												required
+												name="nickname"
+												value={formData.nickname}
+												onChange={_handleChange}
+											/>
+										</div>
+
+                                        
+
+								<div>
+									<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+										Email Address <span className="text-red-300 font-bold">*</span>
+									</label>
+									<input
+										type="email"
+										name="email"
+										id="last_name"
+                                        required
+										value={formData.email}
+										onChange={_handleChange}
+										className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										placeholder=""
+									/>
+								</div>
+
+                                <div className=" ">
+										<label
+											htmlFor=""
+											className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+										>
+											Street Address
+											<span className=" text-[#982c2e]">
+												{" "}
+												*{" "}
+											</span>
+										</label>
+										<input
+											type="text"
+											className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											required
+											name="street"
+											value={formData.street}
+											onChange={_handleChange}
+                                            
+										/>
+									</div>
+
+									<div className="grid grid-cols-2 gap-2">
+
+									<div>
+									<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+										Country <span className="text-red-300 font-bold">*</span>
+									</label>
+
+									<select
+										value={selectedCountry}
+										onChange={handleCountryChange}
+                                        required
+										className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									>
+										<option value=""></option>
+										{countries.map((country) => (
+											<option
+												key={country.id}
+												value={country.id}
+											>
+												{country.name}
+											</option>
+										))}
+									</select>
+								</div>
+
+								<div>
+									<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+										State/Province <span className="text-red-300 font-bold">*</span>
+									</label>
+									<select
+										name="state"
+										value={formData.state}
+										onChange={_handleChange}
+                                        required
+										className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									>
+										<option></option>
+										{states.map((state) => (
+											<option
+												key={state.id}
+												value={state.name}
+											>
+												{state.name}
+											</option>
+										))}
+									</select>
+								</div>
+
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+									<div>
+										<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+											City <span className="text-red-300 font-bold">*</span>
+										</label>
+										<input
+											type="text"
+											name="city"
+											id="city"
+											value={formData.city}
+											onChange={_handleChange}
+                                            required
+											placeholder=""
+											className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										/>
+									</div>
+
+									<div>
+										<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+											Zip/Postal Code <span className="text-red-300 font-bold">*</span>
+										</label>
+										<input
+											type="text"
+											name="zip"
+											id="zip"
+											value={formData.zip}
+											onChange={_handleChange}
+                                            required
+											placeholder=""
+											className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										/>
+									</div>
+								</div>
+
+
+                <div className="grid grid-cols-2 gap-2">
+                <div>
+									<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+										Phone Number <span className="text-red-300 font-bold">*</span>
+									</label>
+									<input
+										type="text"
+										name="phone"
+										id="phone"
+										value={formData.phone}
+										onChange={_handleChange}
+                                        required
+										className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										placeholder=""
+									/>
+								</div>
+
+								<div>
+									<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+										Company 
+									</label>
+									<input
+										type="text"
+										name="company"
+										id="copany"
+										value={formData.company}
+										onChange={_handleChange}
+                                      
+										className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										placeholder=""
+									/>
+								</div>
+
+                </div>
+                <div className="mt-2">
+            
+                <div className="lk lx abg">
+                    <div className="lx nz yz flex gap-4">
+                    <input 
+                    onChange={_handleChange}
+                    name="default_address"
+                     type="checkbox" 
+                     className="nw rx adp afv ayg bnp" 
+                     />
+                         <label className="avz awd axu">Set as default address</label>
+                     </div>
+                    </div>
+                </div>
+
+								
+
+								
+
+							
+						<button
+							type="submit"
+							className="w-full flex center justify-center gap-2 text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover-bg-yellow-700 dark:focus:ring-yellow-800 warning-btn relative"
+							disabled={isLoading}
+						>
+							{isLoading && <Spinner size="sm" />}
+							{isLoading ? 'Please wait...' : 'Add Address'}
+						</button>
+
+                                {errorMessage && <div className="text-red-500">{errorMessage}</div>}
+								
+							</form>
+          </div>
+               
+                
+            </Modal>
         
         
         </div>

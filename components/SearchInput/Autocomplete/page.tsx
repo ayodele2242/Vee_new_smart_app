@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Paper, InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { fetchDefaultSearch } from "@/services/product.service";
 import useRouting from "@/hooks/routing";
 import Link from 'next/link';
+
+
 
 interface AutocompleteProps {
   handleSelected: (selectedItem: string) => void;
@@ -30,9 +32,41 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   const [pageSize, setPageSize] = useState<number>(20);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [isSearchButtonClicked, setIsSearchButtonClicked] = useState<boolean>(
-    false
-  );
+  const [isSearchButtonClicked, setIsSearchButtonClicked] = useState<boolean>(false);
+  const [isResultsLoaderOpen, setIsResultsLoaderOpen] = useState(false);
+  const resultsLoaderRef = useRef<HTMLDivElement>(null);
+
+
+ 
+  
+	useEffect(() => {
+		const handleClickOutside = (event: { target: any; }) => {
+		  if (resultsLoaderRef.current && !resultsLoaderRef.current.contains(event.target)) {
+        setIsSearching(false);
+        setSearchTerm("");
+        setSuggestions([]);
+      console.log("Clicked outside");
+		  }
+		};
+	
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+		  document.removeEventListener('mousedown', handleClickOutside);
+		};
+	  }, [resultsLoaderRef]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (resultsLoaderRef.current && !resultsLoaderRef.current.contains(event.target as Node)) {
+        setIsItemSelected(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     // Clear the timeout when the component unmounts or when the user stops typing
@@ -42,6 +76,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       }
     };
   }, [delayedSearch]);
+
+ 
 
   const handleSelect = (selectedItem: { description: string; ingramPartNumber: string }) => {
     setSearchTerm(selectedItem.description);
@@ -115,10 +151,12 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const handleSearchButtonClick = () => {
     setIsSearchButtonClicked(true);
-    handleSearch(searchTerm);
+    //handleSearch(searchTerm);
+    goToProduct(searchTerm);
   };
 
   return (
+   
     <Paper component="form" className="searchForm">
       <div className="searchBody">
         <input
@@ -141,9 +179,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         </div>
       </div>
       {isSearching ? (
-        <div className="resutsLoader">Searching...</div>
+        <div ref={resultsLoaderRef} className="resutsLoader">Searching...</div>
       ) : searchTerm.trim() !== "" && !isItemSelected && suggestions.length > 0 ? (
         <div
+          ref={resultsLoaderRef}
           className={`resutsLoader${
             suggestions.length > 10 ? " scrollbar-2" : ""
           }`}
@@ -159,7 +198,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
           </ul>
         </div>
       ) : isSearchButtonClicked && !isItemSelected && suggestions.length === 0 ? (
-        <div className="resutsLoader">No results found.</div>
+        <div ref={resultsLoaderRef} className="resutsLoader">No results found.</div>
       ) : null}
     </Paper>
   );

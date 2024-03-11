@@ -24,6 +24,11 @@ interface ProductGridProps {
   const ProductGrid: React.FC<ProductGridProps> = ({ products, sortOption }) => {
 
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+
+  if (!products || !Array.isArray(products)) {
+    // Handle the case where products is not defined or not an array
+    return <div></div>;
+  }
    // Sorting logic based on the selected option
    const sortedProducts = [...products];
 
@@ -135,7 +140,7 @@ interface ProductGridProps {
                   </Link>
                 </div>
                 <div className="p-2 text-small">
-                {product.detail}
+                {product?.descr}
                 </div>
 
                 <div className="w-100 itemListMe mt-1">
@@ -180,15 +185,31 @@ interface ProductGridProps {
            </div>
            <div className="w-100 p-2">
              
-               <div className="">
-                  <h6 className="text-1xl lg:text-2xl font-bold ">
-                    
-                  {new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'USD'
-                            }).format(product?.customerPrice)}
-                 </h6>
-               </div>
+           <div className="">
+                  {product.pricing?.customerPrice ? (
+                    <>
+                  <h6 className="text-1xl lg:text-2xl font-bold">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(product.pricing.customerPrice)}
+                  </h6>
+                  <p>MSRP  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                  }).format(product.pricing.retailPrice)} </p>
+                  <p>EXCL TAX</p>
+                  </>
+                ) : (
+                  <h6 className="text-1xl lg:text-2xl font-bold">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(0.0)}
+                  </h6>
+                )}
+                  </div>
+
 
 
            </div>

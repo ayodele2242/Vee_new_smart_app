@@ -23,17 +23,19 @@ const SecondSection: React.FC<SecondSectionProps> = ({ title, desc, isVisibleLog
       <div className=" absolute w-full h-full top-0 left-0 bg-[#0000002e]"></div>
       <div className="h- w-[90%] mx-auto relative z-10">
         <div className="w-full h-[] flex items-center justify-start lg:justify-center relative">
-          {isVisibleLogo && (
-            <Image src={logo} alt="Logo" className="w-[50%] lg:w-[300px]" />
-          )}
+          
           <ToCartProfile />
         </div>
         <div className="flex h-[90vh] justify-center lg:justify-start items-center w-[90%] mx-auto relative">
           <div className="lg:flex-[0.5] w-full h-full flex flex-col gap-3 justify-center items-center">
+          {isVisibleLogo && (
+            <Image src={logo} alt="Logo" className="w-[50%] lg:w-[300px]" />
+          )}
             <h1 className="md:text-3xl text-3xl xl:text-6xl lg:text-5xl font-secondary font-bold text-white text-center w-full lg:w-[75%] mx-auto">
               {title}
             </h1>
             <p className="font-[400] text-lg  text-white text-center w-full lg:w-[75%] mx-auto">
+           
               {desc}
             </p>
             <LearnMore />

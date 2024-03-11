@@ -168,27 +168,41 @@ const Wishes: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div
-        className="flex-grow relative"
-        style={{
-          backgroundImage: bgHeroLeftSrc ? `url(${bgHeroLeftSrc})` : 'none',
-          backgroundPosition: 'right bottom',
-          backgroundSize: 'cover',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-       <Navbar onSelectedCategoriesChange={selectedSearchedItems} hideUserMenus={false}/>
-        <div className="mt-4"></div>
-        {/* Breadcrumbs */}
-        
+    <div
+      className="flex-grow relative"
+      style={{
+        backgroundImage: bgHeroLeftSrc ? `url(${bgHeroLeftSrc})` : 'none',
+        backgroundPosition: 'right bottom',
+        backgroundSize: 'cover',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+     <Navbar onSelectedCategoriesChange={selectedSearchedItems} hideUserMenus={false}/>
+      <div className="mt-4"></div>
+      {/* Breadcrumbs */}
+      <div className="mb-0 mt-1 flex w-full bg-white lg:pl-9 lg:pr-5 lg:pt-5 row-layout sm:p-4 md:p-4">
+          <Link href="/" className="font-bold text-lg text-yellow-600  md:text-sm">Home</Link> 
+          <KeyboardArrowRightOutlinedIcon  />
+          <Link href="#" className="font-bold text-lg md:text-sm">Account</Link> 
+          <KeyboardArrowRightOutlinedIcon />
+          <Link href="#" className="font-bold text-lg md:text-sm">Wishlist</Link> 
+      </div>
+      <div className="w-full flex lg:p-6 bg-white lg:pl-5 lg:pr-5">
+        <div className="flex gap-6 w-full">
+          <div className="sidebar-div lg:w-1/4 hidden sm:flex bg-gray-100 rounded-lg m-5">
+            <SideBar />
+          </div>
 
-        <div className="w-full flex justify-between bg-white pl-10 pr-10 ">
-            <b>Favorite Products</b>
+
+          <div className="content-div lg:w-3/4  bg-gray-100 rounded-xlg lg:m-5 sm:p-3">
+
+          <div className="w-full flex justify-between pl-10 pr-10 ">
+            <b></b>
 
             <div className="h-6 flex bg-gray-200 compare-container">Compare <span className="bg-gray-700 ml-3 text-white">0</span></div>
-        </div>
+          </div>
 
-        <div className="w-full flex justify-between mobile bg-white lg:pl-10 pr-10 mt-9">
+          <div className="w-full flex justify-between mobile lg:pl-6 pr-6 mt-9">
             <div className="compare-div  rounded-lg  lg:w-[400px] sm:w-full  flex row-display border border-gray-300 pr-5 pl-5">
                 <div className="w-30 h-30 searcIncon"><SearchOutlinedIcon fontSize="small" /></div>
                 <input
@@ -226,7 +240,7 @@ const Wishes: React.FC = () => {
             </div>
         </div>
 
-        <div className="w-full mainLayer  p-9">
+        <div className="w-full mainLayer">
         
         {loading && <ProductsAnime  numberOfItems={5} />}
             {error && <p className="text-danger color-[red]">Error occured: {error}</p>}
@@ -255,10 +269,17 @@ const Wishes: React.FC = () => {
               
 						</div>
 					)}
+
+          
+
+         
+          </div>
+        </div>
       </div>
-      <ToastContainer />
-      <Footer />
     </div>
+    <ToastContainer />
+    <Footer />
+  </div>
   );
 };
 

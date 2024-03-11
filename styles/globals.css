@@ -1425,12 +1425,150 @@ flex-direction: row;
   text-overflow: ellipsis; /* Add ellipsis if text overflows */
 }
 
-
+.text-shadow{
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+}
 
 .text-ellipsis {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.closeButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #da3939; 
+  font-size: 16px; 
+  padding: 0;
+  margin-left: auto; 
+}
+
+
+.formModal {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ padding: 30px;
+}
+
+
+
+.formModal .addressContainer{
+  padding: 20px;
+  background-color: #fff;
+  width: 500px;
+  height: 100%;
+}
+
+.default-address-indicator{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  border-radius: 20px;
+  width: 60px;
+  font-size: 12px;
+}
+
+.img-body{
+  width: 100% !important;
+  max-height: 200px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.img-body img{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.product-items{
+    
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+    gap: 1rem;
+    justify-content: center; /* Center items horizontally */
+    align-items: center;
+}
+
+.box-item{
+  width: 100%;
+  max-width: 250px !important;
+  height: 100%;
+  max-height: 400px !important;
+  font-size: 12px !important;
+}
+
+.loaderSpin{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  margin-top: 30px;
+
+}
+
+.box-title{
+  font-size: 10px !important;
+}
+
+
+
+.radio-btn{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 20px;
+  width: 100%;
+  font-weight: 400;
+  color: #c59a0d;
+}
+
+
+
+[type='radio'] {
+  border-radius: 100%;
+}
+
+[type='checkbox'], [type='radio'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  display: inline-block;
+  vertical-align: middle;
+  background-origin: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  flex-shrink: 0;
+  height: 1.2rem;
+  width: 1.2rem;
+  color: #ca9605;
+  background-color: #fff;
+  border-color: #6b7280;
+  border-width: 1px;
+  --tw-shadow: 0 0 #0000;
+}
+
+
+[type='checkbox']:checked, [type='radio']:checked {
+  border-color: transparent;
+  background-color: currentColor;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.header{
+  font-weight: bolder;
+  margin-bottom: 30px;
 }
 
 .iname{

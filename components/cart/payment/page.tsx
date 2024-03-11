@@ -488,6 +488,10 @@ const PaymentComponent = () => {
                             <div className="font-semibold">Shipping</div>
                             <div className="font-semibold">US$0.00</div>
                         </div>
+                        <div className="flex justify-between text-sm mb-2">
+                            <div className="font-semibold">Tax</div>
+                            <div className="font-semibold">US$0.00</div>
+                        </div>
 
                         </div>
                       <div className="w-full font-semibold text-sm flex justify-between border-b-[1px] border-gray-600 pb-2">

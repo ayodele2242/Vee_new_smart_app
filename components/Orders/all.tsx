@@ -240,12 +240,12 @@ const AllProductList: React.FC<ProductListProps> = ({ products }) => {
             </span>
           )}
           <div className="">
-            <div className="mb-2 text-xs font-bold">
-              <Link href={`/productdetail?id=${item.ingramPartNumber}`} className="text-xs">
+            <div className="mb-2 text-xs">
+              <Link href={`/productdetail?id=${item.ingramPartNumber}`} className="text-xs font-bold">
               {item.description}
               </Link>
-             
-              </div>
+              <p><small>{item.descr}</small></p>
+            </div>
 
             
 

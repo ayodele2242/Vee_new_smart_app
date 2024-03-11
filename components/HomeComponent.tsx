@@ -49,6 +49,13 @@ const HomeComponent: React.FC = () => {
 					bg={bgSection2}        
 				/>
 
+				<ThirdSection
+					isVisibleLogo={true}
+					title={"Connect with us today"}
+					desc={
+						"Tailored solutions for your unique needs - Let us help you find the IT products & services  that work best for you"
+					}
+				/>
                 
 				<SecondSection
 					title="Our tech team at your disposal"
@@ -68,13 +75,7 @@ const HomeComponent: React.FC = () => {
 					bg={bgSection4}
 				/>*/}
 
-                <ThirdSection
-					isVisibleLogo={true}
-					title={"Connect with us today"}
-					desc={
-						"Tailored solutions for your unique needs - Let us help you find the IT products & services  that work best for you"
-					}
-				/>
+              
      			<Footer />
 </div>
   );
