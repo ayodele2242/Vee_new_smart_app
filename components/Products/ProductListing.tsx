@@ -62,6 +62,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
    // Update the useEffect to invoke debouncedFetchProducts when searchTerm changes
    useEffect(() => {
     if (searchTerm && searchTerm.trim() !== "") {
+      setLoading(true);
       debouncedFetchProducts(searchTerm);
     }
   }, [searchTerm, debouncedFetchProducts]);
@@ -226,7 +227,8 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
     >
       <Navbar onSelectedCategoriesChange={selectedSearchedItems} />
       <div className="mt-4"></div>
-      <div className="w-full pt-3 pl-5 pr-5 h-full products-items bg-[#ffffff]">
+      <div className="w-full pt-3 lg:pl-5 lg:pr-5 h-full products-items bg-[#ffffff]">
+        
         <div className="sidebarMenus h-full ">{/*Side menus #starts*/}
           <Menus 
           headercategory={category as string} 
@@ -237,13 +239,13 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
         </div>{/*Side menus #ends*/}
 
         <div className="productsListing">{/*Products listing #starts*/}
-          {category && subCategory && (
+          {category && subCategory && !searchTerm && (
             <div className="title font-lightbold font-large text-wrap tracking-wider text-gray-400 text-2xl mb-3">
               Search results for {category} - {subCategory} 
             </div>
           )}
 
-          {searchTerm && (
+          {searchTerm && !category && !subCategory && (
             <div className="title font-lightbold font-large text-wrap tracking-wider text-gray-400 text-2xl mb-3">
               Search result for {searchTerm}
             </div>
@@ -327,6 +329,8 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
 					)}
        
         </div>{/*Products listing #ends*/}
+
+
       </div>
       
      

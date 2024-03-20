@@ -1,6 +1,7 @@
 import React from 'react';
 import { PersonOutline, ShoppingCartOutlined } from "@mui/icons-material";
 import Link from "next/link";
+import logo from '@/public/images/Logofooter.png';
 import Image from 'next/image';
 import LogoWhite from '@/public/images/Veemost-White.png';
 
@@ -11,12 +12,12 @@ const Footer: React.FC = () => {
 
   return (
    
-    <footer className="mt-10 sm:mt-0 bg-gray-900 -mb-10">
+    <footer className="mt-10 sm:mt-0 footer-layout -mb-10">
     <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div>
         <div className="flex justify-center text-teal-300 sm:justify-start">
-        <Image src={LogoWhite} width={150} height={140} alt="Logo" />
+        <Image src={logo} width={150} height={140} alt="Logo" />
           </div>
 
           <p className="mt-6 max-w-md text-center leading-relaxed  text-gray-400 sm:max-w-xs sm:text-left">

@@ -1266,6 +1266,15 @@ height: 100%;
 
 }
 
+.box-description{
+  font-size: 12px;
+}
+
+.footer-layout *{
+  background-color: #ffffff;
+  color: #1d1c1c;
+}
+
 .column-layout, .column-display{
   flex-direction: column;
 }

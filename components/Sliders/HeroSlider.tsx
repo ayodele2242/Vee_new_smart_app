@@ -109,19 +109,24 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ onPageBackgroundChange }) => {
                 {item.title}
               </h1>
               <p
-                className={[
-                  'font-[400] text-xl lg:text-3xl text-center w-full lg:w-[65%] mx-auto',
-                  item.imageUrl ? 'text-black' : 'text-white',
-                ].join(' ')}
-              >
-                <span
-                  className={[
-                    item.imageUrl ? '' : 'bg-black rounded-lg py-1 box-decoration-clone px-2',
-                  ].join(' ')}
-                >
-                  {item.desc}
-                </span>
-              </p>
+  className={[
+    'font-[400] text-xl lg:text-3xl text-center w-full lg:w-[65%] mx-auto mb-3 pb-4',
+    item.imageUrl ? 'text-black' : 'text-white',
+  ].join(' ')}
+>
+  <span
+    className="bg-black rounded-lg py-2 box-decoration-clone px-1 pt-2 pb-3 block" // Change display to block
+    style={{ marginBottom: '0px', paddingBottom: '5px' }} // Add margin-bottom
+  >
+    {item.desc.split(' ').slice(0, 4).join(' ')} 
+  </span>
+  <span
+    className="bg-black rounded-lg py-2 box-decoration-clone px-1 pt-1 pb-2 inline-block" 
+  >
+    {item.desc.split(' ').slice(4).join(' ')} {/* Display remaining text */}
+  </span>
+</p>
+
               <div className="w-full flex items-center justify-center">
                 <LearnMore />
               </div>

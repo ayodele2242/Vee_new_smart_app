@@ -13,7 +13,7 @@ import homeImg from "@/public/images/bgHome9-removebg-preview.png";
 import bg_3 from "@/public/images/bg_3.png";
 import useRouting from "@/hooks/routing";
 import { menusConfig } from '@/data/menus';
-import { fetchProducts } from "@/services/product.service";
+import { fetchFrontPageProducts } from "@/services/product.service";
 import { Spinner } from "@nextui-org/react";
 import { VeeProductType } from '@/types/types';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -72,16 +72,16 @@ const FirstSection: React.FC = () => {
         setLoading(true);
         // Define the payload with category data
 const payload = {
-    category: ["computer", "monitor", "accessories", "printers"]
+    keywords: ["Switches & Hubs", "Routers & Components", "Wireless Networking", "Portable Computers", "Monitors", "Display", "Phone Systems", "Network Cables", "#"]
   };
   
   // Make the API request using Promise.all
   Promise.all([
-    fetchProducts(JSON.stringify(payload)),
+    fetchFrontPageProducts(JSON.stringify(payload)),
   ])
     .then(([productsData]) => {
       // Handle the response data
-      if (productsData) {
+      if (productsData && productsData.data) {
         const productsDataToUse = productsData.data;
         setProducts(productsDataToUse);
         setRecordsFound(productsData.recordsFound);
@@ -307,13 +307,13 @@ const payload = {
                 {error && <div className="flex justify-center w-full text-center text-danger color-[red] p-4 h-[300px]">Error occured: {error}</div>}
                
                 {loading && <div className="loaderSpin"><Spinner /></div>}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  padding-3 mt-4 p-8">
+                <div className="w-fit mx-auto grid grid-cols-2 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
                        
                         
                        
                        {!loading && !error && !trackLoading && (
                         products.slice(0, 8).map((product, i) => (
-                            <div key={i} className="flex justify-center border-2 border-gray-300 rounded-xl p-0 pb-3 m-5">
+                            <div key={i} className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
                             <div className="relative">
                                   <div className="rounded-lg bg-default-300 img-body">
                                   {product && product.images_url && product.images_url.length > 0 ? (
@@ -351,7 +351,7 @@ const payload = {
                                     {product.description}
                                     </Link>
                                   </div>
-                                  <div className="text-sm box-description font-semibold p-2">
+                                  <div className="box-description p-2">
                                     {product?.descr}
                                   </div>
                   
@@ -381,7 +381,7 @@ const payload = {
                   
                                  
                              
-                             <div className="compare-checkbox w-100 p-2">
+                            {/* <div className="compare-checkbox w-100 p-2">
                                <input
                                  type="checkbox"
                                  id={product?.ingramPartNumber}
@@ -389,7 +389,7 @@ const payload = {
                                  onChange={() => handleCheckboxChange(product?.ingramPartNumber || '')}
                                />
                                <label htmlFor={product?.ingramPartNumber}>Add to Compare</label>
-                             </div>
+                             </div>*/}
                              <div className="w-100 p-2">
                                
                                  <div className="">

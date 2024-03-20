@@ -41,6 +41,7 @@ import { fetchCart } from "@/services/requestAll.service"
 //import { useCartStore } from "@/hooks/store/cart.store"
 import useCartStore from '@/store/cart';
 import { useRouter, useSearchParams } from "next/navigation";
+import useRouting from "@/hooks/routing";
 
 
 interface NavbarProps {
@@ -68,6 +69,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
     const { cartItems } = useCartStore();
     const [cartCount, setCartCount] = useState<number>(cartItems.length);
     const [loaded, setLoaded] = useState(false);
+    const { setParam } = useRouting();
+
+    const goToProduct = (path: string) => {
+        setParam(path, "products", "search");
+      };
 	
 
 
@@ -118,7 +124,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 
 
     const handleSearchTerm = (searchTerm: string) => {
-        router.push(`/products?search=${searchTerm}`);
+        window.location.href = `/products?search=${searchTerm}`;
+        //router.push(`${pathname}?${params.toString()}`);
     };
 
 

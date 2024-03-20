@@ -21,6 +21,10 @@ import { faFilePdf, faFileWord, faFileExcel } from '@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ClearIcon from '@mui/icons-material/Clear';
+import { uploadFile } from '@/services/chat.service';
+import { AxiosProgressEvent } from 'axios';
+
+const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8283';
 
 const MessageComponent: React.FC = () => {
     const [bgHeroLeftSrc, setBgHeroLeftSrc] = useState<string | null>(null);
@@ -35,8 +39,9 @@ const MessageComponent: React.FC = () => {
     const [textareaHeight, setTextareaHeight] = useState<number | null>(null); // State to track textarea height
     const fileInputRef = useRef<HTMLInputElement>(null); // Ref for file input element
     const textareaRef = useRef<HTMLTextAreaElement>(null); // Ref for textarea element
-    const socket = io('http://localhost:8080');
+    const socket = io(SOCKET_SERVER_URL);
     const chatEndRef = useRef<HTMLDivElement>(null);
+    const [progress, setProgress] = useState<number>(0);
  
     const pickerRef = useRef<HTMLDivElement>(null);
 
@@ -92,35 +97,44 @@ const MessageComponent: React.FC = () => {
     const sendMessage = async () => {
         if (message || files.length > 0) {
             setLoading(true);
-
+    
             const formData = new FormData();
             formData.append('message', message);
-
+    
             files.forEach((file) => {
                 formData.append('files', file);
             });
-
+    
             try {
-                // Send formData to the server
-                // Example: const response = await axios.post('/api/messages', formData, {
-                //     headers: { 'Content-Type': 'multipart/form-data' },
-                //     onUploadProgress: (progressEvent) => {
-                //         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                //         console.log(percentCompleted);
-                //     },
-                // });
-
-                // Reset state after sending
+                // Send formData to the server for uploading files with upload progress tracking
+                const response = await uploadFile(formData, (progressEvent) => {
+                    // Ensure that the progress event is of type AxiosProgressEvent
+                    const axiosProgressEvent = progressEvent as AxiosProgressEvent;
+                    if (axiosProgressEvent && axiosProgressEvent.total) {
+                        const percentCompleted = Math.round((axiosProgressEvent.loaded * 100) / axiosProgressEvent.total);
+                        setProgress(percentCompleted);
+                        console.log(`Upload progress: ${percentCompleted}%`);
+                        // Optionally, you can update a progress bar or display the progress percentage to the user
+                    }
+                });
+    
+                // Handle success
+                console.log('Files uploaded successfully:', response.data);
                 setMessage('');
                 setFiles([]);
                 setFileUrls([]);
-            } catch (error) {
-                console.error('Error sending message:', error);
+    
+            } catch (error: any) {
+                // Handle failure
+                console.error('Error uploading files:', JSON.stringify(error));
+                // Optionally, you can display an error message to the user
             } finally {
                 setLoading(false);
             }
         }
     };
+    
+    
 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -262,8 +276,9 @@ const MessageComponent: React.FC = () => {
                         ))}
                       
                         </div>
+                       
 
-
+                        
 
 
                         <div ref={chatEndRef} />
@@ -295,7 +310,15 @@ const MessageComponent: React.FC = () => {
 
                             </div>
                         )}
+
                         <div className="bottomDiv">
+                        {progress > 0 && (
+                            <div className="flex rounded-full h-2 bg-gray-200">
+                            <div style={{ width: `${progress}%` }} className="rounded-full bg-teal-500"></div>
+                            </div>
+                        )}
+                        
+
                         <div className="text-area-container w-full flex">
                         <button onClick={() => fileInputRef.current?.click()} className="iconBtn"><PermMediaIcon  /></button>
                             <textarea
@@ -303,7 +326,7 @@ const MessageComponent: React.FC = () => {
                                 value={message}
                                 onChange={handleTextareaChange}
                                 style={{
-                                    height: textareaHeight ? `${textareaHeight}px` : '5px',
+                                    height: textareaHeight ? `` : '5px',
                                     overflowY: 'hidden', // Prevent flickering when typing and going to the next line
                                 }}
                                 placeholder="Write a message..."

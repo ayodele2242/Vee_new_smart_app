@@ -14,6 +14,7 @@ import bg_home_9 from "@/public/images/bgHome9.png";
 import bg_home_2 from "@/public/images/bgHome2.png";
 import bg_home_3 from "@/public/images/bgHome3.png";
 import bg_home_4 from "@/public/images/bgHome4.png";
+import front_img from "@/public/images/frontPage.jpg"
 
 
 export const sliderConfig = {
@@ -53,14 +54,15 @@ export const sliderConfig = {
             id: 1,
             isActive: true,
             isVisibleBackground: true,
-            background: bg_home_1,
+            background: front_img,
             title: "The smart store for digital transformation",
             desc: "Transform your business with our products and services.",
             isRightText: true,
             isLeft: false,
             imageUrl: "",
+            position: "bg-top",
           },
-          {
+         /* {
             id: 2,
             isActive: false,
             isVisibleBackground: true,
@@ -71,7 +73,7 @@ export const sliderConfig = {
             isRightText: true,
             isLeft: false,
             imageUrl: "",
-          },
+          },*/
           
 	]
 	

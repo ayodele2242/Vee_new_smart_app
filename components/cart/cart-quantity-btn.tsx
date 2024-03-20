@@ -83,7 +83,7 @@ const CartQuantityActionBtns: React.FC<CartQuantityActionBtnsProps> = ({ product
         addItemToCart(newItem);
       }
 
-      console.log(JSON.stringify(newItem));
+     // console.log(JSON.stringify(newItem));
       
     };
   

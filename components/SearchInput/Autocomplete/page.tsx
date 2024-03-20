@@ -88,8 +88,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // Prevent the default behavior of form submission
-      goToProduct(searchTerm); // Directly search the item on the products page
+      e.preventDefault();
+      goToProduct(searchTerm);
     }
   };
 
