@@ -1850,6 +1850,10 @@ height: 100%;
  .emojiContainer{
   position: absolute;
   bottom: 70px;
+  left: 0;
+  background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
   z-index: 2001;
  }
 

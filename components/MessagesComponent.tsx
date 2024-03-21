@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import io from 'socket.io-client';
 //import 'emoji-mart/css/emoji-mart.css';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
@@ -23,8 +23,13 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ClearIcon from '@mui/icons-material/Clear';
 import { uploadFile } from '@/services/chat.service';
 import { AxiosProgressEvent } from 'axios';
+import {
+	isUserLoggedIn,
+	getUserData,
+	redirectToLoginPage,
+} from "@/auth/auth";
 
-const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8283';
+const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_API_URL || 'http://localhost:8283';
 
 const MessageComponent: React.FC = () => {
     const [bgHeroLeftSrc, setBgHeroLeftSrc] = useState<string | null>(null);
@@ -44,8 +49,22 @@ const MessageComponent: React.FC = () => {
     const [progress, setProgress] = useState<number>(0);
  
     const pickerRef = useRef<HTMLDivElement>(null);
+    const emojiPickerRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+        // Check if user is logged in
+        const loggedIn = isUserLoggedIn();
+    
+        if (!loggedIn) {
+          // If user is not logged in, redirect to login page
+          redirectToLoginPage();
+        } else {
+          setLoading(false);
+        }
+      }, []);
+
+
+    /*useEffect(() => {
        
 
         socket.on('message', (message) => {
@@ -65,7 +84,7 @@ const MessageComponent: React.FC = () => {
                 socket.close();
             }
         };
-    }, []);
+    }, []);*/
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -80,21 +99,52 @@ const MessageComponent: React.FC = () => {
         }
     };
 
+    
+
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (pickerRef.current && !pickerRef.current.contains(event.target as Node)) {
-                setShowEmojiPicker(false); // Close the Picker if the click is outside
+        const handleClickOutside = (event: { target: any; }) => {
+            if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+                // Click occurred outside the emoji picker, so close it
+                setShowEmojiPicker(false);
             }
         };
 
-        document.addEventListener('click', handleClickOutside);
+        // Attach the event listener
+        document.addEventListener('mousedown', handleClickOutside);
 
+        // Cleanup function to remove event listener when component unmounts
         return () => {
-            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
 
-    const sendMessage = async () => {
+    const sendMessage = () => {
+        // Check if there is a message or files to send
+        const userJson = localStorage.getItem("user");
+        if (!userJson) return
+        const user = JSON.parse(userJson);
+        //console.log(JSON.stringify(user));
+        if (message || files.length > 0) {
+            setLoading(true);
+
+            const dataToSend = {
+                command: 'private_chat_files_upload',
+                message: message,
+                files: files.map(file => ({ name: file.name, size: file.size })),
+                sender: user.user_id
+                // Include any other relevant data
+            };
+
+            // Send the data over the WebSocket connection
+            socket.emit('sendMessage', dataToSend, (response: any) => {
+                // Handle the server's response if needed
+                console.log('Server response:', response);
+                setLoading(false);
+            });
+        }
+    };
+
+    /*const sendMessage = async () => {
         if (message || files.length > 0) {
             setLoading(true);
     
@@ -120,6 +170,7 @@ const MessageComponent: React.FC = () => {
     
                 // Handle success
                 console.log('Files uploaded successfully:', response.data);
+                // Clear the message and files after sending
                 setMessage('');
                 setFiles([]);
                 setFileUrls([]);
@@ -132,7 +183,8 @@ const MessageComponent: React.FC = () => {
                 setLoading(false);
             }
         }
-    };
+    };*/
+    
     
     
 
@@ -332,14 +384,18 @@ const MessageComponent: React.FC = () => {
                                 placeholder="Write a message..."
                             ></textarea>
                             <input type="file" onChange={handleFileChange} ref={fileInputRef} multiple style={{ display: 'none' }} />
-                            <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} className="iconBtn">
-                                <TagFacesIcon/>
+                            <button onClick={() => {
+                             { setShowEmojiPicker(!showEmojiPicker);
+                                    //console.log("Emoji picker toggled. showEmojiPicker:", !showEmojiPicker);
+                                }}} className="iconBtn">
+                                    <TagFacesIcon/>
                             </button>
+
                             <button onClick={sendMessage} className="iconBtn sendBtn"><SendIcon /></button>
 
                            </div>
                            {showEmojiPicker && (
-                           <div className="emojiContainer" ref={pickerRef}>
+                           <div ref={emojiPickerRef} className="emojiContainer">
                                     <Picker onEmojiSelect={handleEmojiSelect} />
                            </div>
                            )}

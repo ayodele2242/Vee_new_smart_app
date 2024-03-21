@@ -1,12 +1,12 @@
 import axios, { AxiosResponse, AxiosProgressEvent } from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_SOCKET_API_URL;
 
 
 export const uploadFile = (data: FormData, onUploadProgress?: 
 (progressEvent: AxiosProgressEvent) => void): 
 Promise<AxiosResponse<any>> => {
-    return axios.post(`${API_URL}chats/mediaUpload`, data, {
+    return axios.post(`${API_URL}/chats/mediaUpload`, data, {
         onUploadProgress: onUploadProgress
     });
 };

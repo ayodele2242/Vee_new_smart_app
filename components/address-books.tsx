@@ -138,7 +138,7 @@ interface ResponseDataItem {
     }
 
     const init = async () => {
-      const userJson = localStorage.getItem("user")
+      const userJson = localStorage.getItem("user");
       if (!userJson) return
       const user = JSON.parse(userJson);
       setFormData({
