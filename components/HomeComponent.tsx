@@ -158,7 +158,7 @@ const HomeComponent: React.FC = () => {
 				</div>
 
 				<div className="mt-3  text-base sm:text-center text-black-600 ">Follow us, you will get the rest products and industry information in our insights emails.</div>
-				<div className="mt-1 mb-2 text-base sm:text-center text-black-600">Subscribe now also can get more than 50 valuable white papers. <Link href="" className="text-blue-600 font-bold"> Leam Details{">"}{">"}{">"}</Link></div>
+				<div className="mt-1 mb-2 text-base sm:text-center text-black-600">Subscribe now also can get more than 50 valuable white papers. <Link href="" className="text-blue-600 font-bold"> Learn Details{">"}{">"}{">"}</Link></div>
 
 			</div>
 
