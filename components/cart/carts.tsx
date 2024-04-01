@@ -362,7 +362,7 @@ const handleProceedToCheckout = () => {
 									type="submit"
 									className="w-full text-white bg-yellow-600 hover:bg-yellow-700  focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover-bg-yellow-700 dark:focus:ring-yellow-800 warning-btn"
 								>
-									Calculate Estimate
+									Shipping Estimate
 								</button>
 			</form>
 			{/*<div className="mb-4 mt-4">

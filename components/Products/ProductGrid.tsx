@@ -58,24 +58,21 @@ interface ResponseDataItem {
    }
 
    const handleCheckboxChange = (productId: string) => {
-    // Check if the checkbox is checked
-    if (!checkedItems[productId]) {
-      // Check if the user is logged in
-      if (!isUserLoggedIn()) {
-           toast.error("Please log in to add item to compare.", {});
-        // or redirectToLoginPage(); // Uncomment this line to redirect to the login page
-        return;
-      }
-  
-      // Update the checked items state
-      setCheckedItems((prev) => ({
-        ...prev,
-        [productId]: !prev[productId],
-      }));
-  
-      // Send the request to the backend
-      sendCheckedItemsToBackend({ [productId]: true });
+    // Check if the user is logged in
+    if (!isUserLoggedIn()) {
+      toast.error("Please log in to add item to compare.", {});
+      // or redirectToLoginPage(); // Uncomment this line to redirect to the login page
+      return;
     }
+  
+    // Update the checked items state
+    setCheckedItems((prev) => ({
+      ...prev,
+      [productId]: !prev[productId],
+    }));
+  
+    // Send the request to the backend
+    sendCheckedItemsToBackend({ [productId]: !checkedItems[productId] });
   };
 
   const sendCheckedItemsToBackend = async (updatedCheckedItems: Record<string, boolean>) => {
@@ -212,13 +209,13 @@ interface ResponseDataItem {
   return (
 
   <div className="mx-auto mb-5 mt-5">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="w-fit mx-auto grid grid-cols-2 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-center gap-y-6 gap-6 mt-10 mb-5 p-5">
     {sortedProducts.map((product, i) => (
 
 
-      <div key={i} className="box-item flex justify-center border-2 border-gray-300 rounded-xl p-0 pb-3">
+      <div key={i} className="w-35 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
           <div className="relative">
-                <div className="h-26 rounded-lg bg-default-300">
+                <div className="front-img-body rounded-lg bg-default-300">
                 {product && product.images_url && product.images_url.length > 0 ? (
                    
                    <Image
@@ -250,11 +247,11 @@ interface ResponseDataItem {
 
                 </div>
                 <div className="mb-2 mt-2 text-xs color-[yellow] font-bold p-2">
-                <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs">
+                <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs front-box-title">
                   {product.description}
                   </Link>
                 </div>
-                <div className="text-sm font-semibold p-2">
+                <div className="front-box-description p-2">
                   {product?.descr}
                 </div>
 

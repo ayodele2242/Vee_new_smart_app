@@ -181,6 +181,21 @@ const PaymentComponent = () => {
 
     const handlePayment = async () => {
 
+      const commentValue = document.getElementById("message") as HTMLInputElement | null;
+      
+      // Serialize the array into a string using JSON.stringify()
+      const serializedCartItems = JSON.stringify(cartItems);
+      // Store the serialized string in localStorage
+      localStorage.setItem('cartItems', serializedCartItems);
+      localStorage.setItem('cartSumTotal', overallSum.toString());
+
+
+      // Ensure commentValue is not null before trying to access its value
+      if (commentValue) {
+          const comment = commentValue.value;
+          localStorage.setItem('comment', comment);
+      }
+
       setIsLoading(true);
       const response = await fetch(`/api/checkout_sessions`, {
           method: "POST",

@@ -307,22 +307,22 @@ const payload = {
                 {error && <div className="flex justify-center w-full text-center text-danger color-[red] p-4 h-[300px]">Error occured: {error}</div>}
                
                 {loading && <div className="loaderSpin"><Spinner /></div>}
-                <div className="w-fit mx-auto grid grid-cols-2 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
+                <div className="w-fit mx-auto grid grid-cols-2 lg:grid-cols-6 md:grid-cols-2 justify-items-center justify-center gap-y-6 gap-6 mt-10 mb-5 p-5">
                        
                         
                        
                        {!loading && !error && !trackLoading && (
-                        products.slice(0, 8).map((product, i) => (
-                            <div key={i} className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
+                        products.slice(0, 18).map((product, i) => (
+                            <div key={i} className="w-35 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
                             <div className="relative">
-                                  <div className="rounded-lg bg-default-300 img-body">
+                                  <div className="rounded-lg bg-default-300 front-img-body">
                                   {product && product.images_url && product.images_url.length > 0 ? (
                                      
                                      <Image
                                       src={product.images_url[0].url as string}
                                       alt={product.description}
-                                      width={130}
-                                      height={250}
+                                      width={150}
+                                      height={140}
                                       className="relative"
                                     />
                                     ) : (
@@ -346,12 +346,12 @@ const payload = {
                                   {processingItemId === product?.ingramPartNumber && <Spinner size="sm" className="ml-1"/>}
                   
                                   </div>
-                                  <div className="mb-0 mt-2 box-title color-[yellow] font-bold p-2">
-                                  <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs">
+                                  <div className="mb-0 mt-2 color-[yellow] font-bold p-2">
+                                  <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs front-box-title">
                                     {product.description}
                                     </Link>
                                   </div>
-                                  <div className="box-description p-2">
+                                  <div className="front-box-description p-2">
                                     {product?.descr}
                                   </div>
                   

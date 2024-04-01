@@ -1,11 +1,11 @@
 "use client"
 import React, { Suspense } from "react";
-import AboutUs from "@/components/mobile/abount-component";
+import BrandsList from "@/components/mobile/brands-component";
 
-export default function AboutPage() {
+export default function BrandsPage() {
   return (
     <Suspense fallback={<div className="h-[100vh] w-full flex justify-center text-center overlayer">Loading...</div>}>
-      <AboutUs />
+      <BrandsList />
     </Suspense>
   );
 }

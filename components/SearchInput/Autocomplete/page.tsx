@@ -9,17 +9,16 @@ import Link from 'next/link';
 
 interface AutocompleteProps {
   handleSelected: (selectedItem: string) => void;
-  handleSearch: (searchTerm: string) => void;
+
 }
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
   handleSelected,
-  handleSearch,
 }) => {
   const { setParam } = useRouting();
 
   const goToProduct = (path: string) => {
-    setParam(path, "products", "search");
+    setParam(path, "/products", "search");
   };
 
   const [searchTerm, setSearchTerm] = useState<string>("");

@@ -27,7 +27,7 @@ import {
 	redirectToLoginPage,
 } from "@/auth/auth";
 import UpdatePassword from './password-update';
-
+import useAutoLogout from "@/hooks/useAutoLogout";
 
 interface ResponseDataItem {
   status: string;
@@ -48,6 +48,16 @@ const Dashboard: React.FC = () => {
   const [states, setStates] = useState<{ id: string; name: string }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const userData = getUserData()
+
+  const expirePeriod =
+  typeof window !== "undefined" ? localStorage.getItem("expire_period") : null;
+  const expireTime = expirePeriod ? parseInt(expirePeriod, 10) : 0;
+    // Pass the expiration time to the useAutoLogout hook
+    const isLoggedIn = useAutoLogout(expireTime);
+    // Handle the user's authentication state based on the isLoggedIn value
+    if (!isLoggedIn) {
+      redirectToLoginPage();
+    }
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 

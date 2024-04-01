@@ -11,11 +11,14 @@ import {
 } from "@nextui-org/navbar";
 import Image from "next/image";
 import { Button } from "@nextui-org/button";
+import { useNavigate } from 'react-router-dom';
+import { Avatar } from "@nextui-org/react";
 import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
 import { Input } from "@nextui-org/input";
 import { link as linkStyles } from "@nextui-org/theme";
 import SortIcon from '@mui/icons-material/Sort';
+import PersonIcon from '@mui/icons-material/Person';
 import { siteConfig } from "@/config/site";
 import NextLink from "next/link";
 import clsx from "clsx";
@@ -25,12 +28,20 @@ import UserMenus from "./UserMenus/page";
 import SearchInput from "./SearchInput/page";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { Logo } from "@/components/icons";
 import Partners from './Home/Partners';
 import About from './Home/About';
 import Header from './Home/Header/page';
 import Vendors from './Vendors';
 import Autocomplete from './SearchInput/Autocomplete/page';
+import { useImage } from '@/providers/ImageContext'; 
 import {
     isUserLoggedIn,
     getUserData,
@@ -55,6 +66,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 
     const router = useRouter();
     const { get } = useSearchParams();
+    const userData = getUserData()
     const [isScrolled, setIsScrolled] = useState(false);
     const isScrolledRef = useRef(isScrolled);
     const [isOpen, setIsOpen] = useState(false);
@@ -68,14 +80,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
     const search = get("search")
     const { cartItems } = useCartStore();
     const [cartCount, setCartCount] = useState<number>(cartItems.length);
+    const { uploadedImage } = useImage();
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
     const [loaded, setLoaded] = useState(false);
     const { setParam } = useRouting();
-
+    const [isUserMenuOpen, setUserMenuOpen] = useState(false);
+    const isLogin = isUserLoggedIn();
     const goToProduct = (path: string) => {
         setParam(path, "products", "search");
       };
 	
-
+      const profileName =
+      userData && userData.profile_name ? userData.profile_name : "Guest"
 
     useEffect(() => {
         // Update cartCount whenever cart change
@@ -84,7 +100,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
     }, [cartItems]);
 
 
-    const isLoggedIn = isUserLoggedIn();
+    useEffect(() => {
+        // Check if localStorage is available (client-side)
+        if (typeof window !== 'undefined' && localStorage.getItem('uploadedImage')) {
+          const img = localStorage.getItem('uploadedImage');
+          setProfilePicture(img);
+        } else {
+          setProfilePicture(uploadedImage);
+        }
+      }, [uploadedImage]);
 
 
     useEffect(() => {
@@ -117,6 +141,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
         setOtherDropdownOpen(!isOtherDropdownOpen);
     };
 
+    const handleUserMenuToggle = () => {
+        setUserMenuOpen(!isUserMenuOpen);
+    };
+
     const handleSelected = (selectedItem: string) => {
         // You can perform any additional logic here if needed
         onSelectedCategoriesChange({ category: [selectedItem] });
@@ -124,8 +152,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 
 
     const handleSearchTerm = (searchTerm: string) => {
-        window.location.href = `/products?search=${searchTerm}`;
-        //router.push(`${pathname}?${params.toString()}`);
+        setParam(searchTerm, 'products', 'search');
+       // goToProduct(searchTerm);
     };
 
 
@@ -201,7 +229,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
                 setIsBrandOpen(false);
                 setIsAboutUsOpen(false);
                 setIsVendorsOpen(false);
+                setUserMenuOpen(false);
             }
+            console.log("Clicked outside");
         };
 
         if (isOpen || isBrandOpen || isAboutUsOpen || isVendorsOpen) {
@@ -274,7 +304,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
                         </NavbarItem>
                         <div className="hidden sm:flex">
                             {/*<SearchInput />*/}
-                            <Autocomplete handleSelected={handleSelected} handleSearch={handleSearchTerm} />
+                            <Autocomplete handleSelected={handleSelected}  />
 
                         </div>
                         <Image
@@ -369,8 +399,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
             </NavbarContent>
 
             {/*Mobile view layout*/}
-            <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-
+            <NavbarContent className="sm:hidden basis-1 pl-1" justify="end">
+              <PersonIcon fontSize="large" onClick={handleUserMenuToggle} />
                 <div className="cartContainer" suppressHydrationWarning>
                     <Link href="/cart">
                         <ShoppingCartOutlinedIcon className="cartIcon text-black" />
@@ -382,8 +412,57 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
                     </Link>
                 </div>
                 {/*<ThemeSwitch />*/}
-                {!hideUserMenus && (
-                    <UserMenus onOtherDropdownToggle={handleOtherDropdownToggle} isOtherDropdownOpen={isOtherDropdownOpen} />
+                
+                {isUserMenuOpen && (
+                
+                <div className="userMobile-Menu w-[400px] h-[600px]">
+                     {!isLogin && 
+                    <div className="dropdown-item w-full pl-4 pr-4">
+                    <div className=" w-100 flex justify-center  register-container mb-1 bg-yellow-600 p-1 text-white font-semibold"><Link href="login" className="w-100">Login</Link></div>
+                    <div className="w-100 mb-2 w-100 flex justify-center register-container  p-2 text-gray font-semibold"><Link href="register" className="w-100">Signup</Link></div> 
+                    <div className="mb-2 border-b-1 border-yellow-500 w-full"></div>
+                    <Link href="#" className="w-full  mb-2 font-normal flex-item tracking-wide group-hover:text-blue-500"><DescriptionOutlinedIcon fontSize="medium" className="mr-1"/> My Orders</Link>
+                    <Link href="#" className="w-full  mb-2 font-normal  flex-item tracking-wide"><MessageOutlinedIcon fontSize="medium" className="mr-1"/> Messages</Link>
+                    <Link href="#" className="w-full  mb-2 font-normal flex-item tracking-wide"><FavoriteBorderOutlinedIcon fontSize="medium" className="mr-1"/> Wishlist</Link>
+                    <Link href="#" className="w-full  mb-2 font-normal flex-item tracking-wide"><ManageAccountsOutlinedIcon fontSize="medium" className="mr-1"/> Profile Settings</Link>
+                </div>
+                    }
+
+{isLogin && 
+             <>
+            <div className="profile-header w-full">
+              <div className='profileAvatar'>
+                {profilePicture && (
+                  <Avatar  src={profilePicture} className="w-6 h-6 text-tiny"  />
+                )}
+                {!profilePicture && (
+                  <PermIdentityOutlinedIcon fontSize="large" className="mr-3 userIcon"/>
+                )}
+              </div>
+              <div className='profileName '>
+                <div className='greeting font-normal text-[1.1rem] text-small'>Welcome Back</div>
+                <div className='name font-semibold text-[1.1rem] truncate text-ellipsis overflow-hidden'>{profileName}</div>
+              </div>
+
+            </div>  
+            <div className="mb-2 border-b-1 border-yellow-500 w-full"></div>
+              <Link href="/account/my_orders" className="w-full  mb-2 font-normal flex-item tracking-wide group-hover:text-blue-500"><DescriptionOutlinedIcon fontSize="medium" className="mr-1"/> My Orders</Link>
+              <Link href="/messages" className="w-full  mb-2 font-normal  flex-item tracking-wide"><MessageOutlinedIcon fontSize="medium" className="mr-1"/> Messages</Link>
+              <Link href="/account/wishlist" className="w-full  mb-2 font-normal flex-item tracking-wide"><FavoriteBorderOutlinedIcon fontSize="medium" className="mr-1"/> Wishlist</Link>
+              <Link href="/account/profile-settings" className="w-full  mb-2 font-normal flex-item tracking-wide"><ManageAccountsOutlinedIcon fontSize="medium" className="mr-1"/> Profile Settings</Link>
+              <Link href="/account/address-book" className="w-full  mb-2 font-normal flex-item tracking-wide">
+             <ContactsOutlinedIcon  fontSize="medium" className="mr-1" />Address Book
+            </Link>
+              <Link href="#" 
+              onClick={ redirectToLoginPage } 
+              className="w-full  mb-2 font-normal flex-item bg-red-500 p-2 mt-3 text-white tracking-wide"><LogoutOutlinedIcon fontSize="medium" className="mr-1"/> Log Out</Link>
+
+            </>
+            
+             }
+                    
+                </div>
+                  
                 )}
                 <NavbarMenuToggle />
             </NavbarContent>
@@ -391,20 +470,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
             <NavbarMenu>
                 {/*<SearchInput />*/}
                 <div className="mt-6">
-                    <Autocomplete handleSelected={handleSelected} handleSearch={handleSearchTerm} />
+                    <Autocomplete handleSelected={handleSelected}  />
 					
                 </div>
 
-                <div className="mx-4 mt-2 flex flex-col gap-2 hidden">
+                <div className="mx-4 mt-2 flex flex-col gap-2">
                     {siteConfig.navMenuItems.map((item, index) => (
                         <NavbarMenuItem key={`${item}-${index}`}>
                             <Link
-                                color={index === 2
-                                    ? "primary"
-                                    : index === siteConfig.navMenuItems.length - 1
-                                        ? "danger"
-                                        : "foreground"}
-                                href="#"
+                                className="text-black-500 cursor-pointer"
+                                href={item.href}
                                 size="lg"
                             >
                                 {item.label}

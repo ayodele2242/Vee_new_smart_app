@@ -49,7 +49,7 @@ const ThirdSection: React.FC<ThirdSectionProps> = ({ title, desc, isVisibleLogo 
           <h1 className="text-4xl font-secondary font-bold text-black text-center drop-shadow-lg">
             {title}
           </h1>
-          <div className="w-full flex justify-evenly items-center flex-wrap gap-4 lg:gap-0">
+          <div className="w-[50%] flex justify-evenly items-center flex-wrap gap-2 lg:gap-0 mt-4">
             {image_content.map((item) => (
               <div
                 key={item.id}
@@ -58,7 +58,7 @@ const ThirdSection: React.FC<ThirdSectionProps> = ({ title, desc, isVisibleLogo 
                 <Image
                   src={item.icon}
                   alt={item.title}
-                  className="w-[30%] lg:w-[50px]"
+                  className=" lg:w-[50px]"
                 />
                 <p className="text-lg lg:text-xl text-black font-[300] font-primary">
                   {item.title}

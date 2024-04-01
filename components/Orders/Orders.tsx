@@ -21,6 +21,7 @@ import {
 	redirectToLoginPage,
 } from "@/auth/auth";
 import { ToastContainer } from 'react-toastify';
+import useAutoLogout from "@/hooks/useAutoLogout";
 
 interface ResponseDataItem {
   status: string;
@@ -47,6 +48,16 @@ const Orders: React.FC = () => {
   const [searchType, setSearchType] = useState('product_name'); 
   const [totalPages, setTotalPages] = useState(1);
   const [recordsFound, setRecordsFound] = useState(0);
+  
+  const expirePeriod =
+  typeof window !== "undefined" ? localStorage.getItem("expire_period") : null;
+  const expireTime = expirePeriod ? parseInt(expirePeriod, 10) : 0;
+  // Pass the expiration time to the useAutoLogout hook
+  const isLoggedIn = useAutoLogout(expireTime);
+  // Handle the user's authentication state based on the isLoggedIn value
+  if (!isLoggedIn) {
+    redirectToLoginPage();
+  }
 
 
 

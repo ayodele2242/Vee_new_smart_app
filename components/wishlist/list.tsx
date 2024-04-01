@@ -23,7 +23,7 @@ import {
 	redirectToLoginPage,
 } from "@/auth/auth";
 import { ToastContainer } from 'react-toastify';
-
+import useAutoLogout from "@/hooks/useAutoLogout";
 interface ResponseDataItem {
   status: string;
   message: string;
@@ -54,7 +54,15 @@ const Wishes: React.FC = () => {
   const [layoutType, setLayoutType] = useState<"grid" | "list">("list"); 
   const [sortOption, setSortOption] = useState("");
 
-
+  const expirePeriod =
+  typeof window !== "undefined" ? localStorage.getItem("expire_period") : null;
+  const expireTime = expirePeriod ? parseInt(expirePeriod, 10) : 0;
+  // Pass the expiration time to the useAutoLogout hook
+  const isLoggedIn = useAutoLogout(expireTime);
+  // Handle the user's authentication state based on the isLoggedIn value
+  if (!isLoggedIn) {
+    redirectToLoginPage();
+  }
 
   
   useLayoutEffect(() => {

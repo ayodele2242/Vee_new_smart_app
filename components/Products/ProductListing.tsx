@@ -5,6 +5,8 @@ import bgHeroLeft from "@/public/images/bgHeroLeft.png";
 import Menus from "@/components/Products/menus";
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
 import { fetchProducts } from "@/services/product.service";
 import { fetchSearch } from "@/services/product.service";
 import { generateSelectedArray } from "@/hooks/utils";
@@ -43,6 +45,11 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
     
     const [totalPages, setTotalPages] = useState(1);
     const [sortOption, setSortOption] = useState("");
+    const [isMobile, setIsMobile] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const sidebarRef = useRef<HTMLDivElement>(null);
+
+  
   
   
   
@@ -61,8 +68,8 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
   
    // Update the useEffect to invoke debouncedFetchProducts when searchTerm changes
    useEffect(() => {
+    setLoading(true);
     if (searchTerm && searchTerm.trim() !== "") {
-      setLoading(true);
       debouncedFetchProducts(searchTerm);
     }
   }, [searchTerm, debouncedFetchProducts]);
@@ -74,7 +81,8 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
   
     const handlePageChange = (pageNumber: number) => {
       setCurrentPage(pageNumber);
-      setTrackLoading(true);
+      setLoading(true);
+      //setTrackLoading(true);
     
       // Capture the values at the time of defining the callback
       const currentSelectedCategories = selectedCategories?.category || [];
@@ -86,6 +94,30 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
         searchTerm: currentSearchTerm,
       });
     };
+
+
+    const handleICategoriesClick = () => {
+      setIsSidebarOpen(!isSidebarOpen);
+    };
+
+    const handleOutsideClick = (event: { target: any; }) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+
+    useEffect(() => {
+      document.addEventListener('mousedown', handleOutsideClick);
+  
+      return () => {
+        document.removeEventListener('mousedown', handleOutsideClick);
+      };
+    }, []);
+
+    const closeCategories = () =>{
+      setIsSidebarOpen(false);
+    }
   
     
     
@@ -100,7 +132,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
     }) => {
       setError(null);
       setLoading(true);
-      setTrackLoading(true);
+      //setTrackLoading(true);
     
       if (!navigator.onLine) {
         setError("You are currently offline. Please check your internet connection.");
@@ -182,9 +214,10 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
     };
   
     useEffect(() => {
-      setTrackLoading(true);
+      //setTrackLoading(true);
       // Check if the component is mounted
       if (isMounted.current) {
+        setLoading(true);
         if (typeof window !== 'undefined') {
           const queryString = window.location.search;
           const urlParams = new URLSearchParams(queryString);
@@ -202,12 +235,31 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
       // Set isMounted to false during cleanup
       return () => {
         isMounted.current = false;
+        setLoading(false);
       };
     }, []);
   
     useEffect(() => {
       setBgHeroLeftSrc(bgHeroLeft.src);
     }, []);
+
+
+    useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+    };
+
+    // Set initial state
+    handleResize();
+
+    // Add event listener to handle window resize
+    window.addEventListener('resize', handleResize);
+
+    // Remove event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   
   
   
@@ -229,16 +281,29 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
       <div className="mt-4"></div>
       <div className="w-full pt-3 lg:pl-5 lg:pr-5 h-full products-items bg-[#ffffff]">
         
-        <div className="sidebarMenus h-full ">{/*Side menus #starts*/}
-          <Menus 
-          headercategory={category as string} 
-          headersubCategory={subCategory as string} 
-          onSelectedCategoriesChange={handleSelectedCategoriesChange} 
-          />
-          <div className="pt-5 mb-5 h-[40px] w-full"></div>
-        </div>{/*Side menus #ends*/}
+      {isMobile ? null : ( // Conditionally render sidebarMenus based on screen size
+          <div className="sidebarMenus h-full">
+            <Menus
+              headercategory={category as string}
+              headersubCategory={subCategory as string}
+              onSelectedCategoriesChange={handleSelectedCategoriesChange}
+            />
+            <div className="pt-5 mb-5 h-[40px] w-full"></div>
+          </div>
+        )}
 
-        <div className="productsListing">{/*Products listing #starts*/}
+       {isSidebarOpen && (
+        <div className="categories-sidebar" ref={sidebarRef}>
+          <div className="closeMe" onClick={closeCategories}><CloseIcon /></div>
+           <Menus
+              headercategory={category as string}
+              headersubCategory={subCategory as string}
+              onSelectedCategoriesChange={handleSelectedCategoriesChange}
+            />
+        </div>
+      )}
+
+      <div className="productsListing" style={{ width: isMobile ? '100%' : '' }}>{/*Products listing #starts*/}
           {category && subCategory && !searchTerm && (
             <div className="title font-lightbold font-large text-wrap tracking-wider text-gray-400 text-2xl mb-3">
               Search results for {category} - {subCategory} 
@@ -251,9 +316,14 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
             </div>
           )}
 
-          <div className="listGrid">
-            <div className="productCount w-[17%]">
-              <div className="default-color font-semibold text-wrap text-xl mr-3">Products</div> 
+          <div className="listGrid flex flex-col sm:flex-row">
+          <div className={`productCount ${isMobile ? 'w-full' : 'w-1/6 sm:w-auto'}`}>
+              <div className="flex justify-between">
+              {isMobile && <div className="iCategories w-[100%] mr-8 font-semibold 
+              text-wrap text-xl text-white bg-blue-500 pr-2 pl-2 pt-1 pb-1 " onClick={handleICategoriesClick}>
+                <MenuIcon className="mr-1" /> Categories </div>}
+                <div className="default-color font-semibold text-wrap text-xl mr-3 pt-1 pb-1">Products</div>
+              </div>
               {loading ? (
                 // Show loading status while data is being fetched
                 <div className="productCountInfo"> <SingleLoader numberOfItems={1} /> </div>
@@ -262,7 +332,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ searchTerm }) => {
                 <div className="productCountInfo font-semibold">{recordsFound}</div>
               )}
             </div>
-            <div className="gridLayout w-[80%]">
+            <div className={`gridLayout   ${isMobile ? 'w-full' : 'w-full sm:w-5/6 lg:w-[100%]'}`}>
               <div className="listItems mr-8">
               <ListAltOutlinedIcon sx={{ fontSize: 35 }} onClick={handleLayoutToggle} />
                <GridViewOutlinedIcon sx={{ fontSize: 35 }} onClick={handleLayoutToggle} />

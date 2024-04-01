@@ -105,13 +105,16 @@ interface ProductGridProps {
   return (
 
   <div className="mx-auto mb-5 mt-5">
-    <div className="grid grid-cols-1  md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {/*<div className="grid grid-cols-1  md:grid-cols-3 lg:grid-cols-4 gap-6">*/}
+    <div className="grid grid-cols-2 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-6 gap-6 mt-10 mb-5 p-5">
+                 
+
     {sortedProducts.map((product, i) => (
 
 
-      <div key={i} className="box-item flex justify-center border-2 border-gray-300 rounded-xl p-0 pb-3">
+      <div key={i} className="w-35 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
           <div className="relative">
-                <div className="h-26 rounded-lg bg-default-300">
+                <div className="rounded-lg bg-default-300 front-img-body">
                   {product.images_url && product.images_url.length > 0 ? (
                    
                    <Image
@@ -135,11 +138,11 @@ interface ProductGridProps {
                 <FavoriteBorderOutlinedIcon onClick={() => handleAddToFavorites(product?.ingramPartNumber || '')} fontSize="medium"/>
                 </div>*/}
                 <div className="mb-2 mt-2 text-xs color-[yellow] font-bold p-2">
-                <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs">
+                <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs front-box-title">
                   {product.description}
                   </Link>
                 </div>
-                <div className="p-2 text-small">
+                <div className="front-box-description p-2">
                 {product?.descr}
                 </div>
 

@@ -26,7 +26,7 @@ interface UserMenusProps {
 }
 
 const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDropdownOpen }) => {
-  const userData = getUserData()
+  const userData = getUserData();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef: RefObject<HTMLDivElement> = useRef(null);
   const isLogin = isUserLoggedIn();

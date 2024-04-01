@@ -28,6 +28,7 @@ import {
 	getUserData,
 	redirectToLoginPage,
 } from "@/auth/auth";
+import useAutoLogout from "@/hooks/useAutoLogout";
 
 const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_API_URL || 'http://localhost:8283';
 
@@ -50,6 +51,16 @@ const MessageComponent: React.FC = () => {
  
     const pickerRef = useRef<HTMLDivElement>(null);
     const emojiPickerRef = useRef<HTMLDivElement>(null);
+
+    const expirePeriod =
+  typeof window !== "undefined" ? localStorage.getItem("expire_period") : null;
+    const expireTime = expirePeriod ? parseInt(expirePeriod, 10) : 0;
+    // Pass the expiration time to the useAutoLogout hook
+    const isLoggedIn = useAutoLogout(expireTime);
+    // Handle the user's authentication state based on the isLoggedIn value
+    if (!isLoggedIn) {
+      redirectToLoginPage();
+    }
 
     useLayoutEffect(() => {
         // Check if user is logged in

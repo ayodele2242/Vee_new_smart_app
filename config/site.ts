@@ -39,12 +39,12 @@ export const siteConfig = {
 		{
 		  id: 1,
 		  label: 'Contact Us',
-		  href: "",
+		  href: "/contact",
 		},
 		{
 		  id: 2,
 		  label: 'Track Your Order',
-		  href: "",
+		  href: "#track-order",
 		},
 		{
 		  id: 3,
@@ -54,37 +54,35 @@ export const siteConfig = {
 	  ],
 	navMenuItems: [
 		{
-			label: "Profile",
-			href: "/profile",
-		},
-		{
-			label: "Dashboard",
-			href: "/dashboard",
-		},
-		{
-			label: "Projects",
-			href: "/projects",
-		},
-		{
-			label: "Team",
-			href: "/team",
-		},
-		{
-			label: "Calendar",
-			href: "/calendar",
-		},
-		{
-			label: "Settings",
-			href: "/settings",
-		},
-		{
-			label: "Help & Feedback",
-			href: "/help-feedback",
-		},
-		{
-			label: "Logout",
-			href: "/logout",
-		},
+			id: 1,
+			label: 'Products',
+			href: '/products',
+		  },
+		  {
+			id: 2,
+			label: 'Brands',
+			href: '/brands',
+		  },
+		  {
+		     id: 3,
+		     label: "Services",
+		     href: "/services",
+		   },
+		  {
+			id: 4,
+			label: 'Deals',
+			href: '/deals',
+		  },
+		  {
+			id: 5,
+			label: 'Partners',
+			href: 'partners',
+		  },
+		  {
+			id: 6,
+			label: 'About Us',
+			href: '/about',
+		  },
 	],
 	links: {
 		github: "",

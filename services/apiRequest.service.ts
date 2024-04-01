@@ -7,6 +7,7 @@ interface ApiResponse<T> {
   totalRecords(totalRecords: any): unknown;
   data(data: any): any;
   message: string;
+  orderId?: any;
   token?: string;
   userinfo?: T;
   status?: any;

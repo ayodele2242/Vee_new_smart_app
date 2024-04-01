@@ -17,6 +17,7 @@ import {
   createShippingAddress,
 getShippingAddress,
 } from "@/services/requestAll.service";
+import useAutoLogout from "@/hooks/useAutoLogout";
 import {
 	isUserLoggedIn,
 	getUserData,
@@ -68,6 +69,16 @@ interface ResponseDataItem {
     const [errorMessage, setErrorMessage] = useState("");
     //const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
+
+    const expirePeriod =
+    typeof window !== "undefined" ? localStorage.getItem("expire_period") : null;
+    const expireTime = expirePeriod ? parseInt(expirePeriod, 10) : 0;
+      // Pass the expiration time to the useAutoLogout hook
+      const isLoggedIn = useAutoLogout(expireTime);
+      // Handle the user's authentication state based on the isLoggedIn value
+      if (!isLoggedIn) {
+        redirectToLoginPage();
+      }
 
 
     const [formData, setFormData] = useState({

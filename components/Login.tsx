@@ -98,6 +98,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 toast.success("Login successfully")
                 if (responseData.token) {
                     localStorage.setItem("token", responseData.token);
+					
                 }
                 localStorage.setItem(
                     "user",
@@ -106,6 +107,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 				localStorage.setItem('uploadedImage', responseData.image.toString());
 
 				localStorage.setItem('expire_period', responseData.xpire.toString());
+					//console.log(responseData.xpire.toString());
                 push("/account/my_orders");
             }
         } else {
