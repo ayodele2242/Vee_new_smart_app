@@ -307,7 +307,7 @@ const payload = {
                 {error && <div className="flex justify-center w-full text-center text-danger color-[red] p-4 h-[300px]">Error occured: {error}</div>}
                
                 {loading && <div className="loaderSpin"><Spinner /></div>}
-                <div className="w-fit mx-auto grid grid-cols-2 lg:grid-cols-6 md:grid-cols-2 justify-items-center justify-center gap-y-6 gap-6 mt-10 mb-5 p-5">
+                <div className="w-fit mx-auto grid grid-cols-2 lg:grid-cols-5 md:grid-cols-2 justify-items-center justify-center gap-y-6 gap-6 mt-10 mb-5 p-5">
                        
                         
                        
@@ -346,11 +346,11 @@ const payload = {
                                   {processingItemId === product?.ingramPartNumber && <Spinner size="sm" className="ml-1"/>}
                   
                                   </div>
-                                  <div className="mb-0 mt-2 color-[yellow] font-bold p-2">
+                                  {/*<div className="mb-0 mt-2 color-[yellow] font-bold p-2">
                                   <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs front-box-title">
                                     {product.description}
                                     </Link>
-                                  </div>
+                                  </div>*/}
                                   <div className="front-box-description p-2">
                                     {product?.descr}
                                   </div>

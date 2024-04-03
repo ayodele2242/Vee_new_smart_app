@@ -21,9 +21,10 @@ const Footer: React.FC = () => {
           </div>
 
           <p className="mt-6 max-w-md text-center leading-relaxed  text-gray-400 sm:max-w-xs sm:text-left">
-            Veemoststore is a dynamic and innovative company that specializes
+          Elevate Your Tech Experience with VeeMost: Where Innovation Meets Affordability. Your One-Stop Shop for Cutting-Edge IT Solutions.
+            {/*Veemoststore is a dynamic and innovative company that specializes
             in providing exceptional lifestyle solutions to its diverse
-            clientele.
+            clientele.*/}
           </p>
 
           <ul className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8">
@@ -287,7 +288,7 @@ const Footer: React.FC = () => {
                     />
                   </svg>
 
-                  <span className="flex-1  text-gray-300">john@doe.com</span>
+                  <span className="flex-1  text-gray-300">veestore@veemost.com</span>
                 </a>
               </li>
 
@@ -311,7 +312,7 @@ const Footer: React.FC = () => {
                     />
                   </svg>
 
-                  <span className="flex-1  text-gray-300">0123456789</span>
+                  <span className="flex-1  text-gray-300">+1 732 523 1180</span>
                 </a>
               </li>
 
@@ -337,7 +338,7 @@ const Footer: React.FC = () => {
                 </svg>
 
                 <address className="-mt-0.5 flex-1 not-italic  text-gray-300">
-                  213 Lane, London, United Kingdom
+                Head Office, Red Bank, New Jersey, NJ 07701, USA
                 </address>
               </li>
             </ul>

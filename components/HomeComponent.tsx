@@ -147,8 +147,8 @@ const HomeComponent: React.FC = () => {
 				onChange={handleEmailChange}/>
 
 				<button type="submit" 
-				className="sm:w-auto h-12 sm:h-auto text-white bg-blue-600 rounded-lg shadow 
-				transition-all duration-300 ease-in-out hover:bg-blue-700 sm:px-4 sm:py-2"
+				className="sm:w-auto h-12 sm:h-auto text-white bg-yellow-600 rounded-lg shadow 
+				transition-all duration-300 ease-in-out hover:bg-yellow-700 sm:px-4 sm:py-2"
 				style={{ paddingLeft: '1rem', paddingRight: '1rem' }}
 				onClick={handleSubscribtion} disabled={isEmilLoading}>
 					

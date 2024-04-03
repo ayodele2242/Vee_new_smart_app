@@ -19,11 +19,11 @@ export const siteConfig = {
 		     label: "Services",
 		     href: "#/services",
 		   },
-		  {
+		  /*{
 			id: 4,
 			label: 'Deals',
 			href: '#/deals',
-		  },
+		  },*/
 		  {
 			id: 5,
 			label: 'Partners',
@@ -68,11 +68,11 @@ export const siteConfig = {
 		     label: "Services",
 		     href: "/services",
 		   },
-		  {
+		  /*{
 			id: 4,
 			label: 'Deals',
 			href: '/deals',
-		  },
+		  },*/
 		  {
 			id: 5,
 			label: 'Partners',

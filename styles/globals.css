@@ -508,7 +508,7 @@ input:-webkit-autofill:active {
   position: absolute;
   top: 50px;
   right: 320px;
-  width: 300px;
+  width: 500px;
   height: auto;
   padding: 13px;
   border-radius: 20px;
@@ -532,22 +532,28 @@ input:-webkit-autofill:active {
 }
 
 .vendorsContainers{
-  
+
 }
 
 .childrenCategory{
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 auto;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
 }
 
 .vendorsContainers .vendor {
   padding: 8px;
   text-align: center;
   box-sizing: border-box;
+}
+
+.vendorsContainers .vendor a {
+  display: block;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
 
 
