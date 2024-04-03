@@ -17,7 +17,7 @@ export const siteConfig = {
 		  {
 		     id: 3,
 		     label: "Services",
-		     href: "#/services",
+		     href: "/services",
 		   },
 		  /*{
 			id: 4,

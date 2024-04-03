@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
@@ -8,6 +9,7 @@ import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 import PageLoading from "@/components/PageLoading";
 import { ImageProvider } from "@/providers/ImageContext";
+
 
 
 export const metadata: Metadata = {
@@ -35,7 +37,21 @@ export default function RootLayout({
 
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head />
+			<Head>
+        {/* Add the script inside the <Head> component */}
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(c,l,a,r,i,t,y){
+                  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+              })(window, document, "clarity", "script", "lqvipi82la");
+            `,
+          }}
+        />
+      </Head>
 			<body
 				className={clsx(
 					"min-h-screen bg-background font-sans antialiased",
