@@ -29,25 +29,27 @@ const Vendors: React.FC = () => {
 
   const childCategoriesRef = useRef<HTMLDivElement>(null);
 
-
   useEffect(() => {
     const fetchData = async () => {
-        try {
-          const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/sellers/getSeller');
-          const responseData = await response.json();
-          if (typeof responseData.data !== 'object' || Array.isArray(responseData.data)) {
-            throw new Error('Invalid data structure: expected an object');
-          }
-          setProducts([responseData.data]);
-        } catch (error: any) {
-          setError(error.message || 'An error occurred while fetching data');
-        } finally {
-          setLoading(false);
+      try {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/sellers/getSeller');
+        const responseData: ResponseDataItem = await response.json();
+        
+        if (!Array.isArray(responseData.data)) {
+          throw new Error('Invalid data structure: expected an array');
         }
-      };
   
-      fetchData();
+        setProducts(responseData.data);
+      } catch (error: any) {
+        setError(error.message || 'An error occurred while fetching data');
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchData();
   }, []);
+  
 
   
 
@@ -68,7 +70,7 @@ const Vendors: React.FC = () => {
 
 
   return (
-    <div className="productsContainers">
+    <div className="vendorsContainers">
         
       <div className='childrenCategory'>
             {products.map((vendor: any) => (

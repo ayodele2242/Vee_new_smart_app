@@ -531,6 +531,27 @@ input:-webkit-autofill:active {
   z-index: -1;
 }
 
+.vendorsContainers{
+  
+}
+
+.childrenCategory{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 16px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.vendorsContainers .vendor {
+  padding: 8px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+
+
 
 .partners-dropdown-menu{
   position: absolute;
