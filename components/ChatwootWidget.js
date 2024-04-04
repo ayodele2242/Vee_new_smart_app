@@ -27,7 +27,6 @@ const ChatwootWidget = () => {
         })
       }
     })(document,"script");
-  }, []);
 
   return null;
 };
