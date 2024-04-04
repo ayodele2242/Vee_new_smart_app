@@ -346,13 +346,15 @@ const payload = {
                                   {processingItemId === product?.ingramPartNumber && <Spinner size="sm" className="ml-1"/>}
                   
                                   </div>
-                                  {/*<div className="mb-0 mt-2 color-[yellow] font-bold p-2">
+                                  <div className="mb-0 mt-2 color-[yellow] font-bold p-2">
                                   <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs front-box-title">
-                                    {product.description}
+                                       <div className="mb-0 mt-2 color-[yellow] font-bold p-2" style={{ wordWrap: 'break-word' }}>
+                                            {product.description}
+                                        </div>
                                     </Link>
-                                  </div>*/}
+                                  </div>
                                   <div className="front-box-description p-2">
-                                    {product?.descr}
+                                    {/*product?.descr*/}
                                   </div>
                   
                                   {/*<div className="w-100 itemListMe mt-1">
