@@ -6,6 +6,7 @@ import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
 
 const SideBar: React.FC = () => {
@@ -26,6 +27,13 @@ const SideBar: React.FC = () => {
       <div className="account-top-menu-title pr-6 pl-6 pt-4 font-bold text-lg">Account</div>
       <div className="menu-list-body w-full">
         <ul>
+        <li className={isLinkActive('/account/deals')}>
+            <Link href="/account/deals">
+             
+                <LocalOfferIcon fontSize="small" className="mr-1"/> Deals
+             
+            </Link>
+          </li>
           <li className={isLinkActive('/account/my_orders')}>
             <Link href="/account/my_orders">
              

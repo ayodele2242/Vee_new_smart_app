@@ -6,7 +6,7 @@ import Footer from "@/components/Home/Footer/Footer";
 
 
 
-export const ServicesComponent: React.FC = () => {
+export const ContactComponent: React.FC = () => {
     const [pageContent, setPageContent] = useState<string>('');
     const [loading, setLoading] = useState(true);
     const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -43,7 +43,7 @@ export const ServicesComponent: React.FC = () => {
                     <iframe
                         ref={iframeRef}
                         title="External Page"
-                        src="https://veemost.com/services"
+                        src="https://veemost.com/contact-us"
                        id="service-inframe"
                         
                     />

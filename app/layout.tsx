@@ -8,7 +8,7 @@ import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 import PageLoading from "@/components/PageLoading";
 import { ImageProvider } from "@/providers/ImageContext";
-import Metrics from './metrics'
+import Metrics from './metrics';
 
 
 
@@ -44,6 +44,8 @@ export default function RootLayout({
 					fontSans.variable
 				)}
 			>   
+
+     
 			  
 				<Providers themeProps={{ attribute: "class", defaultTheme: "white" }}>
 					
@@ -59,8 +61,19 @@ export default function RootLayout({
 						
 					
 				</Providers>
+			
 				<Metrics />
+
+				<script id="inline-script"
+				dangerouslySetInnerHTML={{
+					__html: `((function(d, src, c) { var t=d.scripts[d.scripts.length - 1],s=d.createElement('script');s.id='la_x2s6df8d';s.defer=true;s.src=src;s.onload=s.onreadystatechange=function(){var rs=this.readyState;if(rs&&(rs!='complete')&&(rs!='loaded')){return;}c(this);};t.parentElement.insertBefore(s,t.nextSibling);})(document,
+						'https://veestore.ladesk.com/scripts/track.js',
+						function(e){ LiveAgent.createButton('2uu9zqsg', e); })`,
+				}}
+				></script>
+				
 			</body>
+			
 		</html>
 	);
 }

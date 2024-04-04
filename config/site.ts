@@ -44,13 +44,13 @@ export const siteConfig = {
 		{
 		  id: 2,
 		  label: 'Track Your Order',
-		  href: "#track-order",
+		  href: "/account/my_orders",
 		},
-		{
+		/*{
 		  id: 3,
 		  label: 'USD',
 		  href: "",
-		},
+		},*/
 	  ],
 	navMenuItems: [
 		{

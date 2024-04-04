@@ -12,77 +12,81 @@ interface ResponseDataItem {
     message: string;
     data: any;
     totalRecords: any;
-  }
+}
 
 const Vendors: React.FC = () => {
 
-  const { push } = useRouter();
-  const [categories, setCategories] = useState<any[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
-  const [displayCount, setDisplayCount] = useState(INITIAL_DISPLAY_COUNT);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [addScrollbar, setAddScrollbar] = useState(false);
-  const [backendResponse, setBackendResponse] = useState(null)
-  const [products, setProducts] = useState<any[]>([]);
+    const { push } = useRouter();
+    const [categories, setCategories] = useState<any[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
+    const [displayCount, setDisplayCount] = useState(INITIAL_DISPLAY_COUNT);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [addScrollbar, setAddScrollbar] = useState(false);
+    const [backendResponse, setBackendResponse] = useState(null)
+    const [products, setProducts] = useState<any[]>([]);
 
+    const childCategoriesRef = useRef<HTMLDivElement>(null);
 
-  const childCategoriesRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/sellers/getSeller');
+                const responseData: ResponseDataItem = await response.json();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/sellers/getSeller');
-        const responseData: ResponseDataItem = await response.json();
-        
-        if (!Array.isArray(responseData.data)) {
-          throw new Error('Invalid data structure: expected an array');
-        }
-  
-        setProducts(responseData.data);
-      } catch (error: any) {
-        setError(error.message || 'An error occurred while fetching data');
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    fetchData();
-  }, []);
-  
+                if (!Array.isArray(responseData.data)) {
+                    throw new Error('Invalid data structure: expected an array');
+                }
 
-  
+                setProducts(responseData.data);
+            } catch (error: any) {
+                setError(error.message || 'An error occurred while fetching data');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-  if (loading) {
-    return <div><SkeletonList numberOfItems={5} /></div>;
-  }
+        fetchData();
+    }, []);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+    if (loading) {
+        return <div><SkeletonList numberOfItems={5} /></div>;
+    }
 
-  if (products?.length === 0) {
-    return <div>No data available.</div>;
-  }
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
-  
+    if (products?.length === 0) {
+        return <div>No data available.</div>;
+    }
 
+    const limitedProducts = products.slice(0, 12); // Limiting products to first 12 items
 
+    return (
+        <div className="vendorsContainers">
 
-  return (
-    <div className="vendorsContainers">
-        
-      <div className='childrenCategory'>
-            {products.map((vendor: any) => (
-                <div  key={vendor.id} className="vendor w-full cursor-pointer hover:text-yellow-600 font-bold  mb-2" >
-                  <Link href={`products?search=${vendor.name}`}>{vendor.name}</Link>   
-
-                </div>
+            <div className={`childrenCategory ${products.length > 12 ? 'scrollable' : ''}`}>
+                {limitedProducts.map((vendor: any) => (
+                    <div key={vendor.id} className="vendor w-full cursor-pointer hover:text-yellow-600 font-bold  mb-2" >
+                        <Link href={`products?search=${vendor.name}`}>{vendor.name}</Link>
+                    </div>
+                ))}
                
-            ))}
-      </div>
-    </div>
-  );
+                <style jsx>{`
+                    .childrenCategory.scrollable {
+                        max-height: 200px; /* Adjust the height as needed */
+                        overflow-y: auto;
+                    }
+                `}</style>
+            </div>
+            {products.length > 12 && (
+                    <div className="view-all">
+                        <Link href="/all-vendors">View All</Link>
+                    </div>
+                )}
+        </div>
+    );
 };
 
 export default Vendors;

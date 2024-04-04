@@ -4,6 +4,7 @@ import Chat from '@/public/images/icon-chat-bot.png';
 import logo from '@/public/images/logo.webp';
 import Image from 'next/image';
 import ToCartProfile from '@/components/ToCartProfile';
+import Link from 'next/link';
 
 interface SecondSectionProps {
   title: string;
@@ -38,7 +39,10 @@ const SecondSection: React.FC<SecondSectionProps> = ({ title, desc, isVisibleLog
            
               {desc}
             </p>
+            <Link href="services">
             <LearnMore />
+            </Link>
+            
           </div>
         </div>
         <Image

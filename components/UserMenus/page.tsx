@@ -9,6 +9,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import Link from "next/link";
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import SingleLoader from '@/loaders/singleLoader';
@@ -180,6 +181,7 @@ const UserMenus: React.FC<UserMenusProps> = ({ onOtherDropdownToggle, isOtherDro
 
             </div>  
             <div className="mb-2 border-b-1 border-yellow-500 w-full"></div>
+            <Link href="/account/deals" className="w-full  mb-2 font-normal flex-item tracking-wide group-hover:text-blue-500"><LocalOfferIcon fontSize="medium" className="mr-1"/> Deals</Link>
               <Link href="/account/my_orders" className="w-full  mb-2 font-normal flex-item tracking-wide group-hover:text-blue-500"><DescriptionOutlinedIcon fontSize="medium" className="mr-1"/> My Orders</Link>
               <Link href="/messages" className="w-full  mb-2 font-normal  flex-item tracking-wide"><MessageOutlinedIcon fontSize="medium" className="mr-1"/> Messages</Link>
               <Link href="/account/wishlist" className="w-full  mb-2 font-normal flex-item tracking-wide"><FavoriteBorderOutlinedIcon fontSize="medium" className="mr-1"/> Wishlist</Link>

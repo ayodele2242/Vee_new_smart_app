@@ -312,7 +312,7 @@ const payload = {
                         
                        
                        {!loading && !error && !trackLoading && (
-                        products.slice(0, 18).map((product, i) => (
+                        products.slice(0, 15).map((product, i) => (
                             <div key={i} className="w-35 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
                             <div className="relative">
                                   <div className="rounded-lg bg-default-300 front-img-body">
@@ -321,7 +321,7 @@ const payload = {
                                      <Image
                                       src={product.images_url[0].url as string}
                                       alt={product.description}
-                                      width={150}
+                                      width={200}
                                       height={140}
                                       className="relative"
                                     />
