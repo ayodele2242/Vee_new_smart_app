@@ -36,7 +36,7 @@ const ThirdSection: React.FC<ThirdSectionProps> = ({ title, desc, isVisibleLogo 
 
   return (
     <section className="relative w-full pt-0 py-28 flex flex-col items-center justify-center gap-10  bg-white">
-      <div className="w-full h-full px-14">
+      <div className="w-full h-full lg:px-14 sm:px-3">
         <div className="w-full h-[150px] flex items-center lg:justify-center relative">
           {isVisibleLogo && (
             <Image src={logo} alt="Logo" className="w-[50%] lg:w-[250px]" />
@@ -46,21 +46,21 @@ const ThirdSection: React.FC<ThirdSectionProps> = ({ title, desc, isVisibleLogo 
           </div>
         </div>
         <div className="w-full min-h-[35vh] flex flex-col items-center justify-center gap-6">
-          <h1 className="text-4xl font-secondary font-bold text-black text-center drop-shadow-lg">
+          <h1 className="text-4xl sm:text-2xl font-secondary font-bold text-black text-center drop-shadow-lg">
             {title}
           </h1>
-          <div className="w-[50%] flex justify-evenly items-center flex-wrap gap-2 lg:gap-0 mt-4">
+          <div className="w-[50%] flex justify-evenly items-center flex-wrap gap-2 lg:gap-0 mt-4 sm:w-full font-items-contact">
             {image_content.map((item) => (
               <div
                 key={item.id}
-                className="flex flex-col items-center justify-center gap-2"
+                className="flex flex-col items-center justify-center gap-2 font-items-contact-us"
               >
                 <Image
                   src={item.icon}
                   alt={item.title}
-                  className=" lg:w-[50px]"
+                  className="lg:w-[50px] sm:w-[10px] lg:h-[50px] sm:h-[10px]"
                 />
-                <p className="text-lg lg:text-xl text-black font-[300] font-primary">
+                <p className="text-base lg:text-xl sm:text-sm text-black font-[300] font-primary">
                   {item.title}
                 </p>
               </div>

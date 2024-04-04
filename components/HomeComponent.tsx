@@ -128,9 +128,9 @@ const HomeComponent: React.FC = () => {
 					bg={bgSection4}
 				/>*/}
 
-			<div className="w-full p-5">
+			<div className="w-full lg:p-5 sm:p-0">
 
-			<div className="container flex flex-col xl:flex-row mx-auto px-5 py-12 xl:py-14 text-gray-500 bg-blue-100 rounded-2xl">
+			<div className="container flex flex-col xl:flex-row mx-auto px-5 lg:py-12 xl:py-14 sm:py-2 sm:py-4 text-gray-500 bg-blue-100 lg:rounded-2xl">
 
 			
 			<div className="w-full">
@@ -138,10 +138,10 @@ const HomeComponent: React.FC = () => {
 			<div className="mt-3 mb-4 text-lg sm:text-center text-black-900 font-extrabold">Follow us and the future of network.</div>
 
 
-				<div className="container flex flex-col justify-center items-center sm:flex-row gap-3 w-full lg:pl-8 lg:pr-8">
+				<div className="flex flex-col justify-center items-center sm:flex-row gap-3 w-full lg:pl-8 lg:pr-8 sm:pl-2 sm:pr-2">
 
 				<input type="text" placeholder="Please enter your email" 
-				className="sm:w-[400px] h-12 p-3 text-black-900 border border-solid border-gray-300 rounded-lg shadow"
+				className="sm:w-[100%] h-12 p-3 text-black-900 border border-solid border-gray-300 rounded-lg shadow contact-input"
 				required 
 				value={email}
 				onChange={handleEmailChange}/>

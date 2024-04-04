@@ -307,15 +307,13 @@ const payload = {
                 {error && <div className="flex justify-center w-full text-center text-danger color-[red] p-4 h-[300px]">Error occured: {error}</div>}
                
                 {loading && <div className="loaderSpin"><Spinner /></div>}
-                <div className="w-fit mx-auto grid grid-cols-2 lg:grid-cols-5 md:grid-cols-2 justify-items-center justify-center gap-y-6 gap-6 mt-10 mb-5 p-5">
-                       
-                        
-                       
+                        <div className="w-full">
+                       <div className="products-grid">        
                        {!loading && !error && !trackLoading && (
                         products.slice(0, 15).map((product, i) => (
-                            <div key={i} className="w-35 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
+                          <div key={i} className="items bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">{/* Product content */}
                             <div className="relative">
-                                  <div className="rounded-lg bg-default-300 front-img-body">
+                                  <div className="rounded-lg bg-default-300 main-front-img-body">
                                   {product && product.images_url && product.images_url.length > 0 ? (
                                      
                                      <Image
@@ -346,18 +344,18 @@ const payload = {
                                   {processingItemId === product?.ingramPartNumber && <Spinner size="sm" className="ml-1"/>}
                   
                                   </div>
-                                  <div className="mb-0 mt-2 color-[yellow] font-bold p-2">
+                                  
                                   <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs front-box-title">
-                                       <div className="mb-0 mt-2 color-[yellow] font-bold p-2" style={{ wordWrap: 'break-word' }}>
-                                            {product.description}
+                                  <div className="mb-0 color-[yellow] font-bold p-2" style={{ wordWrap: 'break-word' }}>
+                                            {product.description.length > 68 ? product.description.slice(0, 68) + '...' : product.description}
                                         </div>
                                     </Link>
-                                  </div>
-                                  <div className="front-box-description p-2">
-                                    {/*product?.descr*/}
-                                  </div>
+                                  
+                                  
                   
-                                  {/*<div className="w-100 itemListMe mt-1">
+                                  {/*<div className="front-box-description p-2">
+                                    {product?.descr}
+                                  </div><div className="w-100 itemListMe mt-1">
                                     <div className="iTemRight">
                                       <span className="uppercase text-xs">
                                         <b>VPN: </b> {product.vendorPartNumber}
@@ -392,41 +390,43 @@ const payload = {
                                />
                                <label htmlFor={product?.ingramPartNumber}>Add to Compare</label>
                              </div>*/}
-                             <div className="w-100 p-2">
-                               
-                                 <div className="">
-                                 {product.price_details?.pricing?.customerPrice ? (
-                                      <>
-                                    <h6 className="text-1xl lg:text-2xl font-bold">
-                                      {new Intl.NumberFormat('en-US', {
+                            <div className="btn-rpice-list">
+                              <div className="">
+                                
+                                  <div className="">
+                                  {product.price_details?.pricing?.customerPrice ? (
+                                        <>
+                                      <h6 className="text-sm lg:text-sm font-bold">
+                                        {new Intl.NumberFormat('en-US', {
+                                          style: 'currency',
+                                          currency: 'USD'
+                                        }).format(product.price_details.pricing.customerPrice)}
+                                      </h6>
+                                      <p className="msr">MSRP  {new Intl.NumberFormat('en-US', {
                                         style: 'currency',
                                         currency: 'USD'
-                                      }).format(product.price_details.pricing.customerPrice)}
-                                    </h6>
-                                    <p>MSRP  {new Intl.NumberFormat('en-US', {
-                                      style: 'currency',
-                                      currency: 'USD'
-                                    }).format(product.price_details.pricing.retailPrice)} </p>
-                                    <p>EXCL TAX</p>
-                                    </>
-                                  ) : (
-                                    <h6 className="text-1xl lg:text-2xl font-bold">
-                                      {new Intl.NumberFormat('en-US', {
-                                        style: 'currency',
-                                        currency: 'USD'
-                                      }).format(0.0)}
-                                    </h6>
-                                  )}
-                                 </div>
-                  
-                  
-                             </div>
-                          <div className='p-2 w-100'>
-                          <CartQuantityActionBtns 
-                                    product={product}
-                                    id={product.ingramPartNumber}
-                                    />
-                          </div>
+                                      }).format(product.price_details.pricing.retailPrice)} </p>
+                                      <p className="msr">EXCL TAX</p>
+                                      </>
+                                    ) : (
+                                      <h6 className="text-sm lg:text-sm font-bold">
+                                        {new Intl.NumberFormat('en-US', {
+                                          style: 'currency',
+                                          currency: 'USD'
+                                        }).format(0.0)}
+                                      </h6>
+                                    )}
+                                  </div>
+                    
+                    
+                              </div>
+                              <div className=''>
+                              <CartQuantityActionBtns 
+                                        product={product}
+                                        id={product.ingramPartNumber}
+                                        />
+                              </div>
+                            </div>
                   
                                 </div>
                                
@@ -436,10 +436,12 @@ const payload = {
 
                       
                         </div>
+                        </div>
+
                         {!loading && !error && !trackLoading && products?.length === 0 && (
                         <div className="text-center mt-5 mb-5 h-200 w-100 ">
                             <p className="text-danger color-[red]">No products found.</p>
-                        </div>
+                      </div>
                         )}
 
 

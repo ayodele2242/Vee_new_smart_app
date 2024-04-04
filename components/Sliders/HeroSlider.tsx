@@ -67,7 +67,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ onPageBackgroundChange }) => {
         >
           <div
             className={[
-              'w-full h-full flex items-center justify-center lg:justify-between gap-y-4 lg:gap-y-0',
+              'w-full h-full flex items-center justify-center lg:justify-between gap-y-4 lg:gap-y-0 sm:gap-y-8',
               item.isLeft ? 'flex-col lg:flex-row-reverse' : 'flex-col-reverse lg:flex-row',
             ].join(' ')}
           >
@@ -89,13 +89,14 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ onPageBackgroundChange }) => {
               )}
             </div>
             {item.isRightText && (
-              <div className="flex-[0.5] h-full flex flex-col items-center lg:justify-center gap-4 w-[70%] mx-auto">
-                {/* Render your text content for the right side here */}
-              </div>
+              <div className="hidden sm:flex flex-col items-center lg:justify-center gap-4 w-[70%] mx-auto">
+              {/* Render your text content for the right side here */}
+              
+            </div>
             )}
             <div
               className={[
-                'flex-[0.5] h-full flex flex-col items-center lg:justify-center gap-3 w-[90%] mx-auto',
+                'flex-[0.5] h-full flex flex-col items-center lg:justify-center gap-3 w-[90%] mx-auto sm:mt-8 md:mt-8',
                 item.isLeft ? 'justify-start' : 'justify-center',
               ].join(' ')}
             >
@@ -103,7 +104,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ onPageBackgroundChange }) => {
                 className={[
                   'font-secondary font-bold text-center w-full lg:w-[89%] mx-auto',
                   item.imageUrl ? 'text-black' : 'text-white',
-                  item.isLeft ? 'text-5xl lg:text-7xl' : 'text-5xl md:text-5xl lg:text-[70px]',
+                  item.isLeft ? 'text-5xl lg:text-7xl' : 'text-5xl md:text-2xl sm:text-5xl lg:text-[70px]',
                 ].join(' ')}
               >
                 {item.title}

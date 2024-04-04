@@ -300,7 +300,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSelectedCategoriesChange, hide
 
                     <div className="middleMenus lg:flex mb-1 mt-2">
                         <NavbarItem className="hidden sm:flex gap-2">
-                            <ThemeSwitch className="mr-4" />
+                            {/*<ThemeSwitch className="mr-4 hidden" />*/}
                         </NavbarItem>
                         <div className="hidden sm:flex">
                             {/*<SearchInput />*/}
