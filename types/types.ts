@@ -73,6 +73,7 @@ interface AvailabilityByWarehouse {
     description: any;
     ingramPartNumber: string;
     vendorPartNumber?: string;
+    vendorName?: string;
     upc?: string;
     image_url: string;
     price?: any;

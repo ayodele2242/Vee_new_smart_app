@@ -216,7 +216,7 @@ const handleProceedToCheckout = () => {
                 </thead>
                 <tbody>
                   {cartItems.map((item: VeeCartItem, index: number) => (
-                     <tr>
+                     <tr  key={index}>
 					<td  className="px-5 py-5  bg-white text-sm">
 						<Checkbox
 						checked={selectedItems.includes(item)}
