@@ -66,7 +66,7 @@ const ThirdSection: React.FC<ThirdSectionProps> = ({ title, desc, isVisibleLogo 
               </div>
             ))}
           </div>
-          <h4 className="text-2xl font-primary w-full max-w-[600px] mx-auto font-[300] text-black text-center">
+          <h4 className="text-2xl font-primary w-full lg:max-w-[600px] mx-auto font-[300] text-black text-center sm:pl-3 sm:pr-3">
             {desc}
           </h4>
         </div>

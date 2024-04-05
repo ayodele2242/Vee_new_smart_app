@@ -284,15 +284,19 @@ const CheckoutForm = () => {
 
 								
 
-							
-						<button
-							type="submit"
-							className="w-full flex center justify-center gap-2 text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover-bg-yellow-700 dark:focus:ring-yellow-800 warning-btn relative"
-							disabled={isLoading}
-						>
-							{isLoading && <Spinner size="sm" />}
-							{isLoading ? 'Please wait...' : 'Continue to Payment'}
-						</button>
+							<div className="w-full flex center justify-center">
+							<button
+								type="submit"
+								className=" flex center justify-center gap-2 text-white bg-yellow-600 
+								hover:bg-yellow-700 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg 
+								text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover-bg-yellow-700 
+								dark:focus:ring-yellow-800 warning-btn relative"
+								disabled={isLoading}
+							>
+								{isLoading && <Spinner size="sm" />}
+								{isLoading ? 'Please wait...' : 'Continue to Payment'}
+							</button>
+						</div>
 
                                 {errorMessage && <div className="text-red-500">{errorMessage}</div>}
 								

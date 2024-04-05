@@ -141,7 +141,7 @@ const HomeComponent: React.FC = () => {
 				<div className="flex flex-col justify-center items-center sm:flex-row gap-3 w-full lg:pl-8 lg:pr-8 sm:pl-2 sm:pr-2">
 
 				<input type="text" placeholder="Please enter your email" 
-				className="sm:w-[100%] h-12 p-3 text-black-900 border border-solid border-gray-300 rounded-lg shadow contact-input"
+				className="h-12 lg:w-[500px] p-3 text-black-900 border border-solid border-gray-300 rounded-lg shadow contact-input"
 				required 
 				value={email}
 				onChange={handleEmailChange}/>

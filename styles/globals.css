@@ -2007,15 +2007,18 @@ height: 100%;
  }
 
  .items {
-  height: 17rem;
+  height: 20rem;
   margin: 0.3rem 0;
   border-radius: 8px;
 }
 
 .main-front-img-body{
   width: 100%;
-  height: 8rem;
+  height: 12rem;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .main-front-img-body img{
@@ -2038,6 +2041,10 @@ height: 100%;
 
 
 
+.titleBox{
+  padding-top: 90px !important;
+}
+
 
 @media screen and (max-width: 750px) {
   .products-grid {
@@ -2054,6 +2061,10 @@ height: 100%;
 
   .msr{
     font-size: 10px;
+  }
+
+  .contact-input{
+    width: 100%;
   }
 }
 
@@ -2073,12 +2084,14 @@ height: 100%;
   .msr{
     font-size: 10px;
   }
+
+  .contact-input{
+    width: 100%;
+  }
 }
 
    @media screen and (max-width: 768px) {
-    .contact-input{
-      width: 100%;
-    }
+   
 
     .iChats{
       margin-top: 20px !important;
@@ -2102,7 +2115,7 @@ height: 100%;
     }
 
     .items {
-      height: 18rem;
+      height: 19rem;
       margin: 0.3rem 0;
       border-radius: 8px;
     }
@@ -2291,6 +2304,9 @@ height: 100%;
     .font-items-contact-us img, .font-items-contact-us image{
       max-width: 50px !important;
     }
+    .contact-input{
+      width: 100%;
+    }
   }
   
   @media screen and (min-width: 640px) {
@@ -2327,9 +2343,13 @@ height: 100%;
 
     
     .items {
-      height: 18rem;
+      height: 19.7rem;
       margin: 0.3rem 0;
       border-radius: 8px;
+    }
+
+    .contact-input{
+      width: 100%;
     }
 
     .msr{
@@ -2384,7 +2404,7 @@ height: 100%;
   }
 
   .items {
-    height: 18rem;
+    height: 19.7rem;
     margin: 0.3rem 0;
     border-radius: 8px;
   }

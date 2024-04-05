@@ -67,7 +67,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ onPageBackgroundChange }) => {
         >
           <div
             className={[
-              'w-full h-full flex items-center justify-center lg:justify-between gap-y-4 lg:gap-y-0 sm:gap-y-8',
+              'w-full h-full flex items-center justify-center lg:justify-between gap-y-4 lg:gap-y-0',
               item.isLeft ? 'flex-col lg:flex-row-reverse' : 'flex-col-reverse lg:flex-row',
             ].join(' ')}
           >
@@ -89,26 +89,24 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ onPageBackgroundChange }) => {
               )}
             </div>
             {item.isRightText && (
-              <div className="hidden sm:flex flex-col items-center lg:justify-center gap-4 w-[70%] mx-auto">
-              {/* Render your text content for the right side here */}
-              
-            </div>
+              <div className="flex-[0.5] h-full flex flex-col items-center lg:justify-center gap-4 lg:w-[70%] sm:w-[90%] mx-auto sm:hidden">
+                {/* Render your text content for the right side here */} 
+              </div>
             )}
             <div
               className={[
-                'flex-[0.5] h-full flex flex-col items-center lg:justify-center gap-3 w-[90%] mx-auto sm:mt-8 md:mt-8',
+                'flex-[0.4] h-full flex flex-col items-center lg:justify-center gap-3 w-[80%] mx-auto',
                 item.isLeft ? 'justify-start' : 'justify-center',
               ].join(' ')}
             >
-              <h1
-                className={[
-                  'font-secondary font-bold text-center w-full lg:w-[89%] mx-auto',
-                  item.imageUrl ? 'text-black' : 'text-white',
-                  item.isLeft ? 'text-5xl lg:text-7xl' : 'text-5xl md:text-2xl sm:text-5xl lg:text-[70px]',
-                ].join(' ')}
-              >
-                {item.title}
-              </h1>
+              <h1 className={[
+              'font-secondary font-bold text-center w-full lg:w-[90%] mx-auto lg:mt-8 lg:pt-[300px]',
+              item.imageUrl ? 'text-black' : 'text-white',
+              item.isLeft ? 'text-5xl lg:text-7xl' : 'text-5xl md:text-5xl lg:text-[47px]',
+            ].join(' ')}
+            >
+              {item.title}
+            </h1>
               <p
   className={[
     'font-[400] text-xl lg:text-3xl text-center w-full lg:w-[65%] mx-auto mb-3 pb-4',

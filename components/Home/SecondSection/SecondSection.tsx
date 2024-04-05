@@ -45,11 +45,11 @@ const SecondSection: React.FC<SecondSectionProps> = ({ title, desc, isVisibleLog
             
           </div>
         </div>
-        <Image
+        {/*<Image
           src={Chat}
           alt="icon"
           className="w-[50px] lg:w-[75px] absolute bottom-20 right-0 cursor-pointer"
-        />
+        />*/}
       </div>
     </section>
   );

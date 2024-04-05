@@ -209,43 +209,43 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
             <div className="w-full cartAll lg:h-[300px] h-100 bg-[#ffffff] p-10 gap-4 flex justify-center center">
                 <div className="flex items-center w-full flex justify-center">
                     <div>
-                        <div className="relative w-[150px] sm:w-[200px] h-[5px] sm:h-2 rounded-l-full bg-green-300 text-green-300">
-                            <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[40px] sm:w-[50px] p-1 sm:p-2 aspect-square bg-green-300 rounded-full">
+                        <div className="relative w-[150px] sm:w-[200px] h-[5px] sm:h-2 rounded-l-full bg-yellow-600 text-yellow-600">
+                            <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[40px] sm:w-[50px] p-1 sm:p-2 aspect-square bg-yellow-600 rounded-full">
                                 <span className="flex justify-center items-center w-full aspect-square bg-white rounded-full">
                                     <CheckIcon />
                                 </span>
                             </div>
                         </div>
                         <div>
-                            <p className="text-center mt-8 text-green-300">
+                            <p className="text-center mt-8 text-yellow-600">
                                 Processing Payment
                             </p>
                         </div>
                     </div>
                     <div>
-                        <div className={`relative w-[150px] sm:w-[200px] h-[5px] sm:h-2 rounded-r-full ${status === 'complete' ? 'text-green-300 bg-green-300' : 'text-grey-100 bg-gray-100'}`}>
-                            <div className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[40px] sm:w-[50px] p-1 sm:p-2 aspect-square  rounded-full ${status === 'complete' ? 'text-green-300 bg-green-300' : 'text-grey-100 bg-gray-50'}`}>
+                        <div className={`relative w-[150px] sm:w-[200px] h-[5px] sm:h-2 rounded-r-full ${status === 'complete' ? 'text-yellow-600 bg-yellow-600' : 'text-grey-100 bg-gray-100'}`}>
+                            <div className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[40px] sm:w-[50px] p-1 sm:p-2 aspect-square  rounded-full ${status === 'complete' ? 'text-yellow-600 bg-yellow-600' : 'text-grey-100 bg-gray-50'}`}>
                                 <span className="flex justify-center items-center w-full aspect-square bg-white rounded-full">
                                     <CheckIcon />
                                 </span>
                             </div>
                         </div>
                         <div>
-                            <p className={`text-center mt-8 ${status === 'complete' ? 'text-green-300' : 'text-grey-100'}`}>
+                            <p className={`text-center mt-8 ${status === 'complete' ? 'text-yellow-600' : 'text-grey-100'}`}>
                                 {status === 'complete' ? 'Payment Confirmed' : 'Confirming Payment'}
                             </p>
                         </div>
                     </div>
                     <div>
-                        <div className={`relative w-[150px] sm:w-[200px] h-[5px] sm:h-2 rounded-r-full ${backendResponse === 'success' ? 'text-green-300 bg-green-300' : 'text-grey-100 bg-gray-100'}`}>
-                            <div className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[40px] sm:w-[50px] p-1 sm:p-2 aspect-square  rounded-full ${backendResponse === 'success' ? 'text-green-300 bg-green-300' : 'text-grey-100 bg-gray-50'}`}>
+                        <div className={`relative w-[150px] sm:w-[200px] h-[5px] sm:h-2 rounded-r-full ${backendResponse === 'success' ? 'text-yellow-600 bg-yellow-600' : 'text-grey-100 bg-gray-100'}`}>
+                            <div className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[40px] sm:w-[50px] p-1 sm:p-2 aspect-square  rounded-full ${backendResponse === 'success' ? 'text-yellow-600 bg-yellow-600' : 'text-grey-100 bg-gray-50'}`}>
                                 <span className="flex justify-center items-center w-full aspect-square bg-white text-grey-300 rounded-full">
                                     <CheckIcon />
                                 </span>
                             </div>
                         </div>
                         <div>
-                            <p className={`text-center mt-8 ${backendResponse === 'success' ? 'text-green-300' : 'text-grey-100'}`}>
+                            <p className={`text-center mt-8 ${backendResponse === 'success' ? 'text-yellow-600' : 'text-grey-100'}`}>
                                 {status === 'complete' && backendResponse === 'success' ? 'Done' : (status === 'complete' && backendResponse !== 'success' ? 'Finalizing Checkout' : 'Pending Checkout')}
                             </p>
                         </div>
@@ -258,7 +258,7 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
                                 <h1 className="text-4xl font-bold">Thank You For Your Purchase!</h1>
                                 <p>Your order #ID is: {orderId}.</p> 
                                 <p>We'll email you an order confirmation with details and tracking info.</p>
-                                <Link href="/products" className="inline-flex items-center px-4 py-2 mt-2 text-blue-400  border border-blue-400 rounded rounded-md hover:bg-blue-200 focus:outline-none focus:ring">
+                                <Link href="/products" className="inline-flex items-center px-4 py-2 mt-2 text-yellow-600  border border-yellow-600 rounded rounded-md hover:bg-yellow-600 hover:text-white focus:outline-none focus:ring">
                                     Continue Shopping
                                 </Link>
                             </div>

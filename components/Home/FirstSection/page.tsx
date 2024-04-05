@@ -346,8 +346,8 @@ const payload = {
                                   </div>
                                   
                                   <Link href={`/productdetail?id=${product.ingramPartNumber}`} className="text-xs front-box-title">
-                                  <div className="mb-0 color-[yellow] font-bold p-2" style={{ wordWrap: 'break-word' }}>
-                                            {product.description.length > 68 ? product.description.slice(0, 68) + '...' : product.description}
+                                  <div className="mb-0 color-[yellow] font-bold pl-2 pr-2" style={{ wordWrap: 'break-word' }}>
+                                            {product.description.length > 58 ? product.description.slice(0, 58) + '...' : product.description}
                                         </div>
                                     </Link>
                                   

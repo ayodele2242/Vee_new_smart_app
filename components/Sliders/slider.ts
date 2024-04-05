@@ -57,7 +57,7 @@ export const sliderConfig = {
             background: front_img,
             title: "The smart store for digital transformation",
             desc: "Transform your business with our products and services.",
-            isRightText: true,
+            isRightText: false,
             isLeft: false,
             imageUrl: "",
             position: "bg-top",

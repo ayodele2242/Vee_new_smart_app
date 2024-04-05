@@ -280,8 +280,9 @@ const PaymentComponent = () => {
 	const renderPaymentButton = () => {
 		if (selectedOption === "bank_transfer") {
 			return (
+        <div className="w-full flex center justify-center">
 				<button
-					className="mt-10 flex w-full justify-center rounded-md border border-transparent bg-[#daa50e] py-2 px-4 text-sm font-medium text-white shadow-sm"
+					className="mt-10 flex  justify-center rounded-md border border-transparent bg-[#daa50e] py-2 px-4 text-sm font-medium text-white shadow-sm"
 					type="submit"
 					onClick={handleBankPayment}
           disabled={isLoading}
@@ -290,11 +291,13 @@ const PaymentComponent = () => {
           {isLoading && <Spinner size="sm" color="primary" />}
 							{isLoading ? 'Processing...' : 'Bank Transfer'}
 				</button>
+        </div>
 			)
 		} else if (selectedOption === "card") {
 			return (
+        <div className="w-full flex center justify-center">
 				<button
-					className="mt-10 flex gap-2 w-full justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm"
+					className="mt-10 flex gap-2  justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm"
 					type="submit"
 					onClick={handlePayment} 
           disabled={isLoading}
@@ -303,12 +306,15 @@ const PaymentComponent = () => {
 							{isLoading ? 'Processing...' : 'Pay with Credit / Debit Card'}
 					
 				</button>
+        </div>
 			)
 		} else {
 			return (
-				<div className="mt-10 flex w-full justify-center rounded-md border border-transparent bg-[#FF0000] py-2 px-4 text-sm font-medium text-white shadow-sm">
+        <div className="w-full flex center justify-center">
+				<div className="mt-10 flex justify-center rounded-md border border-transparent bg-[#FF0000] py-2 px-4 text-sm font-medium text-white shadow-sm">
 					Select Payment Method to Continue
 				</div>
+        </div>
 			)
 		}
 	}
