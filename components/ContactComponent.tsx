@@ -67,6 +67,8 @@ export const ContactComponent: React.FC = () => {
         }
       } catch (error: any) {
         toast.error(error.message);
+      }finally {
+        setIsSubmitting(false); // Reset form submission status to false
       }
      
     };
