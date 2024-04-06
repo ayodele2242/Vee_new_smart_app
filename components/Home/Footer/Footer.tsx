@@ -190,7 +190,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   className=" transition  text-white hover:text-white/75"
-                  href="/"
+                  href="/products?search=firewalls"
                 >
                   Firewalls
                 </a>
@@ -199,7 +199,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   className=" transition  text-white hover:text-white/75"
-                  href="/"
+                  href="/products?search=routers"
                 >
                   Routers
                 </a>
@@ -208,7 +208,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   className=" transition  text-white hover:text-white/75"
-                  href="/"
+                  href="/products?search=switch"
                 >
                   Switch
                 </a>
@@ -217,7 +217,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   className=" transition  text-white hover:text-white/75"
-                  href="/"
+                  href="/products?search=wireless"
                 >
                   Wireless
                 </a>

@@ -104,7 +104,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             if (responseData.status === "error") {
                 toast.error("Error occurred: " + responseData.message)
             } else if (responseData.status === true) {
-                toast.success("Registration successful")
+                toast.success("Registration successful. Please check your email for activation link.")
                 setFormData({
                     last_name: "",
                     first_name: "",
@@ -121,7 +121,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 });
 				setTimeout(function() {
 					push("/login");
-				}, 4000);
+				}, 6000);
                
             }
         } else {

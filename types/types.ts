@@ -66,6 +66,7 @@ interface AvailabilityByWarehouse {
     images_url?: any[] | any;
     price_details: PriceDetails;
     upc: string;
+    quantity?: any;
   }
 
   interface CartItem {

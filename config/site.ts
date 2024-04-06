@@ -11,11 +11,16 @@ export const siteConfig = {
 		  },
 		  {
 			id: 2,
+			label: 'Configuration',
+			href: '#',
+		  },
+		  {
+			id: 3,
 			label: 'Brands',
 			href: '#',
 		  },
 		  {
-		     id: 3,
+		     id: 4,
 		     label: "Services",
 		     href: "/services",
 		   },

@@ -267,6 +267,23 @@ const ProcessingList: React.FC<ProductListProps> = ({ products }) => {
                 </div>
               </div>
 
+              <div className="w-100 itemListMe mt-1">
+              <div className="iTemRight">
+                <span className="uppercase text-sm">
+                  <b>Qty: </b> {item?.quantity}
+                </span>
+              </div>
+
+              <div className="iTemRight">
+                <span className="uppercase text-sm">
+                  <b>Price: </b> {new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD'
+                      }).format(Number(item?.product_price))}
+                </span>
+              </div>
+            </div>
+
              
             </div>
           </div>
@@ -288,10 +305,10 @@ const ProcessingList: React.FC<ProductListProps> = ({ products }) => {
                 <div className="">
                    <h6 className="text-1xl lg:text-xl font-bold ">
                      
-                      {new Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD'
-                      }).format(Number(item?.product_price))}
+                   {new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD'
+                      }).format(Number(item?.product_price) * (item?.quantity))}
                   </h6>
                 </div>
 
