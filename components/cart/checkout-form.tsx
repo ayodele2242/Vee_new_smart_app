@@ -29,6 +29,7 @@ const CheckoutForm = () => {
       phone: "",
       company: "",
       selectedCountry: "",
+	  street: "",
       state: "",
       city: "",
       zip: "",
@@ -79,7 +80,8 @@ const CheckoutForm = () => {
         
 		setIsLoading(true);
           // Check if any form field is empty
-          const emptyFields = Object.values(formData).some(value => value === "");
+		  const emptyFields = Object.entries(formData).filter(([key, value]) => key !== 'company').some(([key, value]) => value === "");
+
 		  const localStorageService = new LocalStorageService("checkoutFormData");
 
           if (emptyFields) {
@@ -213,6 +215,21 @@ const CheckoutForm = () => {
 								</div>
 
                 </div>
+
+				<div>
+					<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+						Street
+					</label>
+					<input
+						type="text"
+						name="street"
+						id="street"
+						value={formData.street}
+						onChange={handleChange}
+						placeholder=""
+						className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+					/>
+				</div>
 
                 <div className="grid grid-cols-2 gap-2">
 									<div>
