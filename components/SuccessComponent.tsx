@@ -112,7 +112,7 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
                         const responseData = response.data;
                 
                         if (response.status === 200) {
-                            const { status, message, orderId } = responseData; // Destructure orderId from responseData
+                            const { status, message, orderId } = responseData;
                             if (status === "error") {
                                 toast.error(message);
                                 setBackendMsg(message);
@@ -126,6 +126,8 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
                                 localStorage.setItem('comment','');
                                 localStorage.setItem('cartSumTotal','');
                                 localStorage.setItem('comment','');
+                                localStorage.setItem('cartItems','');
+                                localStorageService.deleteData(keyToRetrieve);
                             }
                         } else {
                             if (response.status === 400) {
@@ -179,7 +181,8 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
                                 setOrderId(orderId); 
                                 localStorage.setItem('comment','');
                                 localStorage.setItem('cartSumTotal','');
-                                localStorage.setItem('comment','');
+                                localStorage.setItem('myAddress','');
+                                localStorage.setItem('cartItems','');
                                 //push("/account/my_orders");
                             }
                         } else {
@@ -261,6 +264,11 @@ export const SuccessComponent: React.FC<Props> = ({ sessionId }) => {
                                 <Link href="/products" className="inline-flex items-center px-4 py-2 mt-2 text-yellow-600  border border-yellow-600 rounded rounded-md hover:bg-yellow-600 hover:text-white focus:outline-none focus:ring">
                                     Continue Shopping
                                 </Link>
+                                {isLoggedIn && (
+                                    <Link href="/account/my_orders" className="inline-flex items-center px-4 py-2 mt-2 text-yellow-600 border border-yellow-600 rounded rounded-md hover:bg-yellow-600 hover:text-white focus:outline-none focus:ring">
+                                    Check Orders
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     </div>
